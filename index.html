@@ -13,7 +13,7 @@
            Landing Page Specific Styles
            ═══════════════════════════════════════════════════════════════════ */
 
-        /* Hero Section */
+        /* Hero Section — full viewport with background image */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -24,96 +24,40 @@
             padding: 100px 24px 80px;
             position: relative;
             overflow: hidden;
+            background: url('hero-bg.png') center center / cover no-repeat;
         }
 
-        /* Animated particle background */
-        .particles-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        .particle {
-            position: absolute;
-            background: var(--cyan);
-            border-radius: 50%;
-            opacity: 0;
-            animation: float-particle 15s infinite ease-in-out;
-        }
-
-        @keyframes float-particle {
-
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: 0.3;
-            }
-
-            50% {
-                transform: translate(var(--tx), var(--ty)) scale(1.2);
-                opacity: 0.2;
-            }
-
-            90% {
-                opacity: 0.3;
-            }
-        }
-
-        /* Grid pattern overlay */
+        /* Soft overlay for text legibility */
         .hero::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image:
-                linear-gradient(var(--border) 1px, transparent 1px),
-                linear-gradient(90deg, var(--border) 1px, transparent 1px);
-            background-size: 60px 60px;
-            opacity: 0.4;
-            pointer-events: none;
-        }
-
-        /* Radial gradient overlay */
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: -40%;
-            left: -20%;
-            width: 140%;
-            height: 140%;
-            background: radial-gradient(ellipse at 50% 30%, rgba(0, 229, 255, 0.06) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 60%, rgba(167, 139, 250, 0.04) 0%, transparent 50%);
+            inset: 0;
+            background: linear-gradient(
+                180deg,
+                rgba(19, 23, 30, 0.60) 0%,
+                rgba(19, 23, 30, 0.45) 40%,
+                rgba(19, 23, 30, 0.95) 100%
+            );
             pointer-events: none;
         }
 
         .hero-content {
             position: relative;
             z-index: 1;
-            max-width: 900px;
+            max-width: 780px;
         }
 
         .logo {
             font-family: var(--font-heading);
             font-size: clamp(4rem, 12vw, 8rem);
-            font-weight: 700;
-            letter-spacing: -4px;
+            font-weight: 800;
+            letter-spacing: -5px;
             margin-bottom: 16px;
-            background: linear-gradient(135deg, var(--text-primary) 0%, #ff8c00 50%, #0047ab 100%);
-            background-size: 200% 200%;
+            background: linear-gradient(135deg, var(--brand-orange) 0%, var(--brand-blue) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: gradientShift 6s ease-in-out infinite;
+            text-shadow: none;
         }
 
         .tagline {
@@ -121,22 +65,22 @@
             font-size: clamp(1.2rem, 3vw, 1.75rem);
             font-weight: 400;
             color: var(--text-secondary);
-            margin-bottom: 24px;
-            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            letter-spacing: 0.3px;
             animation: fadeInUp 0.8s ease 0.1s both;
         }
 
         .tagline span {
-            color: var(--cyan);
+            color: var(--olive);
             font-weight: 600;
         }
 
         .hero-description {
-            font-size: clamp(1rem, 2vw, 1.15rem);
+            font-size: clamp(1rem, 2vw, 1.1rem);
             line-height: 1.9;
-            color: var(--text-muted);
-            margin-bottom: 40px;
-            max-width: 650px;
+            color: var(--text-secondary);
+            margin-bottom: 36px;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
             animation: fadeInUp 0.8s ease 0.2s both;
@@ -151,73 +95,50 @@
         }
 
         .hero-cta .btn {
-            padding: 14px 32px;
+            padding: 16px 36px;
             font-size: 1rem;
             border-radius: var(--radius-full);
         }
 
         .hero-cta .btn-outline {
-            background: transparent;
+            background: rgba(26, 31, 42, 0.6);
+            backdrop-filter: blur(10px);
             color: var(--text-primary);
-            border: 1px solid var(--border-strong);
+            border: 1.5px solid var(--border-strong);
+            box-shadow: var(--neu-shadow-raised-sm);
         }
 
         .hero-cta .btn-outline:hover {
-            border-color: var(--cyan);
-            color: var(--cyan);
-            background: rgba(0, 229, 255, 0.05);
+            border-color: var(--olive);
+            color: var(--olive);
+            background: rgba(26, 31, 42, 0.85);
+            transform: translateY(-2px);
+            box-shadow: var(--neu-shadow-raised);
         }
 
-        /* Scroll Indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            animation: bounce 2s ease-in-out infinite;
-            z-index: 1;
-        }
 
-        .scroll-indicator span {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-family: var(--font-body);
-        }
-
-        .scroll-indicator svg {
-            width: 24px;
-            height: 24px;
-            stroke: var(--text-muted);
-        }
 
         /* ═══════════════════════════════════════════════════════════════════
            Bento Grid Section
            ═══════════════════════════════════════════════════════════════════ */
         .bento-section {
-            padding: 80px 24px 100px;
+            padding: 100px 24px 120px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .bento-section-header {
             text-align: center;
-            margin-bottom: 56px;
+            margin-bottom: 60px;
         }
 
         .bento-section-header .label {
             font-family: var(--font-body);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 3px;
-            color: var(--cyan);
+            color: var(--olive);
             margin-bottom: 12px;
             display: block;
         }
@@ -225,68 +146,41 @@
         .bento-section-header h2 {
             font-family: var(--font-heading);
             font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 700;
+            font-weight: 800;
             color: var(--text-primary);
         }
 
         .bento-grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            grid-template-rows: auto auto auto;
-            gap: 20px;
+            grid-template-rows: auto auto;
+            gap: 24px;
         }
 
         .bento-card {
             background: var(--bg-card);
-            border: 1px solid var(--border);
             border-radius: var(--radius-xl);
-            padding: 36px 32px;
+            padding: 40px 36px;
             position: relative;
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--neu-shadow-raised);
+            border: none;
         }
 
         .bento-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--border-hover);
-        }
-
-        .bento-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: inherit;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
-        }
-
-        .bento-card:hover::before {
-            opacity: 1;
+            transform: translateY(-5px);
+            box-shadow: var(--neu-shadow-raised-lg);
         }
 
         /* Card 1: Community (large, spans 7 of 12 cols) */
         .bento-community {
             grid-column: 1 / 8;
             grid-row: 1 / 2;
-            border-color: rgba(0, 229, 255, 0.12);
-            min-height: 280px;
+            min-height: 300px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-        }
-
-        .bento-community::before {
-            background: radial-gradient(ellipse at 20% 80%, rgba(0, 229, 255, 0.06) 0%, transparent 60%);
-            opacity: 1;
-        }
-
-        .bento-community:hover {
-            border-color: rgba(0, 229, 255, 0.3);
-            box-shadow: 0 8px 40px rgba(0, 229, 255, 0.08);
         }
 
         .bento-community .bento-icon {
@@ -297,20 +191,20 @@
         .bento-community .bento-title {
             font-family: var(--font-heading);
             font-size: clamp(1.6rem, 3vw, 2.2rem);
-            font-weight: 700;
+            font-weight: 800;
             color: var(--text-primary);
             margin-bottom: 12px;
             line-height: 1.3;
         }
 
         .bento-community .bento-title span {
-            color: var(--cyan);
+            color: var(--olive);
         }
 
         .bento-community .bento-quote {
             font-family: var(--font-body);
-            font-size: 1.1rem;
-            color: var(--cyan);
+            font-size: 1.05rem;
+            color: var(--olive);
             font-style: italic;
             font-weight: 500;
             margin-bottom: 16px;
@@ -320,7 +214,7 @@
         .bento-community .bento-text {
             font-family: var(--font-body);
             font-size: 0.95rem;
-            line-height: 1.8;
+            line-height: 1.85;
             color: var(--text-secondary);
             max-width: 480px;
         }
@@ -329,23 +223,12 @@
         .bento-discord {
             grid-column: 8 / 13;
             grid-row: 1 / 2;
-            border-color: rgba(167, 139, 250, 0.12);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            min-height: 280px;
-        }
-
-        .bento-discord::before {
-            background: radial-gradient(ellipse at 50% 50%, rgba(167, 139, 250, 0.06) 0%, transparent 60%);
-            opacity: 1;
-        }
-
-        .bento-discord:hover {
-            border-color: rgba(167, 139, 250, 0.3);
-            box-shadow: 0 8px 40px rgba(167, 139, 250, 0.08);
+            min-height: 300px;
         }
 
         .bento-discord .discord-logo {
@@ -367,15 +250,18 @@
         .bento-discord .bento-badge {
             display: inline-block;
             padding: 5px 14px;
-            background: rgba(52, 211, 153, 0.12);
-            color: var(--emerald);
-            font-size: 0.75rem;
+            background: rgba(138, 148, 104, 0.15);
+            color: var(--olive);
+            font-size: 0.72rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1.5px;
             border-radius: var(--radius-full);
             margin-bottom: 14px;
             font-family: var(--font-body);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(138, 148, 104, 0.2);
         }
 
         .bento-discord .bento-text {
@@ -387,12 +273,11 @@
 
         .bento-discord .btn-discord {
             margin-top: 20px;
-            padding: 10px 24px;
+            padding: 12px 26px;
             font-size: 0.85rem;
             border-radius: var(--radius-full);
-            background: rgba(167, 139, 250, 0.15);
-            color: var(--violet);
-            border: 1px solid rgba(167, 139, 250, 0.25);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--navy);
             font-weight: 600;
             font-family: var(--font-body);
             cursor: pointer;
@@ -401,33 +286,26 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            box-shadow: var(--neu-shadow-raised-sm);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         .bento-discord .btn-discord:hover {
-            background: rgba(167, 139, 250, 0.25);
-            border-color: var(--violet);
             transform: translateY(-2px);
+            box-shadow: var(--neu-shadow-raised);
+            color: var(--olive);
         }
 
         /* Card 3: Forum (spans 5 of 12 cols) */
         .bento-forum {
             grid-column: 1 / 6;
             grid-row: 2 / 3;
-            border-color: rgba(255, 107, 107, 0.12);
             display: flex;
             flex-direction: column;
             justify-content: center;
-            min-height: 240px;
-        }
-
-        .bento-forum::before {
-            background: radial-gradient(ellipse at 80% 20%, rgba(255, 107, 107, 0.05) 0%, transparent 60%);
-            opacity: 1;
-        }
-
-        .bento-forum:hover {
-            border-color: rgba(255, 107, 107, 0.3);
-            box-shadow: 0 8px 40px rgba(255, 107, 107, 0.08);
+            min-height: 260px;
         }
 
         .bento-forum .bento-icon {
@@ -458,37 +336,36 @@
         }
 
         .bento-forum .forum-tag {
-            padding: 5px 12px;
-            font-size: 0.75rem;
-            font-weight: 500;
+            padding: 5px 14px;
+            font-size: 0.72rem;
+            font-weight: 600;
             border-radius: var(--radius-full);
             font-family: var(--font-body);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: var(--neu-shadow-raised-sm);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .forum-tag.tag-suggestions {
-            background: rgba(251, 191, 36, 0.1);
-            color: var(--amber);
-            border: 1px solid rgba(251, 191, 36, 0.2);
+            color: var(--warning);
         }
 
         .forum-tag.tag-ideas {
-            background: rgba(0, 229, 255, 0.08);
-            color: var(--cyan);
-            border: 1px solid rgba(0, 229, 255, 0.15);
+            color: var(--olive);
         }
 
         .forum-tag.tag-doubts {
-            background: rgba(255, 107, 107, 0.08);
-            color: var(--coral);
-            border: 1px solid rgba(255, 107, 107, 0.15);
+            color: var(--danger);
         }
 
         .bento-forum .btn-forum {
-            margin-top: 4px;
+            margin-top: 8px;
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            color: var(--coral);
+            color: var(--olive);
             font-size: 0.88rem;
             font-weight: 600;
             text-decoration: none;
@@ -498,6 +375,7 @@
 
         .bento-forum .btn-forum:hover {
             gap: 10px;
+            color: var(--navy);
         }
 
         .bento-forum .btn-forum svg {
@@ -514,22 +392,10 @@
         .bento-freemium {
             grid-column: 6 / 13;
             grid-row: 2 / 3;
-            border-color: rgba(251, 191, 36, 0.12);
             display: flex;
             flex-direction: column;
             justify-content: center;
-            min-height: 240px;
-            position: relative;
-        }
-
-        .bento-freemium::before {
-            background: radial-gradient(ellipse at 70% 70%, rgba(251, 191, 36, 0.05) 0%, transparent 60%);
-            opacity: 1;
-        }
-
-        .bento-freemium:hover {
-            border-color: rgba(251, 191, 36, 0.3);
-            box-shadow: 0 8px 40px rgba(251, 191, 36, 0.08);
+            min-height: 260px;
         }
 
         .bento-freemium .bento-icon {
@@ -546,7 +412,7 @@
         }
 
         .bento-freemium .bento-title span {
-            color: var(--amber);
+            color: var(--accent-warm);
         }
 
         .bento-freemium .bento-text {
@@ -567,23 +433,24 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 12px 20px;
+            padding: 14px 22px;
             border-radius: var(--radius-lg);
             font-family: var(--font-body);
             font-size: 0.85rem;
             font-weight: 500;
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: var(--neu-shadow-raised-sm);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .tier-free {
-            background: rgba(52, 211, 153, 0.08);
-            border: 1px solid rgba(52, 211, 153, 0.2);
-            color: var(--emerald);
+            color: var(--olive);
         }
 
         .tier-premium {
-            background: rgba(251, 191, 36, 0.08);
-            border: 1px solid rgba(251, 191, 36, 0.2);
-            color: var(--amber);
+            color: var(--accent-warm);
         }
 
         .tier-pill .tier-label {
@@ -604,19 +471,18 @@
             padding: 60px 24px 40px;
             text-align: center;
             background: var(--bg-secondary);
-            border-top: 1px solid var(--border);
         }
 
         .footer-logo {
             font-family: var(--font-heading);
             font-size: 1.5rem;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--text-primary);
             margin-bottom: 12px;
         }
 
         .footer-logo span {
-            background: linear-gradient(135deg, #ff8c00, #0047ab);
+            background: linear-gradient(135deg, var(--brand-orange), var(--brand-blue));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -645,7 +511,7 @@
         }
 
         .footer-link:hover {
-            color: var(--cyan);
+            color: var(--olive);
         }
 
         /* ═══════════════════════════════════════════════════════════════════
@@ -653,24 +519,12 @@
            ═══════════════════════════════════════════════════════════════════ */
         @media screen and (max-width: 900px) {
             .bento-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr;
             }
 
-            .bento-community {
-                grid-column: 1 / -1;
-                grid-row: auto;
-            }
-
-            .bento-discord {
-                grid-column: 1 / -1;
-                grid-row: auto;
-            }
-
-            .bento-forum {
-                grid-column: 1 / -1;
-                grid-row: auto;
-            }
-
+            .bento-community,
+            .bento-discord,
+            .bento-forum,
             .bento-freemium {
                 grid-column: 1 / -1;
                 grid-row: auto;
@@ -687,8 +541,7 @@
             }
 
             .bento-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
+                gap: 20px;
             }
 
             .bento-card {
@@ -700,9 +553,7 @@
                 font-size: 1.5rem;
             }
 
-            .scroll-indicator {
-                display: none;
-            }
+
 
             .hero-cta {
                 flex-direction: column;
@@ -743,15 +594,13 @@
         </button>
         <ul class="navbar-links" id="navLinks">
             <li><a href="index.html" class="active">Home</a></li>
-            <li><a href="simulations.html">Simulations</a></li>
+            <li><a href="courses.html">Courses</a></li>
             <li><a href="forum.html">Forum</a></li>
         </ul>
     </nav>
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="particles-container" id="particles"></div>
-
         <div class="hero-content">
             <h1 class="logo">Quanim</h1>
             <p class="tagline">Quantum Physics, <span>Animated</span></p>
@@ -761,8 +610,8 @@
                 understanding of reality.
             </p>
             <div class="hero-cta">
-                <a href="simulations.html" class="btn btn-primary">
-                    Explore Simulations
+                <a href="courses.html" class="btn btn-primary">
+                    Explore Courses
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 12h14M12 5l7 7-7 7" />
@@ -778,6 +627,7 @@
     <!-- Bento Grid Section -->
     <section class="bento-section" id="bento">
         <div class="bento-section-header">
+            <span class="label">Discover</span>
             <h2>Why Quanim?</h2>
         </div>
 
@@ -861,7 +711,7 @@
         <div class="footer-logo"><span>Quanim</span></div>
         <p class="footer-text">© 2026 Quanim. Exploring the quantum world, one wave at a time.</p>
         <div class="footer-links">
-            <a href="simulations.html" class="footer-link">Simulations</a>
+            <a href="courses.html" class="footer-link">Courses</a>
             <a href="forum.html" class="footer-link">Forum</a>
             <a href="#" class="footer-link">Discord</a>
         </div>
@@ -884,41 +734,11 @@
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
-                navbar.style.background = 'rgba(13, 13, 15, 0.92)';
+                navbar.classList.add('scrolled');
             } else {
-                navbar.style.background = 'rgba(13, 13, 15, 0.75)';
+                navbar.classList.remove('scrolled');
             }
         });
-
-        // Create floating particles
-        function createParticles() {
-            const container = document.getElementById('particles');
-            const particleCount = 40;
-
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-
-                const tx = (Math.random() - 0.5) * 200;
-                const ty = (Math.random() - 0.5) * 200;
-                particle.style.setProperty('--tx', tx + 'px');
-                particle.style.setProperty('--ty', ty + 'px');
-
-                particle.style.animationDelay = Math.random() * 15 + 's';
-                particle.style.animationDuration = 10 + Math.random() * 10 + 's';
-
-                const size = 2 + Math.random() * 4;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-
-                container.appendChild(particle);
-            }
-        }
-
-        createParticles();
 
         // Intersection Observer for bento card animations
         const observer = new IntersectionObserver((entries) => {

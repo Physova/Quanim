@@ -14,32 +14,17 @@
            ═══════════════════════════════════════════════════════════════════ */
 
         .forum-hero {
-            padding: 130px 24px 60px;
+            padding: 140px 24px 70px;
             text-align: center;
             position: relative;
-            overflow: hidden;
-        }
-
-        .forum-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(ellipse at 50% 0%, rgba(255, 107, 107, 0.06) 0%, transparent 60%);
-            pointer-events: none;
         }
 
         .forum-hero h1 {
             font-family: var(--font-heading);
             font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 700;
-            margin-bottom: 12px;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--coral) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            margin-bottom: 14px;
+            color: var(--text-primary);
         }
 
         .forum-hero p {
@@ -48,7 +33,7 @@
             color: var(--text-secondary);
             max-width: 550px;
             margin: 0 auto;
-            line-height: 1.7;
+            line-height: 1.75;
         }
 
         /* Categories */
@@ -58,23 +43,24 @@
             padding: 0 24px 60px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 16px;
+            gap: 20px;
         }
 
         .category-card {
             background: var(--bg-card);
-            border: 1px solid var(--border);
             border-radius: var(--radius-lg);
             padding: 28px 24px;
             transition: all var(--transition-normal);
             cursor: pointer;
             text-decoration: none;
             color: inherit;
+            box-shadow: var(--neu-shadow-raised);
+            border: none;
         }
 
         .category-card:hover {
             transform: translateY(-4px);
-            border-color: var(--border-hover);
+            box-shadow: var(--neu-shadow-raised-lg);
         }
 
         .category-card .cat-icon {
@@ -85,63 +71,27 @@
         .category-card h3 {
             font-family: var(--font-heading);
             font-size: 1.1rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 8px;
         }
 
         .category-card p {
             font-family: var(--font-body);
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.6;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
         }
 
         .category-card .cat-count {
             display: inline-block;
-            margin-top: 12px;
+            margin-top: 14px;
             font-family: var(--font-body);
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 600;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 1px;
-        }
-
-        .cat-general {
-            border-color: rgba(0, 229, 255, 0.15);
-        }
-
-        .cat-general:hover {
-            border-color: var(--cyan);
-            box-shadow: 0 8px 30px rgba(0, 229, 255, 0.08);
-        }
-
-        .cat-help {
-            border-color: rgba(255, 107, 107, 0.15);
-        }
-
-        .cat-help:hover {
-            border-color: var(--coral);
-            box-shadow: 0 8px 30px rgba(255, 107, 107, 0.08);
-        }
-
-        .cat-ideas {
-            border-color: rgba(251, 191, 36, 0.15);
-        }
-
-        .cat-ideas:hover {
-            border-color: var(--amber);
-            box-shadow: 0 8px 30px rgba(251, 191, 36, 0.08);
-        }
-
-        .cat-resources {
-            border-color: rgba(167, 139, 250, 0.15);
-        }
-
-        .cat-resources:hover {
-            border-color: var(--violet);
-            box-shadow: 0 8px 30px rgba(167, 139, 250, 0.08);
         }
 
         /* Posts Section */
@@ -171,34 +121,36 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 10px 22px;
+            padding: 12px 24px;
             font-family: var(--font-body);
             font-size: 0.88rem;
             font-weight: 600;
-            background: linear-gradient(135deg, var(--coral), #ff8a65);
-            color: #fff;
-            border: none;
+            background: rgba(58, 107, 159, 0.4);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: var(--radius-full);
             cursor: pointer;
             transition: all var(--transition-normal);
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.25);
+            box-shadow: var(--neu-shadow-raised-sm);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         .btn-new-post:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.35);
+            box-shadow: var(--neu-shadow-raised);
+            background: rgba(77, 131, 184, 0.5);
         }
 
         /* Post List */
         .post-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
 
         .post-item {
             background: var(--bg-card);
-            border: 1px solid var(--border);
             border-radius: var(--radius-lg);
             padding: 20px 24px;
             display: flex;
@@ -206,43 +158,32 @@
             gap: 16px;
             transition: all var(--transition-normal);
             cursor: pointer;
+            box-shadow: var(--neu-shadow-raised-sm);
+            border: none;
         }
 
         .post-item:hover {
-            border-color: var(--border-hover);
             transform: translateX(4px);
+            box-shadow: var(--neu-shadow-raised);
         }
 
         .post-avatar {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.1rem;
             flex-shrink: 0;
+            box-shadow: var(--neu-shadow-raised-sm);
         }
 
-        .avatar-cyan {
-            background: rgba(0, 229, 255, 0.12);
-        }
-
-        .avatar-violet {
-            background: rgba(167, 139, 250, 0.12);
-        }
-
-        .avatar-coral {
-            background: rgba(255, 107, 107, 0.12);
-        }
-
-        .avatar-amber {
-            background: rgba(251, 191, 36, 0.12);
-        }
-
-        .avatar-emerald {
-            background: rgba(52, 211, 153, 0.12);
-        }
+        .avatar-cyan { background: var(--bg-elevated); }
+        .avatar-violet { background: var(--bg-elevated); }
+        .avatar-coral { background: var(--bg-elevated); }
+        .avatar-amber { background: var(--bg-elevated); }
+        .avatar-emerald { background: var(--bg-elevated); }
 
         .post-body {
             flex: 1;
@@ -254,7 +195,7 @@
             font-size: 1rem;
             font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         .post-meta {
@@ -266,33 +207,23 @@
 
         .post-category {
             font-family: var(--font-body);
-            font-size: 0.7rem;
-            font-weight: 600;
+            font-size: 0.68rem;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
-            padding: 3px 10px;
+            padding: 3px 12px;
             border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: var(--neu-shadow-raised-sm);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .post-category.cat-tag-general {
-            background: rgba(0, 229, 255, 0.1);
-            color: var(--cyan);
-        }
-
-        .post-category.cat-tag-help {
-            background: rgba(255, 107, 107, 0.1);
-            color: var(--coral);
-        }
-
-        .post-category.cat-tag-ideas {
-            background: rgba(251, 191, 36, 0.1);
-            color: var(--amber);
-        }
-
-        .post-category.cat-tag-resources {
-            background: rgba(167, 139, 250, 0.1);
-            color: var(--violet);
-        }
+        .post-category.cat-tag-general { color: var(--navy); }
+        .post-category.cat-tag-help { color: var(--danger); }
+        .post-category.cat-tag-ideas { color: var(--olive); }
+        .post-category.cat-tag-resources { color: var(--info); }
 
         .post-time {
             font-family: var(--font-body);
@@ -317,9 +248,9 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(27, 40, 56, 0.35);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             z-index: 2000;
             align-items: center;
             justify-content: center;
@@ -332,12 +263,13 @@
 
         .modal {
             background: var(--bg-elevated);
-            border: 1px solid var(--border-strong);
             border-radius: var(--radius-xl);
-            padding: 36px 32px;
+            padding: 40px 36px;
             max-width: 560px;
             width: 100%;
             position: relative;
+            box-shadow: var(--neu-shadow-raised-lg);
+            border: none;
         }
 
         .modal h2 {
@@ -345,40 +277,41 @@
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
 
         .modal-close {
             position: absolute;
-            top: 16px;
-            right: 16px;
-            background: none;
+            top: 18px;
+            right: 18px;
+            background: var(--bg-primary);
             border: none;
             color: var(--text-muted);
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             cursor: pointer;
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all var(--transition-normal);
+            box-shadow: var(--neu-shadow-raised-sm);
         }
 
         .modal-close:hover {
-            background: var(--bg-tertiary);
             color: var(--text-primary);
+            box-shadow: var(--neu-shadow-raised);
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
 
         .form-group label {
             display: block;
             font-family: var(--font-body);
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 600;
             color: var(--text-secondary);
             text-transform: uppercase;
@@ -390,21 +323,27 @@
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 12px 16px;
+            padding: 14px 18px;
             font-family: var(--font-body);
             font-size: 0.95rem;
             color: var(--text-primary);
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-strong);
+            background: var(--bg-inset);
+            border: none;
             border-radius: var(--radius-md);
             outline: none;
-            transition: border-color var(--transition-normal);
+            transition: box-shadow var(--transition-normal);
+            box-shadow: var(--neu-shadow-inset-sm);
         }
 
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
-            border-color: var(--cyan);
+            box-shadow: var(--neu-shadow-inset), 0 0 0 2px var(--olive-muted);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-muted);
         }
 
         .form-group textarea {
@@ -416,34 +355,36 @@
             cursor: pointer;
             -webkit-appearance: none;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23606075' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237A8A96' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 14px center;
             padding-right: 40px;
         }
 
         .form-group select option {
-            background: var(--bg-secondary);
+            background: var(--bg-primary);
             color: var(--text-primary);
         }
 
         .form-submit {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             font-family: var(--font-body);
             font-size: 0.95rem;
             font-weight: 600;
-            background: linear-gradient(135deg, var(--coral), #ff8a65);
-            color: #fff;
+            background: var(--navy);
+            color: var(--text-inverse);
             border: none;
             border-radius: var(--radius-md);
             cursor: pointer;
             transition: all var(--transition-normal);
+            box-shadow: var(--neu-shadow-raised-sm);
         }
 
         .form-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+            box-shadow: var(--neu-shadow-raised);
+            background: var(--navy-light);
         }
 
         /* Footer */
@@ -451,19 +392,18 @@
             padding: 60px 24px 40px;
             text-align: center;
             background: var(--bg-secondary);
-            border-top: 1px solid var(--border);
         }
 
         .footer-logo {
             font-family: var(--font-heading);
             font-size: 1.5rem;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--text-primary);
             margin-bottom: 12px;
         }
 
         .footer-logo span {
-            background: linear-gradient(135deg, var(--cyan), var(--violet));
+            background: linear-gradient(135deg, var(--brand-orange), var(--brand-blue));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -492,7 +432,7 @@
         }
 
         .footer-link:hover {
-            color: var(--cyan);
+            color: var(--olive);
         }
 
         /* Responsive */
@@ -547,7 +487,7 @@
         </button>
         <ul class="navbar-links" id="navLinks">
             <li><a href="index.html">Home</a></li>
-            <li><a href="simulations.html">Simulations</a></li>
+            <li><a href="courses.html">Courses</a></li>
             <li><a href="forum.html" class="active">Forum</a></li>
         </ul>
     </nav>
@@ -560,25 +500,25 @@
 
     <!-- Categories -->
     <div class="forum-categories">
-        <div class="category-card cat-general">
+        <div class="category-card">
             <div class="cat-icon">💬</div>
             <h3>General Discussion</h3>
             <p>Talk about anything related to quantum physics, the Quanim platform, or science in general.</p>
             <span class="cat-count">24 threads</span>
         </div>
-        <div class="category-card cat-help">
+        <div class="category-card">
             <div class="cat-icon">🆘</div>
             <h3>Help & Doubts</h3>
             <p>Stuck on a concept or simulation? Ask here and the community will help you out.</p>
             <span class="cat-count">18 threads</span>
         </div>
-        <div class="category-card cat-ideas">
+        <div class="category-card">
             <div class="cat-icon">💡</div>
             <h3>Ideas & Suggestions</h3>
             <p>Have an idea for a new feature or simulation? Share it and let us know!</p>
             <span class="cat-count">12 threads</span>
         </div>
-        <div class="category-card cat-resources">
+        <div class="category-card">
             <div class="cat-icon">📚</div>
             <h3>Resources</h3>
             <p>Share and discover books, papers, videos, and other quantum learning resources.</p>
@@ -693,7 +633,7 @@
         <p class="footer-text">© 2026 Quanim. Exploring the quantum world, one wave at a time.</p>
         <div class="footer-links">
             <a href="index.html" class="footer-link">Home</a>
-            <a href="simulations.html" class="footer-link">Simulations</a>
+            <a href="courses.html" class="footer-link">Courses</a>
             <a href="#" class="footer-link">Discord</a>
         </div>
     </footer>
@@ -714,9 +654,9 @@
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
-                navbar.style.background = 'rgba(13, 13, 15, 0.92)';
+                navbar.classList.add('scrolled');
             } else {
-                navbar.style.background = 'rgba(13, 13, 15, 0.75)';
+                navbar.classList.remove('scrolled');
             }
         });
 
@@ -751,7 +691,6 @@
                 return;
             }
 
-            // Add post to list
             const categoryMap = {
                 general: { tag: 'cat-tag-general', label: 'General', avatar: 'avatar-cyan', emoji: '💬' },
                 help: { tag: 'cat-tag-help', label: 'Help', avatar: 'avatar-coral', emoji: '🆘' },
@@ -776,7 +715,6 @@
             `;
             postList.insertAdjacentHTML('afterbegin', postHTML);
 
-            // Reset form & close modal
             document.getElementById('newPostForm').reset();
             modalOverlay.classList.remove('open');
         });
