@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Double-Slit Experiment Simulation - Quanim</title>
+    <meta name="description"
+        content="Interactive double-slit experiment simulation. Explore wave-particle duality and quantum interference patterns.">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ═══════════════════════════════════════════════════════════════════
+           Double-Slit Page Specific Styles
+           ═══════════════════════════════════════════════════════════════════ */
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px;
+        }
+
+        .page-container {
+            width: 100%;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+            margin-top: 60px;
+            animation: fadeInDown 0.6s ease both;
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .header .subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .simulation-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            align-items: center;
+            animation: fadeInUp 0.6s ease 0.1s both;
+        }
+
+        #canvas-container {
+            margin-bottom: 16px;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .control-group {
+            flex: 1;
+            min-width: 100px;
+            max-width: 180px;
+        }
+
+        .control-group input[type="range"] {
+            width: 120px;
+        }
+
+        .observer-control {
+            min-width: auto;
+        }
+
+        /* Info Panel */
+        .info-panel {
+            margin-top: 32px;
+            width: 100%;
+            animation: fadeInUp 0.6s ease 0.2s both;
+        }
+
+        .legend {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            padding: 20px 28px;
+            background: var(--bg-tertiary);
+            border-top: 1px solid var(--border);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.wave {
+            background: var(--text-primary);
+        }
+
+        .legend-dot.constructive {
+            background: #22c55e;
+        }
+
+        .legend-dot.destructive {
+            background: #6b7280;
+        }
+
+        /* Equation box */
+        .equation-box {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            text-align: center;
+            margin: 16px 0;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .equation-box .equation {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+        }
+
+        .equation-box .description {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
+            .header {
+                margin-top: 50px;
+            }
+
+            .header h1 {
+                font-size: 1.4rem;
+            }
+
+            .controls {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .control-group {
+                flex: 1 1 calc(50% - 10px);
+                min-width: 140px;
+                max-width: none;
+            }
+
+            .control-group input[type="range"] {
+                width: 100%;
+            }
+
+            .info-panel {
+                margin: 24px 0;
+            }
+
+            .legend {
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.25rem;
+            }
+
+            .control-group {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <a href="index.html" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        Back to Home
+    </a>
+
+    <div class="header">
+        <h1>🌊 Double-Slit Experiment</h1>
+        <p class="subtitle">Wave interference & quantum mechanics visualization</p>
+    </div>
+
+    <div class="page-container">
+        <div class="simulation-wrapper">
+            <div id="canvas-container">
+                <!-- p5.js canvas will be inserted here -->
+            </div>
+
+            <div class="controls">
+                <div class="control-group">
+                    <label>Wavelength</label>
+                    <div class="value-display"><span id="wavelengthValue">550</span> nm</div>
+                    <input type="range" id="wavelengthSlider" min="380" max="780" value="550">
+                </div>
+
+                <div class="control-group">
+                    <label>Slit Separation</label>
+                    <div class="value-display"><span id="slitSepValue">100</span></div>
+                    <input type="range" id="slitSepSlider" min="50" max="250" value="100">
+                </div>
+
+                <div class="control-group">
+                    <label>Wave Speed</label>
+                    <div class="value-display"><span id="speedValue">2</span>x</div>
+                    <input type="range" id="speedSlider" min="1" max="5" value="2" step="0.5">
+                </div>
+
+                <div class="control-group">
+                    <label>Slit Width</label>
+                    <div class="value-display"><span id="slitWidthValue">20</span></div>
+                    <input type="range" id="slitWidthSlider" min="5" max="50" value="20">
+                </div>
+
+                <div class="control-group observer-control">
+                    <label>Measurement</label>
+                    <button id="observerBtn" class="action-btn">
+                        👁 Observer OFF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-panel">
+            <div class="info-header">
+                <h2>Understanding the Double-Slit Experiment</h2>
+                <p>The most beautiful experiment in physics — Richard Feynman</p>
+            </div>
+
+            <div class="info-content">
+                <h3>🔬 Historical Significance</h3>
+                <p>
+                    First performed by <strong>Thomas Young in 1801</strong>, this groundbreaking experiment
+                    provided definitive evidence that light behaves as a wave. Over a century later, it became
+                    central to the development of quantum mechanics when scientists discovered that individual
+                    particles — electrons, photons, even atoms — produce the same interference pattern,
+                    suggesting they behave as <span class="highlight">both waves and particles</span>.
+                </p>
+
+                <h3>🌊 What You're Seeing</h3>
+                <p>
+                    Waves emanate from a source and pass through two narrow slits. Each slit acts as a new wave
+                    source (Huygens' principle). Where the waves meet, they <strong>interfere</strong>: when
+                    wave peaks align, they reinforce each other (<span class="highlight">constructive
+                        interference</span>); when peaks meet troughs, they cancel out
+                    (<span class="highlight">destructive interference</span>).
+                </p>
+
+                <div class="equation-box">
+                    <div class="equation">d sin(θ) = nλ</div>
+                    <div class="description">Condition for constructive interference (bright bands)</div>
+                </div>
+
+                <h3>🤯 The Quantum Mystery</h3>
+                <p>
+                    The truly mind-bending discovery came when scientists fired particles <em>one at a time</em>
+                    through the slits. Amazingly, the interference pattern still emerged over time — as if each
+                    particle <strong>interfered with itself</strong>! This is only possible if each particle
+                    passes through <em>both slits simultaneously</em> as a quantum wave, collapsing to a
+                    definite position only when measured at the screen.
+                </p>
+
+                <p>
+                    Even more bizarre: if you try to detect which slit the particle passes through, the
+                    interference pattern disappears! This is the famous
+                    <span class="highlight">"observer effect"</span> — measurement fundamentally changes
+                    quantum behavior.
+                </p>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item"><span class="legend-dot wave"></span> Wave fronts</div>
+                <div class="legend-item"><span class="legend-dot constructive"></span> Constructive interference</div>
+                <div class="legend-item"><span class="legend-dot destructive"></span> Destructive interference</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="double-slit.js"></script>
+    <script>
+        // Dark mode only
+        if (typeof updateColors === 'function') updateColors('dark');
+    </script>
+</body>
+
+</html>

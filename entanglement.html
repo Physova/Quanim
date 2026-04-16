@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Entanglement Simulation - Quanim</title>
+    <meta name="description"
+        content="Interactive quantum entanglement simulation. Explore Einstein's 'spooky action at a distance' and correlated particle states.">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ═══════════════════════════════════════════════════════════════════
+           Entanglement Page Specific Styles
+           ═══════════════════════════════════════════════════════════════════ */
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px;
+        }
+
+        .page-container {
+            width: 100%;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+            margin-top: 60px;
+            animation: fadeInDown 0.6s ease both;
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .header .subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .simulation-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            align-items: center;
+            animation: fadeInUp 0.6s ease 0.1s both;
+        }
+
+        #canvas-container {
+            margin-bottom: 16px;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .control-group {
+            flex: 1;
+            min-width: 100px;
+            max-width: 200px;
+        }
+
+        .control-group input[type="range"] {
+            width: 120px;
+        }
+
+        /* Particle-specific button styles */
+        .action-btn.particle-a {
+            background: var(--bg-tertiary);
+            border-left: 3px solid #3b82f6;
+        }
+
+        .action-btn.particle-a:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .action-btn.particle-b {
+            background: var(--bg-tertiary);
+            border-left: 3px solid #ec4899;
+        }
+
+        .action-btn.particle-b:hover {
+            background: rgba(236, 72, 153, 0.1);
+        }
+
+        /* Info Panel */
+        .info-panel {
+            margin-top: 32px;
+            width: 100%;
+            animation: fadeInUp 0.6s ease 0.2s both;
+        }
+
+        /* Quote box */
+        .quote-box {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--text-primary);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            padding: 16px 20px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+
+        .quote-box .author {
+            font-style: normal;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        /* Application grid */
+        .application-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .application-card {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .application-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-hover);
+        }
+
+        .application-card .icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .application-card h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .application-card p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
+            .header {
+                margin-top: 50px;
+            }
+
+            .header h1 {
+                font-size: 1.4rem;
+            }
+
+            .controls {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .control-group {
+                flex: 1 1 calc(50% - 10px);
+                min-width: 140px;
+                max-width: none;
+            }
+
+            .control-group input[type="range"] {
+                width: 100%;
+            }
+
+            .info-panel {
+                margin: 24px 0;
+            }
+
+            .application-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.25rem;
+            }
+
+            .control-group {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <a href="index.html" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        Back to Home
+    </a>
+
+    <div class="header">
+        <h1>🔗 Quantum Entanglement</h1>
+        <p class="subtitle">"Spooky action at a distance" — Albert Einstein</p>
+    </div>
+
+    <div class="page-container">
+        <div class="simulation-wrapper">
+            <div id="canvas-container">
+                <!-- p5.js canvas will be inserted here -->
+            </div>
+
+            <div class="controls">
+                <div class="control-group">
+                    <label>Distance</label>
+                    <div class="value-display"><span id="distanceValue">300 units</span></div>
+                    <input type="range" id="distanceSlider" min="100" max="500" value="300">
+                </div>
+
+                <div class="control-group">
+                    <label>Generate Pair</label>
+                    <button id="generateBtn" class="action-btn">
+                        ✨ Generate Entangled Pair
+                    </button>
+                </div>
+
+                <div class="control-group">
+                    <label>Measure Particle A</label>
+                    <button id="measureABtn" class="action-btn particle-a">
+                        Measure A
+                    </button>
+                </div>
+
+                <div class="control-group">
+                    <label>Measure Particle B</label>
+                    <button id="measureBBtn" class="action-btn particle-b">
+                        Measure B
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-panel">
+            <div class="info-header">
+                <h2>Understanding Quantum Entanglement</h2>
+                <p>When two particles become one quantum system</p>
+            </div>
+
+            <div class="info-content">
+                <h3>🧪 The EPR Paradox</h3>
+                <p>
+                    In 1935, Einstein, Podolsky, and Rosen published a famous paper arguing that quantum mechanics must
+                    be incomplete. They described entangled particles — pairs that share a quantum state such that
+                    measuring one <strong>instantly</strong> determines the state of the other, regardless of distance.
+                    Einstein called this <span class="highlight">"spooky action at a distance"</span> and believed it
+                    proved quantum mechanics was missing some "hidden variables."
+                </p>
+
+                <div class="quote-box">
+                    <p>"I cannot seriously believe in [quantum theory] because... physics should represent a reality in
+                        time and space, free from spooky actions at a distance."</p>
+                    <div class="author">— Albert Einstein, 1947</div>
+                </div>
+
+                <h3>🔔 Bell's Theorem & Bell Tests</h3>
+                <p>
+                    In 1964, physicist <strong>John Bell</strong> devised a mathematical inequality that could
+                    distinguish between Einstein's "hidden variables" and true quantum entanglement. Decades of
+                    experiments — culminating in the 2022 Nobel Prize-winning work — have consistently violated
+                    Bell's inequality, proving that quantum entanglement is <em>real</em> and that Einstein's local
+                    hidden variables cannot explain nature.
+                </p>
+
+                <h3>⚡ What You're Seeing</h3>
+                <p>
+                    When you click "Generate Pair," two entangled particles are created in a superposition where their
+                    spins are correlated (always opposite). Neither particle has a definite spin until measured. The
+                    moment you measure one particle, <strong>both</strong> wavefunctions collapse — particle A's
+                    measurement instantly determines B's result, even if they were on opposite sides of the universe!
+                </p>
+
+                <h3>🚀 Real-World Applications</h3>
+                <div class="application-grid">
+                    <div class="application-card">
+                        <div class="icon">🔐</div>
+                        <h4>Quantum Cryptography</h4>
+                        <p>Entanglement enables theoretically unbreakable encryption through quantum key distribution
+                            (QKD).</p>
+                    </div>
+                    <div class="application-card">
+                        <div class="icon">💻</div>
+                        <h4>Quantum Computing</h4>
+                        <p>Entangled qubits perform calculations impossible for classical computers, enabling
+                            exponential speedups.</p>
+                    </div>
+                    <div class="application-card">
+                        <div class="icon">📡</div>
+                        <h4>Quantum Teleportation</h4>
+                        <p>Entanglement allows the quantum state of a particle to be "teleported" to a distant location.
+                        </p>
+                    </div>
+                </div>
+
+                <h3>❌ No Faster-Than-Light Communication</h3>
+                <p>
+                    Despite the "instant" correlation, entanglement <strong>cannot</strong> be used to send messages
+                    faster than light. Measuring particle A gives you a random result — you can't control what you get.
+                    Only when you compare notes with the person who measured B (which requires classical communication)
+                    do you discover the correlation. Einstein's special relativity remains safe!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="entanglement.js"></script>
+    <script>
+        // Dark mode only
+        if (typeof updateColors === 'function') updateColors('dark');
+    </script>
+</body>
+
+</html>

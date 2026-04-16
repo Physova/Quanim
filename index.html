@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quanim - Interactive Quantum Physics Visualizations</title>
+    <meta name="description"
+        content="Explore the quantum world through stunning interactive simulations. A community of learners, free to join, with premium courses.">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ═══════════════════════════════════════════════════════════════════
+           Landing Page Specific Styles
+           ═══════════════════════════════════════════════════════════════════ */
+
+        /* Hero Section — full viewport with background image */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 24px 80px;
+            position: relative;
+            overflow: hidden;
+            background: url('hero-bg.png') center center / cover no-repeat;
+        }
+
+        /* Soft overlay for text legibility */
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg,
+                rgba(19, 23, 30, 0.60) 0%,
+                rgba(19, 23, 30, 0.45) 40%,
+                rgba(19, 23, 30, 0.95) 100%
+            );
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 780px;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: clamp(4rem, 12vw, 8rem);
+            font-weight: 800;
+            letter-spacing: -5px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--brand-orange) 0%, var(--brand-blue) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+        }
+
+        .tagline {
+            font-family: var(--font-body);
+            font-size: clamp(1.2rem, 3vw, 1.75rem);
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            letter-spacing: 0.3px;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .tagline span {
+            color: var(--olive);
+            font-weight: 600;
+        }
+
+        .hero-description {
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            line-height: 1.9;
+            color: var(--text-secondary);
+            margin-bottom: 36px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .hero-cta .btn {
+            padding: 16px 36px;
+            font-size: 1rem;
+            border-radius: var(--radius-full);
+        }
+
+        .hero-cta .btn-outline {
+            background: rgba(26, 31, 42, 0.6);
+            backdrop-filter: blur(10px);
+            color: var(--text-primary);
+            border: 1.5px solid var(--border-strong);
+            box-shadow: var(--neu-shadow-raised-sm);
+        }
+
+        .hero-cta .btn-outline:hover {
+            border-color: var(--olive);
+            color: var(--olive);
+            background: rgba(26, 31, 42, 0.85);
+            transform: translateY(-2px);
+            box-shadow: var(--neu-shadow-raised);
+        }
+
+
+
+        /* ═══════════════════════════════════════════════════════════════════
+           Bento Grid Section
+           ═══════════════════════════════════════════════════════════════════ */
+        .bento-section {
+            padding: 100px 24px 120px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .bento-section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .bento-section-header .label {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--olive);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .bento-section-header h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: auto auto;
+            gap: 24px;
+        }
+
+        .bento-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 40px 36px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--neu-shadow-raised);
+            border: none;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--neu-shadow-raised-lg);
+        }
+
+        /* Card 1: Community (large, spans 7 of 12 cols) */
+        .bento-community {
+            grid-column: 1 / 8;
+            grid-row: 1 / 2;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .bento-community .bento-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .bento-community .bento-title {
+            font-family: var(--font-heading);
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .bento-community .bento-title span {
+            color: var(--olive);
+        }
+
+        .bento-community .bento-quote {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            color: var(--olive);
+            font-style: italic;
+            font-weight: 500;
+            margin-bottom: 16px;
+            opacity: 0.9;
+        }
+
+        .bento-community .bento-text {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            line-height: 1.85;
+            color: var(--text-secondary);
+            max-width: 480px;
+        }
+
+        /* Card 2: Discord (spans 5 of 12 cols) */
+        .bento-discord {
+            grid-column: 8 / 13;
+            grid-row: 1 / 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 300px;
+        }
+
+        .bento-discord .discord-logo {
+            width: 64px;
+            height: 64px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 20px;
+            object-fit: contain;
+        }
+
+        .bento-discord .bento-title {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .bento-discord .bento-badge {
+            display: inline-block;
+            padding: 5px 14px;
+            background: rgba(138, 148, 104, 0.15);
+            color: var(--olive);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-radius: var(--radius-full);
+            margin-bottom: 14px;
+            font-family: var(--font-body);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(138, 148, 104, 0.2);
+        }
+
+        .bento-discord .bento-text {
+            font-family: var(--font-body);
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .bento-discord .btn-discord {
+            margin-top: 20px;
+            padding: 12px 26px;
+            font-size: 0.85rem;
+            border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--navy);
+            font-weight: 600;
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--neu-shadow-raised-sm);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .bento-discord .btn-discord:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--neu-shadow-raised);
+            color: var(--olive);
+        }
+
+        /* Card 3: Forum (spans 5 of 12 cols) */
+        .bento-forum {
+            grid-column: 1 / 6;
+            grid-row: 2 / 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 260px;
+        }
+
+        .bento-forum .bento-icon {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+
+        .bento-forum .bento-title {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .bento-forum .bento-text {
+            font-family: var(--font-body);
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .bento-forum .forum-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .bento-forum .forum-tag {
+            padding: 5px 14px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            font-family: var(--font-body);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: var(--neu-shadow-raised-sm);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .forum-tag.tag-suggestions {
+            color: var(--warning);
+        }
+
+        .forum-tag.tag-ideas {
+            color: var(--olive);
+        }
+
+        .forum-tag.tag-doubts {
+            color: var(--danger);
+        }
+
+        .bento-forum .btn-forum {
+            margin-top: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--olive);
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            font-family: var(--font-body);
+            transition: all var(--transition-normal);
+        }
+
+        .bento-forum .btn-forum:hover {
+            gap: 10px;
+            color: var(--navy);
+        }
+
+        .bento-forum .btn-forum svg {
+            width: 16px;
+            height: 16px;
+            transition: transform var(--transition-normal);
+        }
+
+        .bento-forum .btn-forum:hover svg {
+            transform: translateX(4px);
+        }
+
+        /* Card 4: Freemium (spans 7 of 12 cols) */
+        .bento-freemium {
+            grid-column: 6 / 13;
+            grid-row: 2 / 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 260px;
+        }
+
+        .bento-freemium .bento-icon {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+
+        .bento-freemium .bento-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .bento-freemium .bento-title span {
+            color: var(--accent-warm);
+        }
+
+        .bento-freemium .bento-text {
+            font-family: var(--font-body);
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .freemium-tiers {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .tier-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 22px;
+            border-radius: var(--radius-lg);
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: var(--neu-shadow-raised-sm);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .tier-free {
+            color: var(--olive);
+        }
+
+        .tier-premium {
+            color: var(--accent-warm);
+        }
+
+        .tier-pill .tier-label {
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+        }
+
+        .tier-pill .tier-desc {
+            color: var(--text-secondary);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           Footer
+           ═══════════════════════════════════════════════════════════════════ */
+        .footer {
+            padding: 60px 24px 40px;
+            text-align: center;
+            background: var(--bg-secondary);
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .footer-logo span {
+            background: linear-gradient(135deg, var(--brand-orange), var(--brand-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-family: var(--font-body);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color var(--transition-normal);
+            font-family: var(--font-body);
+        }
+
+        .footer-link:hover {
+            color: var(--olive);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           Responsive
+           ═══════════════════════════════════════════════════════════════════ */
+        @media screen and (max-width: 900px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bento-community,
+            .bento-discord,
+            .bento-forum,
+            .bento-freemium {
+                grid-column: 1 / -1;
+                grid-row: auto;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .hero {
+                padding: 100px 20px 60px;
+            }
+
+            .bento-section {
+                padding: 60px 16px 80px;
+            }
+
+            .bento-grid {
+                gap: 20px;
+            }
+
+            .bento-card {
+                padding: 28px 24px;
+                min-height: auto !important;
+            }
+
+            .bento-community .bento-title {
+                font-size: 1.5rem;
+            }
+
+
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .freemium-tiers {
+                flex-direction: column;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .hero {
+                padding: 80px 16px 50px;
+            }
+
+            .logo {
+                letter-spacing: -2px;
+            }
+
+            .bento-section-header h2 {
+                font-size: 1.6rem;
+            }
+
+            .bento-card {
+                padding: 24px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <a href="index.html" class="navbar-logo"><span>Quanim</span></a>
+        <button class="navbar-toggle" id="navToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="navbar-links" id="navLinks">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="forum.html">Forum</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="logo">Quanim</h1>
+            <p class="tagline">Quantum Physics, <span>Animated</span></p>
+            <p class="hero-description">
+                Step into the strange and beautiful realm of quantum mechanics through stunning interactive simulations.
+                Experience wave-particle duality, superposition, and entanglement — phenomena that challenge our
+                understanding of reality.
+            </p>
+            <div class="hero-cta">
+                <a href="courses.html" class="btn btn-primary">
+                    Explore Courses
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </a>
+                <a href="forum.html" class="btn btn-outline">Join the Community</a>
+            </div>
+        </div>
+
+
+    </section>
+
+    <!-- Bento Grid Section -->
+    <section class="bento-section" id="bento">
+        <div class="bento-section-header">
+            <span class="label">Discover</span>
+            <h2>Why Quanim?</h2>
+        </div>
+
+        <div class="bento-grid">
+            <!-- Card 1: Community -->
+            <div class="bento-card bento-community">
+                <div class="bento-icon">🌐</div>
+                <h3 class="bento-title">A Community of <span>Curious Minds</span></h3>
+                <p class="bento-quote">"We grow with each other, not just for ourselves."</p>
+                <p class="bento-text">
+                    Quanim brings together learners of all ages and levels of experience — from students just
+                    discovering quantum physics to educators and enthusiasts. Learn collaboratively, share insights,
+                    and grow together in an open and supportive environment.
+                </p>
+            </div>
+
+            <!-- Card 2: Discord -->
+            <div class="bento-card bento-discord">
+                <img src="discord-icon.png" alt="Discord" class="discord-logo">
+                <span class="bento-badge">Free to Join</span>
+                <h3 class="bento-title">Online Community</h3>
+                <p class="bento-text">
+                    Join our Discord server to connect with fellow quantum enthusiasts, get help, and participate in
+                    discussions — completely free.
+                </p>
+                <a href="#" class="btn-discord">
+                    Join Discord
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 17L17 7M17 7H7M17 7v10" />
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Card 3: Forum -->
+            <div class="bento-card bento-forum">
+                <div class="bento-icon">💬</div>
+                <h3 class="bento-title">Community Forum</h3>
+                <p class="bento-text">
+                    Have a question, an idea, or a suggestion? Post it in our open forum. Every voice matters in
+                    building the future of Quanim.
+                </p>
+                <div class="forum-tags">
+                    <span class="forum-tag tag-suggestions">Suggestions</span>
+                    <span class="forum-tag tag-ideas">Ideas</span>
+                    <span class="forum-tag tag-doubts">Doubts</span>
+                </div>
+                <a href="forum.html" class="btn-forum">
+                    Visit Forum
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Card 4: Freemium -->
+            <div class="bento-card bento-freemium">
+                <div class="bento-icon">✨</div>
+                <h3 class="bento-title">Free to Learn, <span>Premium to Master</span></h3>
+                <p class="bento-text">
+                    Our community, Discord, and simulations are always free. For those who want to go deeper, our
+                    curated paid courses offer structured paths to mastery with guided lessons and expert content.
+                </p>
+                <div class="freemium-tiers">
+                    <div class="tier-pill tier-free">
+                        <span class="tier-label">Free</span>
+                        <span class="tier-desc">Community · Discord · Simulations</span>
+                    </div>
+                    <div class="tier-pill tier-premium">
+                        <span class="tier-label">Premium</span>
+                        <span class="tier-desc">Structured Courses · Expert Content</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo"><span>Quanim</span></div>
+        <p class="footer-text">© 2026 Quanim. Exploring the quantum world, one wave at a time.</p>
+        <div class="footer-links">
+            <a href="courses.html" class="footer-link">Courses</a>
+            <a href="forum.html" class="footer-link">Forum</a>
+            <a href="#" class="footer-link">Discord</a>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile nav toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+        });
+
+        // Close mobile nav when link clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => navLinks.classList.remove('open'));
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Intersection Observer for bento card animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.bento-card').forEach((card, i) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = `opacity 0.6s ease ${i * 0.1}s, transform 0.6s ease ${i * 0.1}s`;
+            observer.observe(card);
+        });
+    </script>
+</body>
+
+</html>

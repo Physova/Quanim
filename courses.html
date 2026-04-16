@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses - Quanim</title>
+    <meta name="description"
+        content="Explore interactive quantum physics simulations: Double-Slit Experiment, Quantum Superposition, and Quantum Entanglement.">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ═══════════════════════════════════════════════════════════════════
+           Simulations Page Styles
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .sims-hero {
+            padding: 140px 24px 70px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sims-hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 14px;
+            color: var(--text-primary);
+        }
+
+        .sims-hero p {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 550px;
+            margin: 0 auto;
+            line-height: 1.75;
+        }
+
+        /* Simulation Grid */
+        .sims-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px 100px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 28px;
+        }
+
+        .sim-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 28px 24px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--neu-shadow-raised);
+            border: none;
+        }
+
+        .sim-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--neu-shadow-raised-lg);
+        }
+
+        .sim-card-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .sim-card-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .sim-card-description {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .sim-card-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            font-family: var(--font-body);
+            border-radius: var(--radius-full);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: var(--neu-shadow-raised-sm);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .sim-card-btn svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .sim-card:hover .sim-card-btn svg {
+            transform: translateX(4px);
+        }
+
+        .sim-card-1 .sim-card-btn { color: var(--navy); }
+        .sim-card-2 .sim-card-btn { color: var(--olive); }
+        .sim-card-3 .sim-card-btn { color: var(--accent-warm); }
+
+        .sim-card:hover .sim-card-btn {
+            box-shadow: var(--neu-shadow-raised);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 60px 24px 40px;
+            text-align: center;
+            background: var(--bg-secondary);
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .footer-logo span {
+            background: linear-gradient(135deg, var(--brand-orange), var(--brand-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-family: var(--font-body);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color var(--transition-normal);
+            font-family: var(--font-body);
+        }
+
+        .footer-link:hover {
+            color: var(--olive);
+        }
+
+        /* Responsive */
+        @media screen and (max-width: 768px) {
+            .sims-hero {
+                padding: 110px 20px 40px;
+            }
+
+            .sims-grid {
+                grid-template-columns: 1fr;
+                padding: 0 16px 60px;
+            }
+
+            .sim-card {
+                padding: 28px 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <a href="index.html" class="navbar-logo"><span>Quanim</span></a>
+        <button class="navbar-toggle" id="navToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="navbar-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="courses.html" class="active">Courses</a></li>
+            <li><a href="forum.html">Forum</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero -->
+    <section class="sims-hero">
+        <h1>Courses</h1>
+        <p>Explore the quantum world through interactive, physics-accurate visualizations. Adjust parameters in
+            real-time and watch quantum phenomena unfold.</p>
+    </section>
+
+    <!-- Course Cards -->
+    <div class="sims-grid">
+        <a href="#" class="sim-card sim-card-1">
+            <div class="sim-card-icon">📚</div>
+            <h3 class="sim-card-title">Quantum Physics: The Foundation</h3>
+            <p class="sim-card-description">
+                A comprehensive introduction to the foundational principles of quantum physics. Master the core concepts, from wave-particle duality to quantum entanglement, in this overarching course.
+            </p>
+            <span class="sim-card-btn">
+                Start Course
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </span>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo"><span>Quanim</span></div>
+        <p class="footer-text">© 2026 Quanim. Exploring the quantum world, one wave at a time.</p>
+        <div class="footer-links">
+            <a href="index.html" class="footer-link">Home</a>
+            <a href="forum.html" class="footer-link">Forum</a>
+            <a href="#" class="footer-link">Discord</a>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile nav toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => navLinks.classList.remove('open'));
+        });
+
+        // Navbar scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Animate cards
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const card = entry.target;
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+
+                    const handleTransitionEnd = () => {
+                        card.style.transition = '';
+                        card.style.transform = '';
+                        card.style.opacity = '';
+                        card.removeEventListener('transitionend', handleTransitionEnd);
+                    };
+                    card.addEventListener('transitionend', handleTransitionEnd);
+
+                    observer.unobserve(card);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.sim-card').forEach((card, i) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = `opacity 0.6s ease ${i * 0.15}s, transform 0.6s ease ${i * 0.15}s`;
+            observer.observe(card);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Superposition Simulation - Quanim</title>
+    <meta name="description"
+        content="Interactive quantum superposition simulation. Observe a particle exist in multiple states until measurement collapses the wavefunction.">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ═══════════════════════════════════════════════════════════════════
+           Superposition Page Specific Styles
+           ═══════════════════════════════════════════════════════════════════ */
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px;
+        }
+
+        .page-container {
+            width: 100%;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+            margin-top: 60px;
+            animation: fadeInDown 0.6s ease both;
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .header .subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .simulation-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            align-items: center;
+            animation: fadeInUp 0.6s ease 0.1s both;
+        }
+
+        #canvas-container {
+            margin-bottom: 16px;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .control-group {
+            flex: 1;
+            min-width: 100px;
+            max-width: 200px;
+        }
+
+        .control-group input[type="range"] {
+            width: 120px;
+        }
+
+        /* Info Panel */
+        .info-panel {
+            margin-top: 32px;
+            width: 100%;
+            animation: fadeInUp 0.6s ease 0.2s both;
+        }
+
+        /* Quote box */
+        .quote-box {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--text-primary);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            padding: 16px 20px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+
+        .quote-box .author {
+            font-style: normal;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        /* State indicator */
+        .state-indicator {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            padding: 20px 28px;
+            background: var(--bg-tertiary);
+            border-top: 1px solid var(--border);
+        }
+
+        .state-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .state-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .state-dot.up {
+            background: #3b82f6;
+        }
+
+        .state-dot.down {
+            background: #f97316;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
+            .header {
+                margin-top: 50px;
+            }
+
+            .header h1 {
+                font-size: 1.4rem;
+            }
+
+            .controls {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .control-group {
+                flex: 1 1 calc(50% - 10px);
+                min-width: 140px;
+                max-width: none;
+            }
+
+            .control-group input[type="range"] {
+                width: 100%;
+            }
+
+            .info-panel {
+                margin: 24px 0;
+            }
+
+            .state-indicator {
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.25rem;
+            }
+
+            .control-group {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <a href="index.html" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        Back to Home
+    </a>
+
+    <div class="header">
+        <h1>⚛️ Quantum Superposition</h1>
+        <p class="subtitle">Schrödinger's cat and wavefunction collapse</p>
+    </div>
+
+    <div class="page-container">
+        <div class="simulation-wrapper">
+            <div id="canvas-container">
+                <!-- p5.js canvas will be inserted here -->
+            </div>
+
+            <div class="controls">
+                <div class="control-group">
+                    <label>Spin Up Probability</label>
+                    <div class="value-display"><span id="probValue">50</span>%</div>
+                    <input type="range" id="probSlider" min="0" max="100" value="50">
+                </div>
+
+                <div class="control-group">
+                    <label>Measure</label>
+                    <button id="measureBtn" class="action-btn">
+                        📏 Measure State
+                    </button>
+                </div>
+
+                <div class="control-group">
+                    <label>Reset</label>
+                    <button id="resetBtn" class="action-btn">
+                        🔄 Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-panel">
+            <div class="info-header">
+                <h2>Understanding Quantum Superposition</h2>
+                <p>Where particles exist in all possible states at once</p>
+            </div>
+
+            <div class="info-content">
+                <h3>🐱 Schrödinger's Cat</h3>
+                <p>
+                    In 1935, physicist Erwin Schrödinger proposed a famous thought experiment: imagine a cat in a
+                    sealed box with a radioactive atom that has a 50% chance of decaying. If the atom decays, a
+                    mechanism releases poison, killing the cat. According to quantum mechanics, until someone opens
+                    the box and observes, the atom exists in a <span class="highlight">superposition</span> of
+                    both decayed and not-decayed states — and therefore the cat is both
+                    <strong>alive and dead simultaneously</strong>!
+                </p>
+
+                <div class="quote-box">
+                    <p>"One can even set up quite ridiculous cases. A cat is penned up in a steel chamber..."</p>
+                    <div class="author">— Erwin Schrödinger, 1935</div>
+                </div>
+
+                <h3>🎲 The Measurement Problem</h3>
+                <p>
+                    Quantum particles genuinely exist in multiple states until <strong>measurement</strong> forces
+                    them to "choose." This isn't just uncertainty about which state they're in — they're
+                    mathematically in <em>all states at once</em>, with each state having a certain probability
+                    amplitude. Measurement causes what physicists call <span class="highlight">wavefunction
+                        collapse</span>.
+                </p>
+
+                <h3>⚛️ What You're Seeing</h3>
+                <p>
+                    The simulation shows a quantum spin particle with two possible states: <strong>spin up (↑)</strong>
+                    and <strong>spin down (↓)</strong>. Before measurement, the particle exists in a superposition
+                    of both states, visualized as overlapping probability clouds. The slider lets you adjust the
+                    probability of measuring spin up. When you click "Measure," the wavefunction collapses to one
+                    definite state based on these probabilities.
+                </p>
+
+                <h3>🔮 Quantum Computing</h3>
+                <p>
+                    Superposition is the foundation of quantum computing. While classical bits are either 0 or 1,
+                    quantum bits (<strong>qubits</strong>) can be in superposition of both states
+                    simultaneously. This allows quantum computers to explore many solutions in parallel, enabling
+                    exponential speedups for certain problems like factoring large numbers or simulating molecules.
+                </p>
+            </div>
+
+            <div class="state-indicator">
+                <div class="state-item"><span class="state-dot up"></span> Spin Up |↑⟩</div>
+                <div class="state-item"><span class="state-dot down"></span> Spin Down |↓⟩</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="superposition.js"></script>
+    <script>
+        // Dark mode only
+        if (typeof updateColors === 'function') updateColors('dark');
+    </script>
+</body>
+
+</html>
