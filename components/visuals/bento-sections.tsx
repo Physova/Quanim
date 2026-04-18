@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { motion, useTransform, MotionValue } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Beaker, MessageSquare, BookOpen, User, ArrowRight } from "lucide-react";
@@ -15,6 +16,14 @@ interface BentoCardProps {
 }
 
 function BentoCard({ title, description, icon, href, className, metrics }: BentoCardProps) {
+  const [mounted, setMounted] = React.useState(false);
+  const [locId, setLocId] = React.useState("");
+
+  React.useEffect(() => {
+    setMounted(true);
+    setLocId(Math.floor(Math.random() * 1000).toString(16).toUpperCase());
+  }, []);
+
   return (
     <Link href={href} className="block group">
       <Card className={`h-full p-6 bg-black border border-white/10 group-hover:border-white/40 transition-all duration-300 flex flex-col gap-6 relative overflow-hidden rounded-none ${className}`}>
@@ -45,7 +54,7 @@ function BentoCard({ title, description, icon, href, className, metrics }: Bento
             Initiate Protocol <ArrowRight className="w-3 h-3" />
           </div>
           <div className="text-[10px] font-mono text-white/20">
-            LOC_0x{Math.floor(Math.random() * 1000).toString(16).toUpperCase()}
+            LOC_0x{mounted ? locId : "000"}
           </div>
         </div>
       </Card>

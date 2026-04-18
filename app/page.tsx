@@ -1,11 +1,10 @@
 "use client";
 
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { NarrativePanel } from "@/components/visuals/narrative-panel";
 import { DiscoverySection } from "@/components/visuals/bento-sections";
-import { VideoNarrative } from "@/components/visuals/video-narrative";
-import { useState, useEffect } from "react";
+import QuanimHero from "@/components/visuals/quanim-hero";
 
 
 /**
@@ -50,16 +49,13 @@ export default function LandingPage() {
 
   return (
     <div ref={containerRef} className="relative h-[600vh] bg-black text-white overflow-x-hidden no-scrollbar">
-      {/* Cinematic Video Narrative (Only active after hydration) */}
-      {mounted && (
-        <VideoNarrative 
-          src="/narrative.mp4" 
-          scrollYProgress={smoothProgress} 
-        />
-      )}
+      {/* Background 3D Narrative */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        {mounted && <QuanimHero />}
+      </div>
 
-      {/* Main Narrative Content */}
-      <div className="fixed top-0 left-0 w-full h-screen overflow-hidden pointer-events-none">
+      {/* Main Narrative Content (Foreground) */}
+      <div className="fixed top-0 left-0 w-full h-screen overflow-hidden pointer-events-none z-10">
         
         {/* Stage 1: The Void (Hero) */}
         <motion.div 
@@ -82,16 +78,18 @@ export default function LandingPage() {
           style={{ opacity: stage2Opacity }}
         >
           <div className="max-w-2xl">
-            <NarrativePanel 
-              header="Mission Protocol: v2.0"
-              text="DECODING THE UNSEEN. Solving abstraction through intuition. Our mission is to translate the complex language of physics into visual experiences that empower everyone to grasp the fundamentals of the universe. We bridge the gap between mathematics and reality."
-            />
+            {mounted && (
+              <NarrativePanel 
+                header="Mission Protocol: v2.0"
+                text="DECODING THE UNSEEN. Solving abstraction through intuition. Our mission is to translate the complex language of physics into visual experiences that empower everyone to grasp the fundamentals of the universe. We bridge the gap between mathematics and reality."
+              />
+            )}
           </div>
         </motion.div>
 
         {/* Stage 3: The Order (Discovery Bento) */}
         <motion.div className="absolute inset-0 z-30 flex items-center justify-center" style={{ opacity: stage3Opacity }}>
-          <DiscoverySection scrollProgress={smoothProgress} />
+          {mounted && <DiscoverySection scrollProgress={smoothProgress} />}
         </motion.div>
 
         {/* Stage 4: The Community (Connection) */}
