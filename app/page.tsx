@@ -14,6 +14,32 @@ import QuanimHero from "@/components/visuals/quanim-hero";
  * Stage 4: The Community (Connection)
  */
 
+const SceneDot = ({ stage, progress, pos }: { stage: number; progress: any; pos: number }) => {
+  const width = useTransform(progress, [pos - 0.05, pos, pos + 0.05], ["6px", "12px", "6px"]);
+  const opacity = useTransform(progress, [pos - 0.05, pos, pos + 0.05], [0.3, 1, 0.3]);
+  const labelOpacity = useTransform(progress, [pos - 0.05, pos, pos + 0.05], [0.1, 0.8, 0.1]);
+
+  return (
+    <div 
+      className="absolute right-[3px] flex items-center justify-end gap-4"
+      style={{ top: `${pos * 100}%`, transform: 'translateY(-50%)' }}
+    >
+      <motion.span 
+        className="text-[10px] font-mono text-white uppercase tracking-widest whitespace-nowrap"
+        style={{ opacity: labelOpacity }}
+      >
+        Stage 0{stage}
+      </motion.span>
+      <div className="relative flex items-center justify-center w-0">
+        <motion.div 
+          className="h-1.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.2)]" 
+          style={{ width, opacity }}
+        />
+      </div>
+    </div>
+  );
+};
+
 export default function LandingPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
@@ -22,7 +48,7 @@ export default function LandingPage() {
     setMounted(true);
   }, []);
   
-  // Initialize scroll tracking on 600vh container
+  // Initialize scroll tracking on 950vh container
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
@@ -35,20 +61,17 @@ export default function LandingPage() {
     restDelta: 0.001
   });
 
-  // Opacity Transforms for the 4 Narrative Stages
-  const stage1Opacity = useTransform(smoothProgress, [0, 0.2, 0.25], [1, 1, 0]);
-  const stage2Opacity = useTransform(smoothProgress, [0.2, 0.25, 0.45, 0.5], [0, 1, 1, 0]);
-  const stage3Opacity = useTransform(smoothProgress, [0.45, 0.5, 0.7, 0.75], [0, 1, 1, 0]);
-  const stage4Opacity = useTransform(smoothProgress, [0.7, 0.75, 1], [0, 1, 1]);
+  // Aligned to HTML engine scene ranges: singularity 0-0.20, earth 0.28-0.53, flight 0.58-0.77, sun 0.85-1.00
+  const stage1Opacity = useTransform(smoothProgress, [0, 0.15, 0.20], [1, 1, 0]);
+  const stage2Opacity = useTransform(smoothProgress, [0.25, 0.30, 0.42, 0.45], [0, 1, 1, 0]);
+  const stage3Opacity = useTransform(smoothProgress, [0.45, 0.48, 0.70, 0.74], [0, 1, 1, 0]);
+  const stage4Opacity = useTransform(smoothProgress, [0.78, 0.85, 1.0], [0, 1, 1]);
   
-  // Mapping 0-0.95 scroll to 0-100% track position. Clamped to stay inside.
-  const dotTop = useTransform(smoothProgress, [0, 0.95], ["0%", "100%"], { clamp: true });
-
-  // End of journey opacity
-  const endOpacity = useTransform(smoothProgress, [0.95, 1], [0, 1]);
+  // Progress dot mapped to full scroll range, clamped within the track
+  const dotTop = useTransform(smoothProgress, [0, 1], ["4px", "calc(100% - 4px)"], { clamp: true });
 
   return (
-    <div ref={containerRef} className="relative h-[600vh] bg-black text-white overflow-x-hidden no-scrollbar">
+    <div ref={containerRef} className="relative h-[950vh] bg-black text-white overflow-x-hidden no-scrollbar">
       {/* Background 3D Narrative */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         {mounted && <QuanimHero />}
@@ -107,34 +130,32 @@ export default function LandingPage() {
           </div>
         </motion.div>
 
-        {/* Progress Tracker (Visual indicator of depth) */}
-        <div className="fixed right-12 top-1/2 -translate-y-1/2 space-y-4 z-50 hidden md:block pointer-events-none">
-          {[1, 2, 3, 4].map((stage) => (
-            <div key={stage} className="flex items-center justify-end gap-4 group">
-              <span className="text-[10px] font-mono text-white/20 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                Stage 0{stage}
-              </span>
-              <div className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-white/60 transition-colors" />
-            </div>
+        {/* Progress Tracker — dots at correct scene positions */}
+        <div className="fixed right-12 top-[12%] bottom-[8%] z-50 hidden md:block pointer-events-none">
+          {/* Vertical track line */}
+          <div className="absolute right-[2.5px] top-0 bottom-0 w-px bg-white/10" />
+
+          {/* Scene dots at correct scroll percentages */}
+          {[
+            { stage: 1, pos: 0.10 },
+            { stage: 2, pos: 0.40 },
+            { stage: 3, pos: 0.67 },
+            { stage: 4, pos: 0.92 },
+          ].map(({ stage, pos }) => (
+            <SceneDot key={stage} stage={stage} pos={pos} progress={smoothProgress} />
           ))}
-          {/* Moving indicator */}
+
+          {/* Moving indicator - centered on track */}
           <motion.div 
-            className="absolute right-0 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+            className="absolute right-[3px] w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]"
             style={{ 
               top: dotTop,
+              x: "50%",
               y: "-50%" 
             }}
           />
         </div>
       </div>
-
-      {/* Global Bottom UI (Visible when near bottom) */}
-      <motion.div 
-        className="fixed bottom-12 left-0 right-0 z-50 flex justify-center"
-        style={{ opacity: endOpacity }}
-      >
-        <p className="text-xs font-mono uppercase tracking-[0.5em] text-white/40">End of Journey</p>
-      </motion.div>
     </div>
   );
 }

@@ -20,7 +20,7 @@ export function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 lg:px-12 h-[72px] backdrop-blur-xl bg-background/60 border-b border-white/5 transition-all">
       <Link href="/" className="flex items-center gap-2 group">
-        <span className="text-2xl font-serif font-bold tracking-tighter text-foreground group-hover:opacity-80 transition-opacity">
+        <span className="text-2xl font-sans font-bold tracking-tighter text-foreground group-hover:opacity-80 transition-opacity">
           Quanim
         </span>
       </Link>

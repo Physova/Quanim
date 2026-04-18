@@ -64,10 +64,10 @@ function BentoCard({ title, description, icon, href, className, metrics }: Bento
 
 export function DiscoverySection({ scrollProgress }: { scrollProgress: MotionValue<number> }) {
   // Shutter effect timing: 0.45 to 0.65
-  const shutterLeft = useTransform(scrollProgress, [0.45, 0.55, 0.65], ["0%", "-100%", "-100%"]);
-  const shutterRight = useTransform(scrollProgress, [0.45, 0.55, 0.65], ["0%", "100%", "100%"]);
-  const contentOpacity = useTransform(scrollProgress, [0.5, 0.6, 0.7], [0, 1, 0]);
-  const contentScale = useTransform(scrollProgress, [0.5, 0.6], [0.95, 1]);
+  const shutterLeft = useTransform(scrollProgress, [0.45, 0.52, 0.65], ["0%", "-100%", "-100%"]);
+  const shutterRight = useTransform(scrollProgress, [0.45, 0.52, 0.65], ["0%", "100%", "100%"]);
+  const contentOpacity = useTransform(scrollProgress, [0.48, 0.58, 0.70, 0.74], [0, 1, 1, 0]);
+  const contentScale = useTransform(scrollProgress, [0.48, 0.58], [0.95, 1]);
 
   return (
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
