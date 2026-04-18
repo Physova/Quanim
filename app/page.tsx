@@ -1,65 +1,144 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { NarrativePanel } from "@/components/visuals/narrative-panel";
+import { DiscoverySection } from "@/components/visuals/bento-sections";
+import { VideoNarrative } from "@/components/visuals/video-narrative";
+import { useState, useEffect } from "react";
+
+
+/**
+ * Stage 1: The Void (Hero)
+ * Stage 2: The Spark (Mission/Discovery)
+ * Stage 3: The Order (Discovery Bento)
+ * Stage 4: The Community (Connection)
+ */
+
+export default function LandingPage() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  
+  // Initialize scroll tracking on 600vh container
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
+
+  // Smooth scroll progress for orchestration
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 60,
+    damping: 25,
+    restDelta: 0.001
+  });
+
+  // Opacity Transforms for the 4 Narrative Stages
+  const stage1Opacity = useTransform(smoothProgress, [0, 0.2, 0.25], [1, 1, 0]);
+  const stage2Opacity = useTransform(smoothProgress, [0.2, 0.25, 0.45, 0.5], [0, 1, 1, 0]);
+  const stage3Opacity = useTransform(smoothProgress, [0.45, 0.5, 0.7, 0.75], [0, 1, 1, 0]);
+  const stage4Opacity = useTransform(smoothProgress, [0.7, 0.75, 1], [0, 1, 1]);
+  
+  // Moving indicator position (Using % instead of calc to avoid interpolation freeze)
+  // Mapping 0-0.95 scroll to 0-100% track position. Clamped to stay inside.
+  const dotTop = useTransform(smoothProgress, [0, 0.95], ["0%", "100%"], { clamp: true });
+
+  // End of journey opacity
+  const endOpacity = useTransform(smoothProgress, [0.95, 1], [0, 1]);
+
+  if (!mounted) return <div ref={containerRef} className="h-[600vh] bg-black no-scrollbar" />;
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+    <div ref={containerRef} className="relative h-[600vh] bg-black text-white overflow-x-hidden no-scrollbar">
+      {/* Cinematic Video Narrative (The Core Visual) */}
+      <VideoNarrative 
+        src="/narrative.mp4" 
+        scrollYProgress={smoothProgress} 
+      />
+
+      {/* Sticky Inner Viewport */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
+        
+        {/* Stage 1: The Void (Hero) */}
+        <motion.div 
+          className="absolute inset-0 z-10 flex flex-col items-center justify-center p-8 text-center"
+          style={{ opacity: stage1Opacity }}
+        >
+          <div className="max-w-4xl space-y-6">
+            <h1 className="text-8xl md:text-[12rem] font-serif font-bold tracking-tighter uppercase leading-[0.8]">
+              QUANIM
+            </h1>
+            <p className="text-xl md:text-3xl text-white/60 font-medium tracking-tight">
+              Interpreting the Universe through Interactive Visual Physics.
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Stage 2: The Spark (Mission/Discovery) */}
+        <motion.div 
+          className="absolute inset-0 z-20 flex flex-col items-start justify-center p-12 md:p-32"
+          style={{ opacity: stage2Opacity, pointerEvents: "none" }}
+        >
+          <div className="max-w-2xl">
+            <NarrativePanel 
+              header="Mission Protocol: v2.0"
+              text="DECODING THE UNSEEN. Solving abstraction through intuition. Our mission is to translate the complex language of physics into visual experiences that empower everyone to grasp the fundamentals of the universe. We bridge the gap between mathematics and reality."
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+          </div>
+        </motion.div>
+
+        {/* Stage 3: The Order (Discovery Bento) */}
+        <motion.div style={{ opacity: stage3Opacity }}>
+          <DiscoverySection scrollProgress={smoothProgress} />
+        </motion.div>
+
+        {/* Stage 4: The Community (Connection) */}
+        <motion.div 
+          className="absolute inset-0 z-40 flex flex-col items-center justify-center p-8 bg-purple-900/5"
+          style={{ opacity: stage4Opacity, pointerEvents: "none" }}
+        >
+          <div className="max-w-2xl space-y-8 text-center">
+            <span className="font-mono text-purple-400 text-sm tracking-[0.4em] uppercase font-bold">Phase 04</span>
+            <h2 className="text-6xl font-serif font-bold tracking-tighter uppercase">The Community</h2>
+            <div className="h-px w-24 bg-purple-500/50 mx-auto" />
+            <p className="text-2xl text-white/80 leading-relaxed font-medium">
+              Join the discussion and explore the frontiers of knowledge with fellow enthusiasts.
+            </p>
+          </div>
+        </motion.div>
+
+      </div>
+
+      {/* Progress Tracker (Visual indicator of depth) - OUTSIDE STICKY */}
+      <div className="fixed right-12 top-1/2 -translate-y-1/2 space-y-4 z-50 hidden md:block pointer-events-none">
+        {[1, 2, 3, 4].map((stage) => (
+          <div key={stage} className="flex items-center justify-end gap-4 group">
+            <span className="text-[10px] font-mono text-white/20 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+              Stage 0{stage}
+            </span>
+            <div className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-white/60 transition-colors" />
+          </div>
+        ))}
+        {/* Moving indicator */}
+        <motion.div 
+          className="absolute right-0 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+          style={{ 
+            top: dotTop,
+            y: "-50%" 
+          }}
+        />
+      </div>
+
+      {/* Global Bottom UI (Visible when near bottom) - OUTSIDE STICKY */}
+      <motion.div 
+        className="fixed bottom-12 left-0 right-0 z-50 flex justify-center"
+        style={{ opacity: endOpacity }}
+      >
+        <p className="text-xs font-mono uppercase tracking-[0.5em] text-white/40">End of Journey</p>
+      </motion.div>
     </div>
   );
 }
