@@ -94,17 +94,17 @@ export function Lab({ type, title, description, className }: LabProps) {
         variant="ghost"
         size="sm"
         onClick={togglePlay}
-        className="flex items-center gap-2 text-[10px] h-8 px-3 rounded-full hover:bg-white/10"
+        className="flex items-center gap-2 text-[10px] h-8 px-3 rounded-none hover:bg-white/10 text-white"
       >
         {isPlaying ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" />}
         {isPlaying ? "PAUSE" : "RESUME"}
       </Button>
-      <Separator orientation="vertical" className="h-4 bg-slate-700" />
+      <Separator orientation="vertical" className="h-4 bg-white/10" />
       <Button
         variant={waveMode ? "secondary" : "ghost"}
         size="sm"
         onClick={() => setWaveMode(true)}
-        className={`flex items-center gap-2 text-[10px] h-8 px-3 rounded-full transition-all ${waveMode ? 'bg-amber-500 text-slate-950 hover:bg-amber-400' : 'hover:bg-white/10'}`}
+        className={`flex items-center gap-2 text-[10px] h-8 px-3 rounded-none transition-all ${waveMode ? 'bg-white text-black hover:bg-white/90' : 'hover:bg-white/10 text-white'}`}
       >
         <Waves className="h-3 w-3" />
         WAVE
@@ -113,7 +113,7 @@ export function Lab({ type, title, description, className }: LabProps) {
         variant={!waveMode ? "secondary" : "ghost"}
         size="sm"
         onClick={() => setWaveMode(false)}
-        className={`flex items-center gap-2 text-[10px] h-8 px-3 rounded-full transition-all ${!waveMode ? 'bg-amber-500 text-slate-950 hover:bg-amber-400' : 'hover:bg-white/10'}`}
+        className={`flex items-center gap-2 text-[10px] h-8 px-3 rounded-none transition-all ${!waveMode ? 'bg-white text-black hover:bg-white/90' : 'hover:bg-white/10 text-white'}`}
       >
         <Zap className="h-3 w-3" />
         PARTICLE
@@ -128,17 +128,17 @@ export function Lab({ type, title, description, className }: LabProps) {
         size="sm"
         onClick={handleMeasure}
         disabled={isMeasured}
-        className={`flex items-center gap-2 text-[10px] h-8 px-3 rounded-full transition-all ${!isMeasured ? 'bg-amber-500 text-slate-950 hover:bg-amber-400' : 'bg-slate-800 text-slate-500 cursor-not-allowed'}`}
+        className={`flex items-center gap-2 text-[10px] h-8 px-3 rounded-none transition-all ${!isMeasured ? 'bg-white text-black hover:bg-white/90' : 'bg-white/5 text-white/20 cursor-not-allowed'}`}
       >
         <Ruler className="h-3 w-3" />
         {isMeasured ? "MEASURED" : "MEASURE STATE"}
       </Button>
-      <Separator orientation="vertical" className="h-4 bg-slate-700" />
+      <Separator orientation="vertical" className="h-4 bg-white/10" />
       <Button
         variant="ghost"
         size="sm"
         onClick={handleReset}
-        className="flex items-center gap-2 text-[10px] h-8 px-3 rounded-full hover:bg-white/10"
+        className="flex items-center gap-2 text-[10px] h-8 px-3 rounded-none hover:bg-white/10 text-white"
       >
         <RotateCcw className="h-3 w-3" />
         RESET
@@ -152,18 +152,18 @@ export function Lab({ type, title, description, className }: LabProps) {
         variant="ghost"
         size="sm"
         onClick={handleGeneratePair}
-        className={`flex items-center gap-2 text-[10px] h-8 px-3 rounded-full transition-all bg-amber-500 text-slate-950 hover:bg-amber-400`}
+        className={`flex items-center gap-2 text-[10px] h-8 px-3 rounded-none transition-all bg-white text-black hover:bg-white/90`}
       >
         <Link className="h-3 w-3" />
         GENERATE PAIR
       </Button>
-      <Separator orientation="vertical" className="h-4 bg-slate-700" />
+      <Separator orientation="vertical" className="h-4 bg-white/10" />
       <Button
         variant="ghost"
         size="sm"
         onClick={() => handleMeasureEntanglement()}
         disabled={!isEntangled || isMeasuredA}
-        className={`flex items-center gap-2 text-[10px] h-8 px-3 rounded-full transition-all ${isEntangled && !isMeasuredA ? 'bg-blue-500 text-white hover:bg-blue-400' : 'bg-slate-800 text-slate-500 cursor-not-allowed'}`}
+        className={`flex items-center gap-2 text-[10px] h-8 px-3 rounded-none transition-all ${isEntangled && !isMeasuredA ? 'bg-white text-black hover:bg-white/90' : 'bg-white/5 text-white/20 cursor-not-allowed'}`}
       >
         <Share2 className="h-3 w-3" />
         MEASURE ALICE
@@ -173,7 +173,7 @@ export function Lab({ type, title, description, className }: LabProps) {
         size="sm"
         onClick={() => handleMeasureEntanglement()}
         disabled={!isEntangled || isMeasuredB}
-        className={`flex items-center gap-2 text-[10px] h-8 px-3 rounded-full transition-all ${isEntangled && !isMeasuredB ? 'bg-pink-500 text-white hover:bg-pink-400' : 'bg-slate-800 text-slate-500 cursor-not-allowed'}`}
+        className={`flex items-center gap-2 text-[10px] h-8 px-3 rounded-none transition-all ${isEntangled && !isMeasuredB ? 'bg-white/80 text-black hover:bg-white/90' : 'bg-white/5 text-white/20 cursor-not-allowed'}`}
       >
         <Share2 className="h-3 w-3" />
         MEASURE BOB
@@ -186,8 +186,8 @@ export function Lab({ type, title, description, className }: LabProps) {
       {/* Wavelength Slider */}
       <div className="space-y-2">
         <div className="flex justify-between items-center">
-          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Wavelength</label>
-          <span className="text-[10px] font-mono text-amber-500">{wavelength}nm</span>
+          <label className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Wavelength</label>
+          <span className="text-[10px] font-mono text-white/60">{wavelength}nm</span>
         </div>
         <input 
           type="range" 
@@ -196,15 +196,15 @@ export function Lab({ type, title, description, className }: LabProps) {
           step="1" 
           value={wavelength} 
           onChange={(e) => setWavelength(parseInt(e.target.value))}
-          className="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+          className="w-full h-1 bg-white/10 rounded-none appearance-none cursor-pointer accent-white"
         />
       </div>
 
       {/* Slit Distance Slider */}
       <div className="space-y-2">
         <div className="flex justify-between items-center">
-          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Slit Gap</label>
-          <span className="text-[10px] font-mono text-amber-500">{(slitDistance / 10).toFixed(2)}µm</span>
+          <label className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Slit Gap</label>
+          <span className="text-[10px] font-mono text-white/60">{(slitDistance / 10).toFixed(2)}µm</span>
         </div>
         <input 
           type="range" 
@@ -213,21 +213,21 @@ export function Lab({ type, title, description, className }: LabProps) {
           step="0.1" 
           value={slitDistance} 
           onChange={(e) => setSlitDistance(parseFloat(e.target.value))}
-          className="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+          className="w-full h-1 bg-white/10 rounded-none appearance-none cursor-pointer accent-white"
         />
       </div>
 
-      <Separator className="bg-slate-800" />
+      <Separator className="bg-white/10" />
 
       {/* Observer State */}
       <div className="space-y-3">
-        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Observation</label>
+        <label className="text-[10px] font-bold text-white/40 uppercase tracking-wider block">Observation</label>
         <div className="grid grid-cols-2 gap-2">
           <Button
             variant="outline"
             size="sm"
             onClick={() => setObserverState("none")}
-            className={`text-[9px] h-7 border-slate-800 transition-all ${observerState === 'none' ? 'bg-amber-500/20 border-amber-500/50 text-amber-400' : 'text-slate-500 hover:text-slate-300'}`}
+            className={`text-[9px] h-7 border-white/10 rounded-none transition-all ${observerState === 'none' ? 'bg-white/10 border-white/40 text-white' : 'text-white/30 hover:text-white'}`}
           >
             <EyeOff className="h-3 w-3 mr-1" /> NONE
           </Button>
@@ -235,12 +235,12 @@ export function Lab({ type, title, description, className }: LabProps) {
             variant="outline"
             size="sm"
             onClick={() => setObserverState("both")}
-            className={`text-[9px] h-7 border-slate-800 transition-all ${observerState === 'both' ? 'bg-amber-500/20 border-amber-500/50 text-amber-400' : 'text-slate-500 hover:text-slate-300'}`}
+            className={`text-[9px] h-7 border-white/10 rounded-none transition-all ${observerState === 'both' ? 'bg-white/10 border-white/40 text-white' : 'text-white/30 hover:text-white'}`}
           >
             <Eye className="h-3 w-3 mr-1" /> ACTIVE
           </Button>
         </div>
-        <p className="text-[8px] text-slate-500 italic leading-tight">
+        <p className="text-[8px] text-white/30 italic leading-tight">
           Observing which slit the particle passes through collapses the wave function.
         </p>
       </div>
@@ -252,8 +252,8 @@ export function Lab({ type, title, description, className }: LabProps) {
       {/* Probability Slider */}
       <div className="space-y-2">
         <div className="flex justify-between items-center">
-          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Spin Up Prob.</label>
-          <span className="text-[10px] font-mono text-amber-500">{Math.round(probUp * 100)}%</span>
+          <label className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Spin Up Prob.</label>
+          <span className="text-[10px] font-mono text-white/60">{Math.round(probUp * 100)}%</span>
         </div>
         <input 
           type="range" 
@@ -262,31 +262,31 @@ export function Lab({ type, title, description, className }: LabProps) {
           step="0.01" 
           value={probUp} 
           onChange={(e) => setProbUp(parseFloat(e.target.value))}
-          className="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+          className="w-full h-1 bg-white/10 rounded-none appearance-none cursor-pointer accent-white"
           disabled={isMeasured}
         />
-        <div className="flex justify-between text-[8px] text-slate-500 px-1 font-mono">
+        <div className="flex justify-between text-[8px] text-white/30 px-1 font-mono">
           <span>0%</span>
           <span>50%</span>
           <span>100%</span>
         </div>
       </div>
 
-      <Separator className="bg-slate-800" />
+      <Separator className="bg-white/10" />
 
       <div className="space-y-3">
-        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">State Logic</label>
+        <label className="text-[10px] font-bold text-white/40 uppercase tracking-wider block">State Logic</label>
         <div className="space-y-2">
-          <div className="flex items-center gap-2 px-3 py-2 bg-slate-900/50 rounded-lg border border-slate-800/50">
-            <div className="h-2 w-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-            <span className="text-[9px] text-slate-300 uppercase tracking-wide font-medium">Spin Up |↑⟩</span>
+          <div className="flex items-center gap-2 px-3 py-2 bg-white/[0.03] rounded-none border border-white/10">
+            <div className="h-2 w-2 rounded-none bg-white/60" />
+            <span className="text-[9px] text-white/60 uppercase tracking-wide font-medium">Spin Up |↑⟩</span>
           </div>
-          <div className="flex items-center gap-2 px-3 py-2 bg-slate-900/50 rounded-lg border border-slate-800/50">
-            <div className="h-2 w-2 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.5)]" />
-            <span className="text-[9px] text-slate-300 uppercase tracking-wide font-medium">Spin Down |↓⟩</span>
+          <div className="flex items-center gap-2 px-3 py-2 bg-white/[0.03] rounded-none border border-white/10">
+            <div className="h-2 w-2 rounded-none bg-white/40" />
+            <span className="text-[9px] text-white/60 uppercase tracking-wide font-medium">Spin Down |↓⟩</span>
           </div>
         </div>
-        <p className="text-[8px] text-slate-500 italic leading-tight mt-3">
+        <p className="text-[8px] text-white/30 italic leading-tight mt-3">
           The particle exists in both states until measurement forces it to &quot;choose&quot; based on probability amplitudes.
         </p>
       </div>
@@ -298,8 +298,8 @@ export function Lab({ type, title, description, className }: LabProps) {
       {/* Distance Slider */}
       <div className="space-y-2">
         <div className="flex justify-between items-center">
-          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Distance</label>
-          <span className="text-[10px] font-mono text-amber-500">{entanglementDistance} units</span>
+          <label className="text-[10px] font-bold text-white/40 uppercase tracking-wider">Distance</label>
+          <span className="text-[10px] font-mono text-white/60">{entanglementDistance} units</span>
         </div>
         <input 
           type="range" 
@@ -308,26 +308,26 @@ export function Lab({ type, title, description, className }: LabProps) {
           step="10" 
           value={entanglementDistance} 
           onChange={(e) => setEntanglementDistance(parseInt(e.target.value))}
-          className="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+          className="w-full h-1 bg-white/10 rounded-none appearance-none cursor-pointer accent-white"
         />
-        <div className="flex justify-between text-[8px] text-slate-500 px-1 font-mono">
+        <div className="flex justify-between text-[8px] text-white/30 px-1 font-mono">
           <span>Close</span>
           <span>Distant</span>
         </div>
       </div>
 
-      <Separator className="bg-slate-800" />
+      <Separator className="bg-white/10" />
 
       <div className="space-y-3">
-        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Entanglement Info</label>
-        <div className="p-3 bg-slate-900/50 rounded-lg border border-slate-800/50 space-y-2">
-          <p className="text-[9px] text-slate-300 leading-relaxed">
+        <label className="text-[10px] font-bold text-white/40 uppercase tracking-wider block">Entanglement Info</label>
+        <div className="p-3 bg-white/[0.03] rounded-none border border-white/10 space-y-2">
+          <p className="text-[9px] text-white/60 leading-relaxed">
             Particles are in a Bell State:
           </p>
-          <div className="font-mono text-[10px] text-amber-500 bg-black/30 p-1.5 rounded text-center">
+          <div className="font-mono text-[10px] text-white/80 bg-white/[0.03] p-1.5 rounded-none text-center">
             |Ψ⟩ = 1/√2 (|↑↓⟩ - |↓↑⟩)
           </div>
-          <p className="text-[8px] text-slate-500 italic leading-tight pt-1">
+          <p className="text-[8px] text-white/30 italic leading-tight pt-1">
             Measuring one instantly determines the other, preserving anti-correlation across any distance.
           </p>
         </div>

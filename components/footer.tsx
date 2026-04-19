@@ -8,16 +8,14 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="col-span-1 md:col-span-2">
             <Link href="/" className="group flex flex-col gap-1">
-              <span className="text-2xl font-serif font-bold tracking-tighter uppercase italic">
-                <span className="bg-gradient-to-r from-[#ff8c00] to-[#4488dd] bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">
-                  Quanim
-                </span>
+              <span className="text-base font-bold tracking-[0.2em] uppercase text-white group-hover:opacity-80 transition-opacity">
+                Quanim
               </span>
               <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/40">
                 Visualizing Physics
               </span>
             </Link>
-            <p className="mt-6 text-muted-foreground text-sm max-w-xs leading-relaxed">
+            <p className="mt-6 text-white/30 text-sm max-w-xs leading-relaxed">
               Interpreting the Universe through interactive visual physics. 
               An exploration of complex phenomena made accessible.
             </p>
@@ -27,13 +25,13 @@ export function Footer() {
             <h4 className="text-[10px] font-bold uppercase tracking-widest text-white/80 mb-6">Navigation</h4>
             <ul className="space-y-4">
               <li>
-                <Link href="/" className="text-sm text-muted-foreground hover:text-white transition-colors">Home</Link>
+                <Link href="/" className="text-sm text-white/30 hover:text-white transition-colors">Home</Link>
               </li>
               <li>
-                <Link href="/topics" className="text-sm text-muted-foreground hover:text-white transition-colors">Topics</Link>
+                <Link href="/topics" className="text-sm text-white/30 hover:text-white transition-colors">Topics</Link>
               </li>
               <li>
-                <Link href="/community" className="text-sm text-muted-foreground hover:text-white transition-colors">Community</Link>
+                <Link href="/community" className="text-sm text-white/30 hover:text-white transition-colors">Community</Link>
               </li>
             </ul>
           </div>
@@ -41,14 +39,14 @@ export function Footer() {
           <div>
             <h4 className="text-[10px] font-bold uppercase tracking-widest text-white/80 mb-6">Connect</h4>
             <div className="flex gap-4">
-              <Link href="https://discord.com" className="p-2 bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all text-white/60 hover:text-white">
-                <MessageSquare className="w-4 h-4" />
+              <Link href="https://discord.com" className="p-2 bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all text-white/60 hover:text-white flex items-center justify-center">
+                <img src="/discord-icon.png" alt="Discord" className="w-4 h-4 invert opacity-60 hover:opacity-100 transition-opacity" />
               </Link>
-              <Link href="https://github.com" className="p-2 bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all text-white/60 hover:text-white">
+              <Link href="https://github.com" className="p-2 bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all text-white/60 hover:text-white flex items-center justify-center">
                 <Github className="w-4 h-4" />
               </Link>
-              <Link href="https://twitter.com" className="p-2 bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all text-white/60 hover:text-white">
-                <Twitter className="w-4 h-4" />
+              <Link href="https://twitter.com" className="p-2 bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all text-white/60 hover:text-white flex items-center justify-center fill-current">
+                <svg viewBox="0 0 24 24" aria-hidden="true" className="w-4 h-4"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.008 5.96H5.078z"></path></svg>
               </Link>
             </div>
           </div>

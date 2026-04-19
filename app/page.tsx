@@ -43,10 +43,15 @@ export default function LandingPage() {
   const stage1Opacity = useTransform(smoothProgress, [0, 0.15, 0.20], [1, 1, 0]);
   const stage2Opacity = useTransform(smoothProgress, [0.25, 0.30, 0.48, 0.53], [0, 1, 1, 0]);
   const stage3Opacity = useTransform(smoothProgress, [0.55, 0.58, 0.70, 0.74], [0, 1, 1, 0]);
-  const stage4Opacity = useTransform(smoothProgress, [0.82, 0.87, 0.91, 0.95], [0, 1, 1, 0]);
+  const stage4Opacity = useTransform(smoothProgress, [0.82, 0.87, 0.91, 1], [0, 1, 1, 0.3]);
 
-  // Progress dot — mapped to full scroll range 
-  const dotTop = useTransform(smoothProgress, [0, 1], ["0%", "100%"], { clamp: true });
+  // Progress dot — mapped to stage centers
+  const dotTop = useTransform(
+    smoothProgress, 
+    [0, 0.40, 0.64, 0.89], 
+    ["10%", "40%", "67%", "92%"], 
+    { clamp: true }
+  );
 
   // Track which stage is active for pointer-events and navbar visibility
   useMotionValueEvent(smoothProgress, "change", (v) => {
@@ -70,11 +75,13 @@ export default function LandingPage() {
             Quanim
           </span>
         </Link>
-        <nav className="hidden md:flex items-center gap-8">
-          <Link href="/" className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors">Nexus</Link>
-          <Link href="/topics" className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors">Repository</Link>
-          <Link href="/community" className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors">Network</Link>
-        </nav>
+        <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex justify-center">
+          <nav className="flex items-center gap-8">
+            <Link href="/" className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors">Nexus</Link>
+            <Link href="/topics" className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors">Repository</Link>
+            <Link href="/community" className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors">Network</Link>
+          </nav>
+        </div>
         <div className="flex items-center gap-4">
           <Link href="/auth/signin" className="hidden sm:flex text-[10px] font-bold text-white/50 hover:text-white transition-all uppercase tracking-[0.2em]">
             Access

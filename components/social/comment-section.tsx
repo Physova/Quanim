@@ -96,34 +96,34 @@ export function CommentSection({ articleId, threadId, slug }: CommentSectionProp
 
   const renderComment = (comment: Comment, isReply = false) => {
     return (
-      <div key={comment.id} className={cn("flex gap-4 p-4 rounded-lg bg-card/50 border border-border/50", isReply && "ml-8 mt-2")}>
+      <div key={comment.id} className={cn("flex gap-4 p-4 rounded-none bg-white/[0.02] border border-white/10", isReply && "ml-8 mt-2")}>
         <div className="flex-shrink-0">
-          <Avatar className="h-10 w-10 border border-gold/20">
+          <Avatar className="h-10 w-10 border border-white/10">
             <AvatarImage src={comment.author.image || ""} />
-            <AvatarFallback className="bg-background text-gold">
+            <AvatarFallback className="bg-white/5 text-white/60">
               {comment.author.name?.[0] || "?"}
             </AvatarFallback>
           </Avatar>
         </div>
         <div className="flex-grow">
           <div className="flex items-center gap-2 mb-1">
-            <span className="font-semibold text-gold">{comment.author.name || "Anonymous"}</span>
-            <span className="text-xs text-muted-foreground">
+            <span className="font-semibold text-white">{comment.author.name || "Anonymous"}</span>
+            <span className="text-xs text-white/30">
               {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
             </span>
           </div>
-          <p className="text-sm text-foreground mb-3">{comment.content}</p>
+          <p className="text-sm text-white/60 mb-3">{comment.content}</p>
           <div className="flex items-center gap-4">
             <button 
               onClick={() => handleReaction(comment.id)}
-              className="flex items-center gap-1 text-xs text-muted-foreground hover:text-gold transition-colors"
+              className="flex items-center gap-1 text-xs text-white/30 hover:text-white transition-colors"
             >
               <ThumbsUp className="h-3 w-3" />
               <span>{comment._count.reactions}</span>
             </button>
             <button 
               onClick={() => setReplyTo(replyTo === comment.id ? null : comment.id)}
-              className="flex items-center gap-1 text-xs text-muted-foreground hover:text-gold transition-colors"
+              className="flex items-center gap-1 text-xs text-white/30 hover:text-white transition-colors"
             >
               <MessageSquare className="h-3 w-3" />
               <span>Reply</span>
@@ -135,11 +135,11 @@ export function CommentSection({ articleId, threadId, slug }: CommentSectionProp
               <Textarea 
                 id={`reply-${comment.id}`}
                 placeholder="Write a reply..."
-                className="min-h-[80px] bg-background/50 border-gold/20 focus-visible:ring-gold"
+                className="min-h-[80px] bg-black/50 border-white/10 focus-visible:ring-white/50 rounded-none"
               />
               <div className="flex justify-end gap-2">
                 <Button variant="ghost" size="sm" onClick={() => setReplyTo(null)}>Cancel</Button>
-                <Button size="sm" onClick={() => handleSubmit(comment.id)} disabled={isLoading} className="bg-gold hover:bg-gold/80 text-black">
+                <Button size="sm" onClick={() => handleSubmit(comment.id)} disabled={isLoading} className="bg-white hover:bg-white/90 text-black rounded-none">
                   Post Reply
                 </Button>
               </div>
@@ -157,32 +157,31 @@ export function CommentSection({ articleId, threadId, slug }: CommentSectionProp
   return (
     <div className="space-y-6">
       <h3 className="text-xl font-bold flex items-center gap-2">
-        <MessageSquare className="text-gold h-5 w-5" />
         Community Discussion
       </h3>
 
       {session ? (
-        <div className="space-y-3 p-4 rounded-xl bg-card border border-gold/20 shadow-[0_0_15px_rgba(255,215,0,0.05)]">
+        <div className="space-y-3 p-4 rounded-none bg-white/[0.02] border border-white/10">
           <Textarea 
             placeholder="Share your thoughts on this topic..."
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
-            className="min-h-[100px] bg-background/50 border-gold/20 focus-visible:ring-gold"
+            className="min-h-[100px] bg-black/50 border-white/10 focus-visible:ring-white/50 rounded-none"
           />
           <div className="flex justify-end">
             <Button 
               onClick={() => handleSubmit()} 
               disabled={isLoading || !newComment.trim()}
-              className="bg-gold hover:bg-gold/80 text-black font-semibold"
+              className="bg-white hover:bg-white/90 text-black font-bold rounded-none"
             >
               Post Comment
             </Button>
           </div>
         </div>
       ) : (
-        <div className="p-6 rounded-xl bg-card/30 border border-dashed border-border text-center">
-          <p className="text-muted-foreground mb-4">Please sign in to join the discussion.</p>
-          <Button variant="outline" className="border-gold text-gold hover:bg-gold hover:text-black">
+        <div className="p-6 rounded-none bg-white/[0.02] border border-dashed border-white/10 text-center">
+          <p className="text-white/40 mb-4">Please sign in to join the discussion.</p>
+          <Button variant="outline" className="border-white/20 text-white hover:bg-white hover:text-black rounded-none">
             Sign In
           </Button>
         </div>
@@ -190,7 +189,7 @@ export function CommentSection({ articleId, threadId, slug }: CommentSectionProp
 
       <div className="space-y-4 mt-8">
         {rootComments.length === 0 ? (
-          <p className="text-center text-muted-foreground py-10">No comments yet. Be the first to start the conversation!</p>
+          <p className="text-center text-white/30 py-10">No comments yet. Be the first to start the conversation.</p>
         ) : (
           rootComments.map(comment => renderComment(comment))
         )}

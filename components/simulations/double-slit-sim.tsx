@@ -15,23 +15,9 @@ const fragmentShader = `
   uniform bool uWaveMode;
 
   vec3 wavelengthToColor(float wavelength) {
-    // Simplified conversion from wavelength (nm) to RGB
-    // 380-440: Violet, 440-490: Blue, 490-510: Cyan, 510-580: Green, 580-645: Yellow, 645-780: Red
-    float r, g, b;
-    if (wavelength < 440.0) {
-      r = -(wavelength - 440.0) / (440.0 - 380.0); g = 0.0; b = 1.0;
-    } else if (wavelength < 490.0) {
-      r = 0.0; g = (wavelength - 440.0) / (490.0 - 440.0); b = 1.0;
-    } else if (wavelength < 510.0) {
-      r = 0.0; g = 1.0; b = -(wavelength - 510.0) / (510.0 - 490.0);
-    } else if (wavelength < 580.0) {
-      r = (wavelength - 510.0) / (580.0 - 510.0); g = 1.0; b = 0.0;
-    } else if (wavelength < 645.0) {
-      r = 1.0; g = -(wavelength - 645.0) / (645.0 - 580.0); b = 0.0;
-    } else {
-      r = 1.0; g = 0.0; b = 0.0;
-    }
-    return vec3(r, g, b);
+    // Monochrome tech aesthetic: Brightness scales slightly with wavelength for depth
+    float intensity = 0.5 + (700.0 - wavelength) / 800.0;
+    return vec3(intensity);
   }
 
   void main() {
@@ -73,10 +59,10 @@ const fragmentShader = `
       if (isObserved) screenPattern *= 0.8; // Observed pattern is often dimmer in simulations
     }
 
-    vec3 baseColor = wavelengthToColor(uWavelength);
-    vec3 accentColor = vec3(1.0, 0.8, 0.2); // Amber/Gold for "Energy"
+    vec3 baseColor = vec3(1.0); // Pure white wave
+    vec3 accentColor = vec3(0.7); // Light grey intense areas
     
-    vec3 color = vec3(0.01, 0.02, 0.05); // Dark deep blue bg
+    vec3 color = vec3(0.0); // Pure black bg
 
     if (uv.x > screenX) {
       // Screen visualization
@@ -115,11 +101,11 @@ const fragmentShader = `
          // Show both if mode is 3
          if (distance(uv, vec2(0.37, 0.5 - uSlitDistance * 0.05)) < 0.02 || 
              distance(uv, vec2(0.37, 0.5 + uSlitDistance * 0.05)) < 0.02) {
-           color = vec3(1.0, 0.0, 0.0); // Red dot for observer
+           color = vec3(1.0); // White dot for observer
          }
       } else {
         if (distance(uv, vec2(0.37, obsY)) < 0.02) {
-          color = vec3(1.0, 0.0, 0.0); // Red dot for observer
+          color = vec3(1.0); // White dot for observer
         }
       }
     }

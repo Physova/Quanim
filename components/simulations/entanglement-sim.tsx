@@ -31,12 +31,12 @@ export default function EntanglementSim() {
 
   // Colors based on the project aesthetic (dark mode)
   const colors = React.useMemo(() => ({
-    bg: [15, 23, 42], // slate-950-ish
-    text: [226, 232, 240], // slate-200
+    bg: [0, 0, 0], // Pure black
+    text: [255, 255, 255], // White
     accent: [255, 255, 255],
-    particleA: [96, 165, 250], // Blue-400
-    particleB: [244, 114, 182], // Pink-400
-    entanglement: [167, 139, 250], // Violet-400
+    particleA: [255, 255, 255], // White
+    particleB: [150, 150, 150], // Mid Grey
+    entanglement: [255, 255, 255], // White
   }), []);
 
   // Initialize connection particles once
@@ -383,7 +383,7 @@ export default function EntanglementSim() {
   }, [reset]);
 
   return (
-    <div className="w-full h-full flex items-center justify-center bg-slate-950/50 rounded-xl overflow-hidden border border-slate-800/50 relative">
+    <div className="w-full h-full flex items-center justify-center bg-black/50 rounded-none overflow-hidden border border-white/10 relative">
       <canvas
         ref={canvasRef}
         width={BASE_WIDTH}

@@ -392,7 +392,7 @@ export default function QuanimHero() {
           hp[i*3] = Math.cos(ang)*r; hp[i*3+2] = Math.sin(ang)*r;
         }
         hGeom.attributes.position.needsUpdate = true;
-        bhGrp.scale.setScalar(1 + ss(0.13, 0.28, s) * 0.6);
+        bhGrp.scale.setScalar(1 + ss(0.0, 0.28, s) * 0.8);
       }
 
       /* Transition Flare */

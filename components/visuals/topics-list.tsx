@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowRight, BookOpen, Clock, Tag } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import type { TopicFrontmatter } from "@/lib/mdx";
 
 interface TopicsListProps {
@@ -34,14 +34,13 @@ export function TopicsList({ topics }: TopicsListProps) {
         animate={{ opacity: 1, y: 0 }}
         className="flex flex-col items-center mb-16 text-center"
       >
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-white/5 border border-white/10 text-white/60 text-[10px] font-bold uppercase tracking-[0.2em] mb-6">
-          <BookOpen className="w-3 h-3" />
-          Repository
-        </div>
+        <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-white/30 mb-6 block">
+          // Repository
+        </span>
         <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 tracking-tighter text-white uppercase">
           Physics Topics
         </h1>
-        <p className="text-muted-foreground text-lg md:text-xl max-w-2xl leading-relaxed font-medium">
+        <p className="text-white/40 text-lg md:text-xl max-w-2xl leading-relaxed">
           Interpreting the Universe through interactive visual physics. 
           Explore our curated selection of complex phenomena.
         </p>
@@ -54,50 +53,30 @@ export function TopicsList({ topics }: TopicsListProps) {
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
       >
         {topics.map((topic) => {
-          const difficultyColors = {
-            beginner: "border-emerald-500/20 group-hover:border-emerald-500/50",
-            intermediate: "border-amber-500/20 group-hover:border-amber-500/50",
-            advanced: "border-violet-500/20 group-hover:border-violet-500/50",
-          };
-
-          const glowColors = {
-            beginner: "bg-emerald-500/10",
-            intermediate: "bg-amber-500/10",
-            advanced: "bg-violet-500/10",
-          };
-
-          const borderColor = difficultyColors[topic.difficulty as keyof typeof difficultyColors] || "border-white/5 hover:border-white/20";
-          const glowColor = glowColors[topic.difficulty as keyof typeof glowColors] || "bg-white/5";
-
           return (
             <motion.div key={topic.slug} variants={itemVariants}>
-              <Card className={`h-full flex flex-col bg-white/[0.02] backdrop-blur-md transition-all duration-500 group overflow-hidden relative rounded-none ${borderColor}`}>
-                {/* Accent Glow */}
-                <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity ${glowColor}`} />
-                
+              <Card className="h-full flex flex-col bg-black border border-white/10 hover:border-white/40 transition-all duration-300 group overflow-hidden relative rounded-none">
                 <CardHeader className="relative z-10">
                 <div className="flex justify-between items-center mb-4">
-                  <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-none border border-white/10 text-white/60 bg-white/5">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-white/40">
                     {topic.difficulty}
                   </span>
-                  <div className="flex items-center gap-1.5 text-[10px] font-mono text-white/40 uppercase tracking-tight">
-                    <Clock className="w-3 h-3" />
+                  <span className="text-[10px] font-mono text-white/20 uppercase tracking-tight">
                     {topic.publishedAt}
-                  </div>
+                  </span>
                 </div>
-                <CardTitle className="text-2xl font-serif font-bold tracking-tight text-white group-hover:text-white transition-colors duration-300">
+                <CardTitle className="text-xl font-serif font-bold tracking-tighter text-white uppercase">
                   {topic.title}
                 </CardTitle>
-                <CardDescription className="line-clamp-2 text-muted-foreground text-sm leading-relaxed mt-2 font-medium">
+                <CardDescription className="line-clamp-2 text-white/40 text-sm leading-relaxed mt-2">
                   {topic.description}
                 </CardDescription>
               </CardHeader>
               
               <CardContent className="flex-grow relative z-10">
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-3">
                   {topic.tags.map(tag => (
-                    <span key={tag} className="text-[9px] font-bold text-white/30 bg-white/5 px-2 py-0.5 rounded-none border border-white/5 flex items-center gap-1 tracking-widest">
-                      <Tag className="w-2 h-2 opacity-50" />
+                    <span key={tag} className="text-[9px] font-mono font-bold text-white/20 uppercase tracking-[0.15em]">
                       {tag.toUpperCase()}
                     </span>
                   ))}
@@ -106,7 +85,7 @@ export function TopicsList({ topics }: TopicsListProps) {
               
               <CardFooter className="relative z-10 border-t border-white/5 bg-white/[0.01]">
                 <Button asChild variant="outline" className="w-full h-10 rounded-none border-white/10 hover:bg-white hover:text-black transition-all duration-300 font-bold text-[10px] uppercase tracking-[0.2em] group/btn">
-                  <Link href={`/topics/${topic.slug}`} className="flex items-center justify-center gap-2">
+                  <Link href={`/topics/${topic.slug}`} className="flex items-center justify-center gap-2 text-white group-hover/btn:text-black transition-colors">
                     Enter Simulation
                     <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
                   </Link>

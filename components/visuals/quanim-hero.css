@@ -53,13 +53,13 @@
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 20;
+  z-index: 50;
 }
 .qh-label-svg {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 19;
+  z-index: 49;
 }
 
 /* Physics label card */

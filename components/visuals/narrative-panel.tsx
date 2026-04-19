@@ -78,7 +78,7 @@ export const NarrativePanel = ({ text, className, header }: NarrativePanelProps)
         <motion.div 
           animate={{ opacity: [0, 1, 0] }}
           transition={{ repeat: Infinity, duration: 1.5 }}
-          className="w-1.5 h-1.5 rounded-full bg-blue-500"
+          className="w-1.5 h-1.5 rounded-none bg-white/50"
         />
       </motion.div>
     </div>

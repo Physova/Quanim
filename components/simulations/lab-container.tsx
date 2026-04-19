@@ -29,20 +29,34 @@ export function LabContainer({
   sidebarControls,
   is3D = true,
 }: LabContainerProps) {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      containerRef.current?.requestFullscreen().catch(err => {
+        console.error(`Error attempting to enable fullscreen: ${err.message}`);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  };
+
   return (
-    <Card className={cn(
-      "relative w-full aspect-video overflow-hidden bg-slate-950/50 backdrop-blur-md border-slate-800 shadow-2xl group",
+    <Card 
+      ref={containerRef}
+      className={cn(
+      "relative w-full aspect-video overflow-hidden bg-black border border-white/10 group rounded-none",
       className
     )}>
       {/* Lab Header */}
-      <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between p-4 bg-gradient-to-b from-slate-950/90 to-transparent pointer-events-none">
+      <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between p-4 bg-gradient-to-b from-black/90 to-transparent pointer-events-none">
         <div className="pointer-events-auto">
-          <h3 className="text-sm font-bold text-amber-500 uppercase tracking-tighter flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+          <h3 className="text-sm font-bold text-white uppercase tracking-tighter flex items-center gap-2">
+            <span className="w-2 h-2 rounded-none bg-white/60" />
             {title}
           </h3>
           {description && (
-            <p className="text-[10px] text-slate-400 mt-0.5 line-clamp-1 font-mono uppercase">
+            <p className="text-[10px] text-white/40 mt-0.5 line-clamp-1 font-mono uppercase">
               {description}
             </p>
           )}
@@ -54,7 +68,7 @@ export function LabContainer({
               variant="ghost"
               size="icon"
               onClick={onReset}
-              className="h-7 w-7 text-slate-500 hover:text-amber-500 hover:bg-amber-500/10 transition-colors"
+              className="h-7 w-7 text-slate-500 hover:text-white hover:bg-white/10 transition-colors rounded-none"
             >
               <RotateCcw className="h-3.5 w-3.5" />
             </Button>
@@ -62,7 +76,8 @@ export function LabContainer({
           <Button
             variant="ghost"
             size="icon"
-            className="h-7 w-7 text-slate-500 hover:text-amber-500 hover:bg-amber-500/10 transition-colors"
+            onClick={toggleFullscreen}
+            className="h-7 w-7 text-slate-500 hover:text-white hover:bg-white/10 transition-colors rounded-none"
           >
             <Maximize2 className="h-3.5 w-3.5" />
           </Button>
@@ -71,7 +86,7 @@ export function LabContainer({
 
       {/* Sidebar Controls (Optional) */}
       {sidebarControls && (
-        <div className="absolute top-16 right-4 z-30 w-48 max-h-[calc(100%-6rem)] overflow-y-auto p-3 bg-slate-900/60 backdrop-blur-xl border border-slate-800/50 rounded-xl shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute top-16 right-4 z-30 w-48 max-h-[calc(100%-6rem)] overflow-y-auto p-3 bg-black/80 backdrop-blur-xl border border-white/10 rounded-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <div className="space-y-4">
             {sidebarControls}
           </div>
@@ -80,7 +95,7 @@ export function LabContainer({
 
       {/* Lab Bottom Controls (Floating) */}
       {controls && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 p-1.5 bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-full shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 p-1.5 bg-black/80 backdrop-blur-md border border-white/10 rounded-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           {controls}
         </div>
       )}
@@ -88,10 +103,10 @@ export function LabContainer({
       {/* Simulation Canvas/Content */}
       <div className="w-full h-full cursor-crosshair">
         <Suspense fallback={
-          <div className="flex items-center justify-center w-full h-full bg-slate-950">
+          <div className="flex items-center justify-center w-full h-full bg-black">
             <div className="flex flex-col items-center gap-4">
-              <Loader2 className="h-8 w-8 text-amber-500 animate-spin" />
-              <span className="text-[10px] font-mono text-amber-500/50 tracking-widest uppercase">Initializing Engine...</span>
+              <Loader2 className="h-8 w-8 text-white/60 animate-spin" />
+              <span className="text-[10px] font-mono text-white/30 tracking-[0.2em] uppercase">Initializing Engine...</span>
             </div>
           </div>
         }>
@@ -122,10 +137,10 @@ export function LabContainer({
       {/* Lab Overlay/Status */}
       <div className="absolute bottom-4 left-4 z-10 pointer-events-none">
         <div className="flex items-center gap-3">
-            <div className="px-2 py-0.5 bg-amber-500/10 border border-amber-500/20 rounded text-[9px] font-mono text-amber-500 tracking-wider">
+            <div className="px-2 py-0.5 border border-white/10 rounded-none text-[9px] font-mono text-white/40 tracking-wider">
             SYSTEM.READY
             </div>
-            <div className="px-2 py-0.5 bg-blue-500/10 border border-blue-500/20 rounded text-[9px] font-mono text-blue-400 tracking-wider">
+            <div className="px-2 py-0.5 border border-white/10 rounded-none text-[9px] font-mono text-white/30 tracking-wider">
             V.2.0.4-BETA
             </div>
         </div>

@@ -18,11 +18,11 @@ const SuperpositionSim = () => {
 
   // Constants
   const colors = React.useMemo(() => ({
-    bg: "#0f172a",
-    text: "#e2e8f0",
-    stateUp: "#3b82f6",    // Blue
-    stateDown: "#f97316",  // Orange
-    core: "#fffff0"
+    bg: "#000000",
+    text: "#ffffff",
+    stateUp: "#ffffff",    // White
+    stateDown: "#888888",  // Grey
+    core: "#ffffff"
   }), []);
 
   const hexToRgb = (hex: string) => {
@@ -272,7 +272,7 @@ const SuperpositionSim = () => {
   }, []);
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center bg-slate-950/50 rounded-xl border border-white/10 overflow-hidden">
+    <div className="relative w-full h-full flex flex-col items-center justify-center bg-black/50 rounded-none border border-white/10 overflow-hidden">
       <canvas
         ref={canvasRef}
         className="w-full h-full"

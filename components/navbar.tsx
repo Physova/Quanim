@@ -33,21 +33,21 @@ export function Navbar() {
             <NavigationMenuItem>
               <Link href="/" legacyBehavior passHref>
                 <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-white/5 text-muted-foreground hover:text-foreground transition-all font-bold text-[10px] uppercase tracking-[0.2em]")}>
-                  Nexus
+                  Home
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <Link href="/topics" legacyBehavior passHref>
                 <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-white/5 text-muted-foreground hover:text-foreground transition-all font-bold text-[10px] uppercase tracking-[0.2em]")}>
-                  Repository
+                  Topics
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <Link href="/community" legacyBehavior passHref>
                 <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-white/5 text-muted-foreground hover:text-foreground transition-all font-bold text-[10px] uppercase tracking-[0.2em]")}>
-                  Network
+                  Community
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
@@ -86,11 +86,11 @@ export function Navbar() {
         ) : (
           <>
             <Link href="/auth/signin" className="hidden sm:flex text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all uppercase tracking-[0.2em] px-2 md:px-4">
-              Access
+              Sign In
             </Link>
             <Button asChild size="sm" className="rounded-none px-3 md:px-6 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em]">
               <Link href="/auth/signup" className="flex items-center gap-2">
-                JOIN_VOID
+                Join
               </Link>
             </Button>
           </>

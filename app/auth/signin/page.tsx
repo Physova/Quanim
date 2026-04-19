@@ -8,26 +8,22 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 export default function SignInPage() {
   return (
     <div className="min-h-[calc(100vh-4rem)] relative overflow-hidden flex items-center justify-center p-4">
-      {/* Background Decorative Elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-cyan-500/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-violet-600/10 rounded-full blur-[120px]" />
-      </div>
+      {/* Background handled by body dot-grid */}
 
-      <Card className="w-full max-w-md border-white/10 bg-black/40 backdrop-blur-xl relative z-10">
+      <Card className="w-full max-w-md border-white/10 bg-black/40 backdrop-blur-xl relative z-10 rounded-none">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-bold tracking-tight">Sign In</CardTitle>
-          <CardDescription className="text-muted-foreground">
+          <CardTitle className="text-2xl font-serif font-bold tracking-tighter uppercase">Access</CardTitle>
+          <CardDescription className="text-white/40 font-sans">
             Choose your preferred sign-in method
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
           <div className="grid grid-cols-2 gap-4">
-            <Button variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 transition-colors" disabled>
+            <Button variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 transition-colors rounded-none" disabled>
               <Github className="mr-2 h-4 w-4" />
               GitHub
             </Button>
-            <Button variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 transition-colors" disabled>
+            <Button variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 transition-colors rounded-none" disabled>
               <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
                 <path
                   d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -54,22 +50,22 @@ export default function SignInPage() {
               <span className="w-full border-t border-white/10" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-black/40 px-2 text-muted-foreground backdrop-blur-xl">
+              <span className="bg-black px-2 text-white/30 font-mono tracking-[0.15em]">
                 Note
               </span>
             </div>
           </div>
-          <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-3 text-sm text-amber-200/80">
+          <div className="rounded-none border border-white/10 bg-white/[0.02] p-3 text-sm text-white/50 font-sans">
             <p className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+              <span className="h-1 w-1 bg-white/40" />
               OAuth setup required for authentication.
             </p>
           </div>
         </CardContent>
-        <CardFooter className="flex flex-col gap-4 border-t border-white/10 bg-white/5 pt-6">
-          <div className="text-center text-sm text-muted-foreground">
-            Don&apos;t have an account?{" "}
-            <Link href="/auth/signup" className="text-white underline-offset-4 hover:underline">
+        <CardFooter className="flex flex-col gap-4 border-t border-white/5 bg-white/[0.02] pt-6">
+          <div className="text-center text-sm text-white/40 font-sans">
+            Don't have an account? 
+            <Link href="/auth/signup" className="text-white underline-offset-4 hover:underline ml-1">
               Sign up
             </Link>
           </div>
