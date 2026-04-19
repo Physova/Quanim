@@ -53,7 +53,7 @@ export const NarrativePanel = ({ text, className, header }: NarrativePanelProps)
           transition={{ duration: 0.5 }}
           className="text-blue-500 font-bold tracking-[0.3em] text-xs uppercase"
         >
-          // {header}
+          {"// "} {header}
         </motion.div>
       )}
       

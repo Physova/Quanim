@@ -1,20 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Syne+Mono&display=swap');
 
-/* ── Canvas ──────────────────────────────────────────────────────────────── */
+/* ── Canvas ──────────────────────────────────────────────────────── */
 .qh-canvas-wrap {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
 }
-
 .qh-canvas-wrap canvas {
   display: block;
   width: 100% !important;
   height: 100% !important;
 }
 
-/* ── Film grain ──────────────────────────────────────────────────────────── */
+/* ── Film grain ──────────────────────────────────────────────────── */
 .qh-grain {
   position: absolute;
   inset: -50%;
@@ -27,7 +26,6 @@
   background-size: 256px 256px;
   animation: qh-grain-shift 0.4s steps(1) infinite;
 }
-
 @keyframes qh-grain-shift {
   0%   { transform: translate(0, 0); }
   25%  { transform: translate(-4%, -4%); }
@@ -35,7 +33,7 @@
   75%  { transform: translate(0, 4%); }
 }
 
-/* ── Flash overlay (BH → Earth transition) ───────────────────────────────── */
+/* ── Flash overlay ───────────────────────────────────────────────── */
 .qh-flash {
   position: fixed;
   inset: 0;
@@ -50,17 +48,13 @@
   );
 }
 
-/* ── Label System ────────────────────────────────────────────────────────── */
-
-/* Container for all labels — appended to body via JS */
+/* ── Label System ────────────────────────────────────────────────── */
 .qh-label-root {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 20;
 }
-
-/* SVG for leader lines — appended to body via JS */
 .qh-label-svg {
   position: fixed;
   inset: 0;
@@ -79,57 +73,39 @@
   border: 1px solid rgba(255, 255, 255, 0.09);
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   opacity: 0;
   transition: opacity 0.45s ease;
-  clip-path: polygon(
-    0 0,
-    calc(100% - 6px) 0,
-    100% 6px,
-    100% 100%,
-    6px 100%,
-    0 calc(100% - 6px)
-  );
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+  pointer-events: none;
 }
+.plbl.show { opacity: 1; }
 
-.plbl.show {
-  opacity: 1;
-}
-
-/* Label title — small mono uppercase */
 .lt {
   font-family: 'Syne Mono', monospace;
-  font-size: 8px;
+  font-size: clamp(7px, 0.7vw, 9px);
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--lc, rgba(180, 220, 255, 0.6));
   white-space: nowrap;
 }
-
-/* Label value — large bold */
 .lv {
   font-family: 'Syne', sans-serif;
   font-weight: 800;
-  font-size: clamp(13px, 1.7vw, 22px);
+  font-size: clamp(12px, 1.5vw, 22px);
   color: var(--lc, rgba(180, 220, 255, 0.95));
   letter-spacing: -0.01em;
   margin: 0.08em 0;
 }
-
-/* Label note — tiny detail */
 .ln {
   font-family: 'Syne Mono', monospace;
-  font-size: 7px;
+  font-size: clamp(6px, 0.55vw, 8px);
   color: rgba(255, 255, 255, 0.25);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-/* ── Responsive ──────────────────────────────────────────────────────────── */
+/* ── Responsive ──────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .plbl {
-    padding: 6px 10px;
-  }
-  .lv {
-    font-size: 13px;
-  }
+  .plbl { padding: 6px 9px; }
 }

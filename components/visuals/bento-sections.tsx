@@ -64,55 +64,62 @@ function BentoCard({ title, description, icon, href, className, metrics }: Bento
 
 export function DiscoverySection({ scrollProgress }: { scrollProgress: MotionValue<number> }) {
   // Shutter effect timing: 0.45 to 0.65
-  const shutterLeft = useTransform(scrollProgress, [0.45, 0.52, 0.65], ["0%", "-100%", "-100%"]);
-  const shutterRight = useTransform(scrollProgress, [0.45, 0.52, 0.65], ["0%", "100%", "100%"]);
-  const contentOpacity = useTransform(scrollProgress, [0.48, 0.58, 0.70, 0.74], [0, 1, 1, 0]);
-  const contentScale = useTransform(scrollProgress, [0.48, 0.58], [0.95, 1]);
+  const shutterLeft = useTransform(scrollProgress, [0.53, 0.58, 0.74], ["0%", "-100%", "-100%"]);
+  const shutterRight = useTransform(scrollProgress, [0.53, 0.58, 0.74], ["0%", "100%", "100%"]);
+  const contentOpacity = useTransform(scrollProgress, [0.55, 0.60, 0.70, 0.74], [0, 1, 1, 0]);
+  const contentScale = useTransform(scrollProgress, [0.55, 0.60], [0.95, 1]);
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+    <div className="w-full flex items-center justify-center pointer-events-none px-4 md:px-8">
       {/* Shutter Curtains */}
       <motion.div 
         style={{ x: shutterLeft }}
-        className="absolute left-0 top-0 bottom-0 w-1/2 bg-black z-50 border-r border-white/10"
+        className="fixed left-0 top-0 bottom-0 w-1/2 bg-black z-50 border-r border-white/10"
       />
       <motion.div 
         style={{ x: shutterRight }}
-        className="absolute right-0 top-0 bottom-0 w-1/2 bg-black z-50 border-l border-white/10"
+        className="fixed right-0 top-0 bottom-0 w-1/2 bg-black z-50 border-l border-white/10"
       />
 
       {/* Content */}
       <motion.div 
         style={{ opacity: contentOpacity, scale: contentScale }}
-        className="relative z-40 w-full max-w-6xl px-8 pointer-events-auto"
+        className="relative z-40 w-full max-w-6xl pointer-events-auto my-12"
       >
-        <div className="mb-12 space-y-2">
-          <span className="font-mono text-white/40 text-[10px] tracking-[0.4em] uppercase font-bold">Protocol 01</span>
-          <h2 className="text-5xl lg:text-7xl font-mono font-bold tracking-tighter text-white uppercase">The Discovery</h2>
+        <div className="mb-6 md:mb-12 space-y-1">
+          <span className="font-mono text-white/40 text-[9px] md:text-[10px] tracking-[0.4em] uppercase font-bold">Protocol 01</span>
+          <h2 className="text-3xl md:text-7xl font-mono font-bold tracking-tighter text-white uppercase">The Discovery</h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <BentoCard 
-            title="Double Slit Lab"
-            description="Visualizing wave-particle duality. Observe the interference pattern emerge from individual electron strikes. Real-time probability density mapping."
-            icon={<Beaker className="w-5 h-5" />}
-            href="/topics/double-slit"
-            metrics="98% FIDELITY"
-          />
-          <BentoCard 
-            title="Quantum Entanglement"
-            description="Non-local state correlation analyzer. Testing Bell's Inequality through synchronized photon pair emissions. Spatial separation: 12.4km."
-            icon={<BookOpen className="w-5 h-5" />}
-            href="/topics/entanglement"
-            metrics="LATENCY: 2ms"
-          />
-          <BentoCard 
-            title="Community Hub"
-            description="Peer-to-peer knowledge transfer. Collaborative problem solving and research synthesis. Decentralized discussion nodes."
-            icon={<MessageSquare className="w-5 h-5" />}
-            href="/community"
-            metrics="4.2k NODES"
-          />
+        {/* Responsive Container: Swipe on mobile, Grid on desktop */}
+        <div className="flex overflow-x-auto md:grid md:grid-cols-3 gap-4 md:gap-6 snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
+          <div className="min-w-[85vw] md:min-w-0 snap-center">
+            <BentoCard 
+              title="Double Slit Lab"
+              description="Visualizing wave-particle duality. Observe the interference pattern emerge from individual electron strikes. Real-time probability density mapping."
+              icon={<Beaker className="w-5 h-5" />}
+              href="/topics/double-slit"
+              metrics="98% FIDELITY"
+            />
+          </div>
+          <div className="min-w-[85vw] md:min-w-0 snap-center">
+            <BentoCard 
+              title="Quantum Entanglement"
+              description="Non-local state correlation analyzer. Testing Bell's Inequality through synchronized photon pair emissions. Spatial separation: 12.4km."
+              icon={<BookOpen className="w-5 h-5" />}
+              href="/topics/entanglement"
+              metrics="LATENCY: 2ms"
+            />
+          </div>
+          <div className="min-w-[85vw] md:min-w-0 snap-center">
+            <BentoCard 
+              title="Community Hub"
+              description="Peer-to-peer knowledge transfer. Collaborative problem solving and research synthesis. Decentralized discussion nodes."
+              icon={<MessageSquare className="w-5 h-5" />}
+              href="/community"
+              metrics="4.2k NODES"
+            />
+          </div>
         </div>
       </motion.div>
     </div>
@@ -121,7 +128,7 @@ export function DiscoverySection({ scrollProgress }: { scrollProgress: MotionVal
 
 export function SynthesisSection({ scrollProgress }: { scrollProgress: MotionValue<number> }) {
   // Warp effect timing: 0.75 to 0.95
-  const warpBlur = useTransform(scrollProgress, [0.7, 0.8, 0.9], ["blur(20px)", "blur(0px)", "blur(20px)"]);
+  const warpBlurPx = useTransform(scrollProgress, [0.7, 0.8, 0.9], [20, 0, 20]);
   const warpScale = useTransform(scrollProgress, [0.7, 0.8, 0.9], [0.8, 1, 1.2]);
   const warpOpacity = useTransform(scrollProgress, [0.7, 0.8, 0.95], [0, 1, 0]);
   
@@ -135,8 +142,8 @@ export function SynthesisSection({ scrollProgress }: { scrollProgress: MotionVal
           opacity: warpOpacity,
           scale: warpScale,
           filter: useTransform(
-            [warpBlur, warpBrightness, warpContrast] as any,
-            ([b, br, c]: any[]) => `${b} brightness(${br}) contrast(${c})`
+            [warpBlurPx, warpBrightness, warpContrast],
+            ([b, br, c]) => `blur(${b}px) brightness(${br}) contrast(${c})`
           ),
           willChange: "transform, filter"
         }}

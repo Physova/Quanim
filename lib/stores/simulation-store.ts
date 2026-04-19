@@ -9,6 +9,7 @@ interface SimulationState {
   slitDistance: number;
   observerState: "none" | "left" | "right" | "both";
   reset: boolean;
+  scrollProgress: number;
   
   togglePlay: () => void;
   setParticleCount: (count: number) => void;
@@ -19,6 +20,7 @@ interface SimulationState {
   setObserverState: (state: "none" | "left" | "right" | "both") => void;
   triggerReset: () => void;
   clearReset: () => void;
+  setScrollProgress: (progress: number) => void;
 }
 
 export const useSimulationStore = create<SimulationState>((set) => ({
@@ -30,6 +32,7 @@ export const useSimulationStore = create<SimulationState>((set) => ({
   slitDistance: 2.0, // arbitrary units
   observerState: "none",
   reset: false,
+  scrollProgress: 0,
 
   togglePlay: () => set((state) => ({ isPlaying: !state.isPlaying })),
   setParticleCount: (count) => set({ particleCount: count }),
@@ -40,4 +43,5 @@ export const useSimulationStore = create<SimulationState>((set) => ({
   setObserverState: (state) => set({ observerState: state }),
   triggerReset: () => set({ reset: true }),
   clearReset: () => set({ reset: false }),
+  setScrollProgress: (progress) => set({ scrollProgress: progress }),
 }));

@@ -29,7 +29,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "articleId or commentId required" }, { status: 400 });
     }
 
-    const where: any = {
+    const where: { userId: string; type: string; articleId?: string; commentId?: string } = {
       userId: session.user.id!,
       type,
     };

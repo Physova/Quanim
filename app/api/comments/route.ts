@@ -9,7 +9,7 @@ export async function GET(req: Request) {
   const slug = searchParams.get("slug");
 
   try {
-    let where: any = {};
+    const where: { articleId?: string; threadId?: string } = {};
 
     if (slug) {
       const article = await prisma.article.findUnique({

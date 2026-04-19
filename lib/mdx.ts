@@ -31,7 +31,7 @@ export function getTopicBySlug(slug: string) {
   const frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
   const match = fileContents.match(frontmatterRegex);
   
-  let frontmatter = {
+  const frontmatter = {
     title: "",
     slug: realSlug,
     description: "",
@@ -61,7 +61,7 @@ export function getTopicBySlug(slug: string) {
         } else if (key === "publishedAt") {
           frontmatter.publishedAt = value;
         } else if (key === "difficulty") {
-          frontmatter.difficulty = value as any;
+          frontmatter.difficulty = value as TopicFrontmatter["difficulty"];
         }
       }
     });

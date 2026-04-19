@@ -147,7 +147,7 @@ export function DoubleSlitSim() {
     uSlitDistance: { value: slitDistance },
     uObserverMode: { value: 0 },
     uWaveMode: { value: waveMode },
-  }), []);
+  }), [intensity, wavelength, slitDistance, waveMode]);
 
   useEffect(() => {
     if (reset) {

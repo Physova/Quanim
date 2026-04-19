@@ -27,16 +27,16 @@ export default async function TopicPage({ params }: TopicPageProps) {
   let topic;
   try {
     topic = getTopicBySlug(slug);
-  } catch (e) {
+  } catch {
     notFound();
   }
 
   const { frontmatter } = topic;
 
   // Determine simulation type based on slug or frontmatter
-  const simType = slug === 'double-slit' ? 'double-slit' : 
-                  slug === 'entanglement' ? 'entanglement' : 
-                  slug === 'superposition' ? 'superposition' : null;
+  const simType = (slug === 'double-slit' || slug === 'entanglement' || slug === 'superposition')
+    ? slug as "double-slit" | "entanglement" | "superposition"
+    : null;
 
   // Dynamically import the MDX component
   const Content = dynamic(() => import(`@/content/topics/${slug}.mdx`), {
@@ -107,7 +107,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
                   <Sparkles className="h-4 w-4 animate-pulse" /> Core Experiment // v2.4
                 </div>
                 <div className="bg-black/40 border border-white/5 p-4 rounded-2xl shadow-2xl backdrop-blur-sm">
-                  <Lab type={simType as any} />
+                  <Lab type={simType} />
                 </div>
               </div>
             )}
@@ -119,7 +119,6 @@ export default async function TopicPage({ params }: TopicPageProps) {
                
                <div className="relative z-10">
                 <MDXContent>
-                  {/* @ts-ignore - Content is a valid React component from dynamic import */}
                   <Content />
                 </MDXContent>
                </div>
@@ -145,7 +144,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
                   <div className="w-[420px] xl:w-[480px] -ml-[120px] xl:-ml-[160px] relative group">
                     <div className="absolute -inset-1 bg-gradient-to-br from-cyan-500/20 to-violet-500/20 rounded-[2rem] blur-xl opacity-50 group-hover:opacity-100 transition duration-1000"></div>
                     <div className="relative bg-black border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl">
-                      <Lab type={simType as any} className="aspect-square" />
+                      <Lab type={simType} className="aspect-square" />
                     </div>
                   </div>
                   <div className="flex justify-between items-center px-2">

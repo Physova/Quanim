@@ -1,11 +1,16 @@
 "use client";
 
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import dynamic from "next/dynamic";
+import { motion, useScroll, useSpring, useTransform, MotionValue } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { NarrativePanel } from "@/components/visuals/narrative-panel";
 import { DiscoverySection } from "@/components/visuals/bento-sections";
-import QuanimHero from "@/components/visuals/quanim-hero";
 
+// Dynamic import — no SSR, eliminates Three.js from server bundle
+const QuanimHero = dynamic(() => import("@/components/visuals/quanim-hero"), {
+  ssr: false,
+  loading: () => <div className="fixed inset-0 bg-black" />,
+});
 
 /**
  * Stage 1: The Void (Hero)
@@ -13,62 +18,32 @@ import QuanimHero from "@/components/visuals/quanim-hero";
  * Stage 3: The Order (Discovery Bento)
  * Stage 4: The Community (Connection)
  */
-
-const SceneDot = ({ stage, progress, pos }: { stage: number; progress: any; pos: number }) => {
-  const width = useTransform(progress, [pos - 0.05, pos, pos + 0.05], ["6px", "12px", "6px"]);
-  const opacity = useTransform(progress, [pos - 0.05, pos, pos + 0.05], [0.3, 1, 0.3]);
-  const labelOpacity = useTransform(progress, [pos - 0.05, pos, pos + 0.05], [0.1, 0.8, 0.1]);
-
-  return (
-    <div 
-      className="absolute right-[3px] flex items-center justify-end gap-4"
-      style={{ top: `${pos * 100}%`, transform: 'translateY(-50%)' }}
-    >
-      <motion.span 
-        className="text-[10px] font-mono text-white uppercase tracking-widest whitespace-nowrap"
-        style={{ opacity: labelOpacity }}
-      >
-        Stage 0{stage}
-      </motion.span>
-      <div className="relative flex items-center justify-center w-0">
-        <motion.div 
-          className="h-1.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.2)]" 
-          style={{ width, opacity }}
-        />
-      </div>
-    </div>
-  );
-};
-
 export default function LandingPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-  
+  useEffect(() => { setMounted(true); }, []);
+
   // Initialize scroll tracking on 950vh container
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
   });
 
-  // Smooth scroll progress for orchestration
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 60,
     damping: 25,
     restDelta: 0.001
   });
 
-  // Aligned to HTML engine scene ranges: singularity 0-0.20, earth 0.28-0.53, flight 0.58-0.77, sun 0.85-1.00
+  // Stage opacities — aligned to 3D engine scene ranges
   const stage1Opacity = useTransform(smoothProgress, [0, 0.15, 0.20], [1, 1, 0]);
-  const stage2Opacity = useTransform(smoothProgress, [0.25, 0.30, 0.42, 0.45], [0, 1, 1, 0]);
-  const stage3Opacity = useTransform(smoothProgress, [0.45, 0.48, 0.70, 0.74], [0, 1, 1, 0]);
-  const stage4Opacity = useTransform(smoothProgress, [0.78, 0.85, 1.0], [0, 1, 1]);
-  
-  // Progress dot mapped to full scroll range, clamped within the track
-  const dotTop = useTransform(smoothProgress, [0, 1], ["4px", "calc(100% - 4px)"], { clamp: true });
+  const stage2Opacity = useTransform(smoothProgress, [0.25, 0.30, 0.48, 0.53], [0, 1, 1, 0]);
+  const stage3Opacity = useTransform(smoothProgress, [0.55, 0.58, 0.70, 0.74], [0, 1, 1, 0]);
+  const stage4Opacity = useTransform(smoothProgress, [0.82, 0.87, 0.91, 0.95], [0, 1, 1, 0]);
+
+  // Progress dot — mapped to full scroll range 
+  const dotTop = useTransform(smoothProgress, [0, 1], ["0%", "100%"], { clamp: true });
 
   return (
     <div ref={containerRef} className="relative h-[950vh] bg-black text-white overflow-x-hidden no-scrollbar">
@@ -82,14 +57,14 @@ export default function LandingPage() {
         
         {/* Stage 1: The Void (Hero) */}
         <motion.div 
-          className="absolute inset-0 z-10 flex flex-col items-center justify-center p-8 text-center"
+          className="absolute inset-0 z-10 flex flex-col items-center justify-center p-4 md:p-8 text-center"
           style={{ opacity: stage1Opacity }}
         >
-          <div className="max-w-4xl space-y-6">
-            <h1 className="text-8xl md:text-[12rem] font-serif font-bold tracking-tighter uppercase leading-[0.8]">
+          <div className="max-w-4xl space-y-4 md:space-y-6">
+            <h1 className="text-5xl sm:text-7xl md:text-[12rem] font-serif font-bold tracking-tighter uppercase leading-[0.8]">
               QUANIM
             </h1>
-            <p className="text-xl md:text-3xl text-white/60 font-medium tracking-tight">
+            <p className="text-base sm:text-xl md:text-3xl text-white/60 font-medium tracking-tight px-4">
               Interpreting the Universe through Interactive Visual Physics.
             </p>
           </div>
@@ -97,7 +72,7 @@ export default function LandingPage() {
 
         {/* Stage 2: The Spark (Mission/Discovery) */}
         <motion.div 
-          className="absolute inset-0 z-20 flex flex-col items-start justify-center p-12 md:p-32"
+          className="absolute inset-0 z-20 flex flex-col items-start justify-center p-6 md:p-12 lg:p-32"
           style={{ opacity: stage2Opacity }}
         >
           <div className="max-w-2xl">
@@ -117,42 +92,39 @@ export default function LandingPage() {
 
         {/* Stage 4: The Community (Connection) */}
         <motion.div 
-          className="absolute inset-0 z-40 flex flex-col items-center justify-center p-8 bg-purple-900/5"
+          className="absolute inset-0 z-40 flex flex-col items-center justify-center p-4 md:p-8 bg-purple-900/5"
           style={{ opacity: stage4Opacity }}
         >
-          <div className="max-w-2xl space-y-8 text-center">
-            <span className="font-mono text-purple-400 text-sm tracking-[0.4em] uppercase font-bold">Phase 04</span>
-            <h2 className="text-6xl font-serif font-bold tracking-tighter uppercase">The Community</h2>
+          <div className="max-w-2xl space-y-6 md:space-y-8 text-center">
+            <span className="font-mono text-purple-400 text-xs md:text-sm tracking-[0.4em] uppercase font-bold">Phase 04</span>
+            <h2 className="text-4xl md:text-6xl font-serif font-bold tracking-tighter uppercase">The Community</h2>
             <div className="h-px w-24 bg-purple-500/50 mx-auto" />
-            <p className="text-2xl text-white/80 leading-relaxed font-medium">
+            <p className="text-lg md:text-2xl text-white/80 leading-relaxed font-medium px-4">
               Join the discussion and explore the frontiers of knowledge with fellow enthusiasts.
             </p>
           </div>
         </motion.div>
 
         {/* Progress Tracker — dots at correct scene positions */}
-        <div className="fixed right-12 top-[12%] bottom-[8%] z-50 hidden md:block pointer-events-none">
-          {/* Vertical track line */}
+        <div className="fixed right-4 md:right-12 top-[12%] bottom-[8%] z-50 hidden md:block pointer-events-none">
           <div className="absolute right-[2.5px] top-0 bottom-0 w-px bg-white/10" />
-
-          {/* Scene dots at correct scroll percentages */}
           {[
-            { stage: 1, pos: 0.10 },
-            { stage: 2, pos: 0.40 },
-            { stage: 3, pos: 0.67 },
-            { stage: 4, pos: 0.92 },
+            { stage: 1, pos: '10%' },
+            { stage: 2, pos: '40%' },
+            { stage: 3, pos: '67%' },
+            { stage: 4, pos: '92%' },
           ].map(({ stage, pos }) => (
-            <SceneDot key={stage} stage={stage} pos={pos} progress={smoothProgress} />
+            <div key={stage} className="absolute right-0 flex items-center justify-end gap-4"
+                 style={{ top: pos, transform: 'translateY(-50%)' }}>
+              <span className="text-[10px] font-mono text-white/20 uppercase tracking-widest">
+                Stage 0{stage}
+              </span>
+              <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
+            </div>
           ))}
-
-          {/* Moving indicator - centered on track */}
           <motion.div 
-            className="absolute right-[3px] w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]"
-            style={{ 
-              top: dotTop,
-              x: "50%",
-              y: "-50%" 
-            }}
+            className="absolute right-0 w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+            style={{ top: dotTop, y: "-50%" }}
           />
         </div>
       </div>

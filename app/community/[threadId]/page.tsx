@@ -1,5 +1,4 @@
 import prisma from "@/lib/prisma";
-import { notFound } from "next/navigation";
 import { ThreadView } from "@/components/social/thread-view";
 
 interface ThreadPageProps {

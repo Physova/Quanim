@@ -5,9 +5,10 @@ import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ThumbsUp, MessageSquare, Reply } from "lucide-react";
+import { ThumbsUp, MessageSquare } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { cn } from "@/lib/utils";
+import { useCallback } from "react";
 
 interface Comment {
   id: string;
@@ -37,7 +38,7 @@ export function CommentSection({ articleId, threadId, slug }: CommentSectionProp
   const [replyTo, setReplyTo] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchComments = async () => {
+  const fetchComments = useCallback(async () => {
     const params = new URLSearchParams();
     if (articleId) params.append("articleId", articleId);
     if (threadId) params.append("threadId", threadId);
@@ -48,11 +49,11 @@ export function CommentSection({ articleId, threadId, slug }: CommentSectionProp
       const data = await res.json();
       setComments(data);
     }
-  };
+  }, [articleId, threadId, slug]);
 
   useEffect(() => {
     fetchComments();
-  }, [articleId, threadId, slug]);
+  }, [fetchComments]);
 
   const handleSubmit = async (parentId: string | null = null) => {
     if (!newComment.trim() && !parentId) return;

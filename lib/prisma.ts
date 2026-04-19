@@ -6,6 +6,7 @@ import "dotenv/config"
 const prismaClientSingleton = () => {
   const url = process.env.DATABASE_URL || 'file:dev.db'
   const libsql = createClient({ url })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const adapter = new PrismaLibSql(libsql as any)
   return new PrismaClient({ adapter })
 }
