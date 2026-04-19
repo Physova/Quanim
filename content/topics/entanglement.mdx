@@ -1,49 +1,70 @@
 ---
 title: "Quantum Entanglement"
-slug: "entanglement"
-description: "Explore Einstein's 'spooky action at a distance' and correlated particle states in quantum entanglement."
-tags: ["quantum", "physics", "entanglement"]
-publishedAt: "2026-04-16"
-difficulty: "Advanced"
+description: "Einstein's 'spooky action at a distance'—where two particles become one quantum system regardless of space."
+publishedAt: "2024-04-18"
+difficulty: "Intermediate"
+tags: ["Quantum Mechanics", "Entanglement", "EPR Paradox", "Bell Tests"]
 ---
 
-# 🔗 Quantum Entanglement
-
-"Spooky action at a distance" — Albert Einstein
-
-## Understanding Quantum Entanglement
-
-When two particles become one quantum system
-
-### 🧪 The EPR Paradox
-
-In 1935, Einstein, Podolsky, and Rosen published a famous paper arguing that quantum mechanics must be incomplete. They described entangled particles — pairs that share a quantum state such that measuring one **instantly** determines the state of the other, regardless of distance. Einstein called this **"spooky action at a distance"** and believed it proved quantum mechanics was missing some "hidden variables."
-
-<div className="quote-box my-6 p-6 bg-slate-900/50 border-l-4 border-amber-500 rounded-r-lg italic">
-  <p>"I cannot seriously believe in [quantum theory] because... physics should represent a reality in time and space, free from spooky actions at a distance."</p>
-  <div className="author not-italic text-sm text-slate-400 mt-2">— Albert Einstein, 1947</div>
-</div>
-
-### 🔔 Bell's Theorem & Bell Tests
-
-In 1964, physicist **John Bell** devised a mathematical inequality that could distinguish between Einstein's "hidden variables" and true quantum entanglement. Decades of experiments — culminating in the 2022 Nobel Prize-winning work — have consistently violated Bell's inequality, proving that quantum entanglement is *real* and that Einstein's local hidden variables cannot explain nature.
-
-### ⚡ What You're Seeing
-
-When you click "Generate Pair," two entangled particles are created in a superposition where their spins are correlated (always opposite). Neither particle has a definite spin until measured. The moment you measure one particle, **both** wavefunctions collapse — particle A's measurement instantly determines B's result, even if they were on opposite sides of the universe!
+import { Lab } from "@/components/simulations/lab-interface";
 
 <Lab 
   type="entanglement" 
-  title="Quantum Entanglement" 
-  description="Visualize correlated particle states and wavefunction collapse."
+  title="Entanglement Laboratory"
+  description="Generate entangled pairs and explore instant correlation."
 />
 
-### 🚀 Real-World Applications
+## The "Spooky" Connection
 
-- **🔐 Quantum Cryptography**: Entanglement enables theoretically unbreakable encryption through quantum key distribution (QKD).
-- **💻 Quantum Computing**: Entangled qubits perform calculations impossible for classical computers, enabling exponential speedups.
-- **📡 Quantum Teleportation**: Entanglement allows the quantum state of a particle to be "teleported" to a distant location.
+Quantum entanglement is one of the most counterintuitive phenomena in physics. When two particles become entangled, they share a single quantum state. Measuring one particle **instantly** determines the state of the other, no matter how far apart they are.
 
-### ❌ No Faster-Than-Light Communication
+Albert Einstein was famously skeptical of this, calling it **"spooky action at a distance."** He believed it suggested that quantum mechanics was incomplete and that there must be "hidden variables" we didn't yet understand.
 
-Despite the "instant" correlation, entanglement **cannot** be used to send messages faster than light. Measuring particle A gives you a random result — you can't control what you get. Only when you compare notes with the person who measured B (which requires classical communication) do you discover the correlation. Einstein's special relativity remains safe!
+> "I cannot seriously believe in [quantum theory] because... physics should represent a reality in time and space, free from spooky actions at a distance."
+> — *Albert Einstein, 1947*
+
+## The EPR Paradox
+
+In 1935, Einstein, Podolsky, and Rosen (EPR) proposed a thought experiment to highlight what they saw as a flaw in quantum mechanics. They argued that if you could know the state of a distant particle instantly, it implied that the particle had that state all along, contradicting the idea of superposition.
+
+### Bell's Theorem
+It wasn't until 1964 that **John Bell** showed there was a way to test this. He proved that if Einstein's "hidden variables" existed, certain measurements would follow a specific mathematical limit. If quantum mechanics was right, that limit would be broken.
+
+Decades of experiments (Bell Tests) have confirmed that quantum mechanics is correct. Entanglement is real, and "local realism" as Einstein envisioned it does not describe our universe.
+
+## How it Works in the Lab
+
+When you click **"Generate Pair"** in the simulation above:
+
+1. Two particles are created in a **Bell State**: a superposition where their spins are perfectly anti-correlated.
+2. Neither particle has a definite spin. They exist as $|↑↓⟩ - |↓↑⟩$.
+3. The moment you **Measure Alice**, her wavefunction collapses to either Up or Down.
+4. **Instantly**, Bob's particle collapses to the opposite state, preserving the total angular momentum of the system.
+
+## Real-World Applications
+
+Entanglement isn't just a theoretical curiosity; it's the backbone of the next technological revolution.
+
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
+  <div className="p-4 bg-slate-900/50 rounded-xl border border-slate-800">
+    <div className="text-2xl mb-2">🔐</div>
+    <h4 className="font-bold text-slate-100">Quantum Cryptography</h4>
+    <p className="text-sm text-slate-400">Using entangled photons to create unbreakable encryption keys that alert users if someone tries to eavesdrop.</p>
+  </div>
+  <div className="p-4 bg-slate-900/50 rounded-xl border border-slate-800">
+    <div className="text-2xl mb-2">💻</div>
+    <h4 className="font-bold text-slate-100">Quantum Computing</h4>
+    <p className="text-sm text-slate-400">Entangling qubits allows them to work together to solve problems that would take classical computers billions of years.</p>
+  </div>
+  <div className="p-4 bg-slate-900/50 rounded-xl border border-slate-800">
+    <div className="text-2xl mb-2">📡</div>
+    <h4 className="font-bold text-slate-100">Quantum Teleportation</h4>
+    <p className="text-sm text-slate-400">Transferring the quantum state of one particle to another distant particle using an entangled "bridge."</p>
+  </div>
+</div>
+
+### Can we use this to talk faster than light?
+
+**No.** Even though the correlation is instant, you cannot use entanglement to send information faster than light. 
+
+Why? Because the result of your measurement is random. You can't force Alice to be "Up" to send a "1". You only see the correlation after you compare results with Bob using a normal (slower-than-light) communication channel. Einstein's Special Relativity remains safe!

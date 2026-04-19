@@ -1,12 +1,17 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { getTopicBySlug, getTopicSlugs } from "@/lib/mdx";
 import { MDXContent } from "@/components/mdx-content";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, FlaskConical, Share2, Info, Clock, Sparkles } from "lucide-react";
 import { Lab } from "@/components/simulations/lab-interface";
+
+const TOPIC_MAP = {
+  "double-slit": React.lazy(() => import("@/content/topics/double-slit.mdx")),
+  "entanglement": React.lazy(() => import("@/content/topics/entanglement.mdx")),
+  "superposition": React.lazy(() => import("@/content/topics/superposition.mdx")),
+};
 
 interface TopicPageProps {
   params: Promise<{
@@ -38,10 +43,11 @@ export default async function TopicPage({ params }: TopicPageProps) {
     ? slug as "double-slit" | "entanglement" | "superposition"
     : null;
 
-  // Dynamically import the MDX component
-  const Content = dynamic(() => import(`@/content/topics/${slug}.mdx`), {
-    loading: () => <div className="animate-pulse h-96 bg-white/5 rounded-2xl border border-white/5"></div>,
-  });
+  // Use the static import map for MDX content
+  const Content = TOPIC_MAP[slug as keyof typeof TOPIC_MAP];
+  if (!Content) {
+    notFound();
+  }
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
@@ -119,7 +125,9 @@ export default async function TopicPage({ params }: TopicPageProps) {
                
                <div className="relative z-10">
                 <MDXContent>
-                  <Content />
+                  <Suspense fallback={<div className="animate-pulse h-96 bg-white/5 rounded-2xl border border-white/5"></div>}>
+                    <Content />
+                  </Suspense>
                 </MDXContent>
                </div>
             </div>

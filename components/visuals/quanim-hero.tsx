@@ -452,7 +452,8 @@ export default function QuanimHero() {
       } else { hideLabel(lblHeat, lnHeat); hideLabel(lblFuel, lnFuel); hideLabel(lblAero, lnAero); }
 
       /* ── Camera Choreography ───────────────────────────────────── */
-      let camX = 0, camY = 0, camZ = 6.5;
+      const camX = 0;
+      let camY = 0, camZ = 6.5;
       const zoomInEarth = ss(0.52, 0.60, s);
       camZ = 6.5 - zoomInEarth * 1.5;
       const shipCam = ss(0.62, 0.68, s) * (1 - ss(0.78, 0.84, s));

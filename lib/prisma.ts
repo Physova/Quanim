@@ -1,14 +1,7 @@
-import { PrismaClient } from './generated-prisma/client.js'
-import { PrismaLibSql } from '@prisma/adapter-libsql'
-import { createClient } from '@libsql/client'
-import "dotenv/config"
+import { PrismaClient } from '@prisma/client'
 
 const prismaClientSingleton = () => {
-  const url = process.env.DATABASE_URL || 'file:dev.db'
-  const libsql = createClient({ url })
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const adapter = new PrismaLibSql(libsql as any)
-  return new PrismaClient({ adapter })
+  return new PrismaClient()
 }
 
 declare global {

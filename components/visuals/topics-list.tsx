@@ -53,13 +53,29 @@ export function TopicsList({ topics }: TopicsListProps) {
         animate="visible"
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
       >
-        {topics.map((topic) => (
-          <motion.div key={topic.slug} variants={itemVariants}>
-            <Card className="h-full flex flex-col bg-white/[0.02] backdrop-blur-md border-white/5 hover:border-white/20 transition-all duration-500 group overflow-hidden relative rounded-none">
-              {/* Accent Glow */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-              
-              <CardHeader className="relative z-10">
+        {topics.map((topic) => {
+          const difficultyColors = {
+            beginner: "border-emerald-500/20 group-hover:border-emerald-500/50",
+            intermediate: "border-amber-500/20 group-hover:border-amber-500/50",
+            advanced: "border-violet-500/20 group-hover:border-violet-500/50",
+          };
+
+          const glowColors = {
+            beginner: "bg-emerald-500/10",
+            intermediate: "bg-amber-500/10",
+            advanced: "bg-violet-500/10",
+          };
+
+          const borderColor = difficultyColors[topic.difficulty as keyof typeof difficultyColors] || "border-white/5 hover:border-white/20";
+          const glowColor = glowColors[topic.difficulty as keyof typeof glowColors] || "bg-white/5";
+
+          return (
+            <motion.div key={topic.slug} variants={itemVariants}>
+              <Card className={`h-full flex flex-col bg-white/[0.02] backdrop-blur-md transition-all duration-500 group overflow-hidden relative rounded-none ${borderColor}`}>
+                {/* Accent Glow */}
+                <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity ${glowColor}`} />
+                
+                <CardHeader className="relative z-10">
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-none border border-white/10 text-white/60 bg-white/5">
                     {topic.difficulty}
@@ -98,7 +114,8 @@ export function TopicsList({ topics }: TopicsListProps) {
               </CardFooter>
             </Card>
           </motion.div>
-        ))}
+          );
+        })}
       </motion.div>
     </div>
   );

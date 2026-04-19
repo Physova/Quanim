@@ -16,6 +16,7 @@ interface LabContainerProps {
   onReset?: () => void;
   controls?: React.ReactNode;
   sidebarControls?: React.ReactNode;
+  is3D?: boolean;
 }
 
 export function LabContainer({
@@ -26,6 +27,7 @@ export function LabContainer({
   onReset,
   controls,
   sidebarControls,
+  is3D = true,
 }: LabContainerProps) {
   return (
     <Card className={cn(
@@ -69,7 +71,7 @@ export function LabContainer({
 
       {/* Sidebar Controls (Optional) */}
       {sidebarControls && (
-        <div className="absolute top-16 right-4 z-20 w-48 max-h-[calc(100%-6rem)] overflow-y-auto p-3 bg-slate-900/60 backdrop-blur-xl border border-slate-800/50 rounded-xl shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute top-16 right-4 z-30 w-48 max-h-[calc(100%-6rem)] overflow-y-auto p-3 bg-slate-900/60 backdrop-blur-xl border border-slate-800/50 rounded-xl shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <div className="space-y-4">
             {sidebarControls}
           </div>
@@ -78,12 +80,12 @@ export function LabContainer({
 
       {/* Lab Bottom Controls (Floating) */}
       {controls && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 p-1.5 bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-full shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 p-1.5 bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-full shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           {controls}
         </div>
       )}
 
-      {/* Simulation Canvas */}
+      {/* Simulation Canvas/Content */}
       <div className="w-full h-full cursor-crosshair">
         <Suspense fallback={
           <div className="flex items-center justify-center w-full h-full bg-slate-950">
@@ -93,21 +95,27 @@ export function LabContainer({
             </div>
           </div>
         }>
-          <Canvas shadows gl={{ antialias: true, alpha: true }}>
-            <PerspectiveCamera makeDefault position={[0, 0, 10]} />
-            <OrbitControls 
-              enablePan={false}
-              maxDistance={15}
-              minDistance={3}
-              enableDamping
-            />
-            
-            <ambientLight intensity={0.5} />
-            <pointLight position={[10, 10, 10]} intensity={1.5} castShadow />
-            <Environment preset="night" />
-            
-            {children}
-          </Canvas>
+          {is3D ? (
+            <Canvas shadows gl={{ antialias: true, alpha: true }}>
+              <PerspectiveCamera makeDefault position={[0, 0, 10]} />
+              <OrbitControls 
+                enablePan={false}
+                maxDistance={15}
+                minDistance={3}
+                enableDamping
+              />
+              
+              <ambientLight intensity={0.5} />
+              <pointLight position={[10, 10, 10]} intensity={1.5} castShadow />
+              <Environment preset="night" />
+              
+              {children}
+            </Canvas>
+          ) : (
+            <div className="w-full h-full relative z-0">
+              {children}
+            </div>
+          )}
         </Suspense>
       </div>
 

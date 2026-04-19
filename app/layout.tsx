@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/navbar";
 import { Providers } from "@/components/providers";
+import { ConditionalLayout } from "@/components/conditional-layout";
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -33,10 +33,9 @@ export default function RootLayout({
     <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased bg-background text-foreground selection:bg-white selection:text-black min-h-screen`}>
         <Providers>
-          <Navbar />
-          <main className="pt-[72px]">
+          <ConditionalLayout>
             {children}
-          </main>
+          </ConditionalLayout>
         </Providers>
       </body>
     </html>
