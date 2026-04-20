@@ -70,18 +70,26 @@ export function LabContainer({
     
     const handleFullscreenChange = () => setIsFullscreen(!!document.fullscreenElement);
     
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isSplitMode) {
+        setIsSplitMode(false);
+      }
+    };
+    
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("keydown", handleKeyDown);
     document.addEventListener("fullscreenchange", handleFullscreenChange);
     
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
       document.body.style.removeProperty('--split-width');
       document.body.style.cursor = 'default';
     };
-  }, []);
+  }, [isSplitMode]);
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -128,7 +136,7 @@ export function LabContainer({
           )}
         </div>
         
-        <div className="flex items-center gap-2 pointer-events-auto">
+        <div className={cn("flex items-center gap-2 pointer-events-auto", isSplitMode && "md:mr-32")}>
           {onReset && (
             <Button
               variant="ghost"
@@ -160,37 +168,49 @@ export function LabContainer({
           >
             {isFullscreen ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
           </Button>
-          {isSplitMode && (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsSplitMode(false)}
-            className="h-7 w-7 text-slate-500 hover:text-white hover:bg-red-500/20 hover:text-red-400 transition-colors rounded-none ml-2"
-            title="Exit Split View"
-          >
-            <X className="h-4 w-4" />
-          </Button>
-          )}
         </div>
       </div>
 
       {/* Sidebar Controls (Optional) */}
-      {sidebarControls && (
-        <div className="absolute top-16 right-4 z-30 w-48 max-h-[calc(100%-6rem)] overflow-y-auto p-3 bg-black/80 backdrop-blur-xl border border-white/10 rounded-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      {(sidebarControls || (controls && isFullscreen)) && (
+        <div className={cn(
+          "absolute top-16 z-30 w-52 max-h-[calc(100%-8rem)] overflow-y-auto p-4 bg-black/90 backdrop-blur-xl border border-white/10 rounded-none transition-all duration-500",
+          isFullscreen ? "left-6 opacity-100 translate-x-0" : "right-4 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0"
+        )}>
           <div className="space-y-4">
             {sidebarControls}
+            {isFullscreen && controls && (
+              <div className="pt-4 border-t border-white/10 flex flex-col gap-2">
+                <span className="text-[10px] font-bold text-white/40 uppercase tracking-wider block">Controls</span>
+                <div className="flex flex-col gap-2 [&>button]:w-full [&>button]:justify-start [&>div[data-slot=separator]]:h-px [&>div[data-slot=separator]]:w-full [&>div[data-slot=separator]]:my-1">
+                  {controls}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
 
       {/* Lab Bottom Controls (Floating) */}
-      {controls && (
+      {controls && !isFullscreen && (
         <div className={cn(
-          "absolute bottom-6 z-30 flex items-center gap-2 p-1.5 bg-black/80 backdrop-blur-md border border-white/10 rounded-none opacity-0 group-hover:opacity-100 transition-all duration-300",
-          isFullscreen ? "left-6 translate-x-0" : "left-1/2 -translate-x-1/2"
+          "absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 p-1.5 bg-black/80 backdrop-blur-md border border-white/10 rounded-none opacity-0 group-hover:opacity-100 transition-all duration-300"
         )}>
           {controls}
         </div>
+      )}
+
+      {/* Floating Exit Split Button */}
+      {isSplitMode && (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setIsSplitMode(false)}
+          className="absolute top-4 right-4 z-[60] bg-black/80 backdrop-blur-xl border border-white/20 text-white/70 hover:text-white hover:bg-red-500/20 hover:border-red-500/40 transition-all rounded-none gap-2 px-4 py-5 h-auto shadow-2xl group/exit"
+        >
+          <X className="h-4 w-4 transition-transform group-hover/exit:rotate-90" />
+          <span className="text-[10px] font-bold tracking-widest uppercase">Exit Split</span>
+        </Button>
       )}
 
       {/* Simulation Canvas/Content */}

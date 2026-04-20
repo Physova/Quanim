@@ -3,7 +3,7 @@
 import React from "react";
 import { motion, useTransform, MotionValue } from "framer-motion";
 import { Card } from "@/components/ui/card";
-import { Beaker, MessageSquare, BookOpen, User, ArrowRight } from "lucide-react";
+import { Beaker, BookOpen, User, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 interface BentoCardProps {

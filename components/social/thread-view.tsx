@@ -29,7 +29,7 @@ export function ThreadView({ threadId, title, authorName }: ThreadViewProps) {
       >
         <div className="space-y-4">
           <span className="text-[10px] font-mono font-bold text-white/30 uppercase tracking-[0.2em]">
-            // Transmission {threadId}
+            {"// Transmission "}{threadId}
           </span>
           <h1 className="text-4xl font-serif font-bold text-white tracking-tighter uppercase">
             {title}

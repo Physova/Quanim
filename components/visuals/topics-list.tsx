@@ -35,7 +35,7 @@ export function TopicsList({ topics }: TopicsListProps) {
         className="flex flex-col items-center mb-16 text-center"
       >
         <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-white/30 mb-6 block">
-          // Repository
+          {"// Repository"}
         </span>
         <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 tracking-tighter text-white uppercase">
           Physics Topics

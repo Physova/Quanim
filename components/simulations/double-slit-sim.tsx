@@ -4,7 +4,7 @@ import React, { useRef, useMemo, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useSimulationStore } from "@/lib/stores/simulation-store";
-import { Box, Sphere, Text } from "@react-three/drei";
+import { Box, Sphere } from "@react-three/drei";
 
 const fragmentShader = `
   varying vec2 vUv;
@@ -113,7 +113,7 @@ export function DoubleSlitSim() {
     }
   }, [reset, clearReset]);
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     if (meshRef.current && isPlaying) {
       const material = meshRef.current.material as THREE.ShaderMaterial;
       material.uniforms.uTime.value = state.clock.getElapsedTime();

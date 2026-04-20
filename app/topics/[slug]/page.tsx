@@ -5,7 +5,7 @@ import { MDXContent } from "@/components/mdx-content";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
-import { Lab } from "@/components/simulations/lab-interface";
+
 import { TopicActions } from "@/components/social/topic-actions";
 
 const TOPIC_MAP = {
@@ -39,10 +39,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
 
   const { frontmatter } = topic;
 
-  // Determine simulation type based on slug or frontmatter
-  const simType = (slug === 'double-slit' || slug === 'entanglement' || slug === 'superposition')
-    ? slug as "double-slit" | "entanglement" | "superposition"
-    : null;
+  
 
   // Use the static import map for MDX content
   const Content = TOPIC_MAP[slug as keyof typeof TOPIC_MAP];
@@ -119,7 +116,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
               
               <div className="p-8 rounded-none bg-white/[0.02] border border-white/10 relative overflow-hidden group">
                   <h4 className="text-[10px] font-mono font-bold text-white/40 uppercase tracking-[0.2em] mb-6">
-                    // System Brief
+                    {/* System Brief */}
                   </h4>
                   <ul className="space-y-4">
                       <li className="text-xs text-white/40 flex items-start gap-3 leading-relaxed">

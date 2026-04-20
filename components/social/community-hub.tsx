@@ -42,7 +42,7 @@ export function CommunityHub({ initialThreads }: CommunityHubProps) {
           className="space-y-4"
         >
           <span className="text-[10px] font-mono font-bold text-white/30 uppercase tracking-[0.2em]">
-            // Global Network
+            {/* Global Network */}
           </span>
           <h1 className="text-4xl md:text-6xl font-serif font-bold text-white tracking-tighter uppercase">
             Community Hub
@@ -129,7 +129,7 @@ export function CommunityHub({ initialThreads }: CommunityHubProps) {
             <Card className="bg-white/[0.02] border border-white/10 rounded-none overflow-hidden relative group">
               <CardHeader className="p-8 pb-4">
                 <CardTitle className="text-white/40 text-[10px] font-mono font-bold uppercase tracking-[0.2em]">
-                  // Network Statistics
+                  {/* Network Statistics */}
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-8 pt-4 space-y-6">
@@ -157,7 +157,7 @@ export function CommunityHub({ initialThreads }: CommunityHubProps) {
           >
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-mono font-bold text-[10px] text-white/40 uppercase tracking-[0.2em]">
-                // Global Signal
+                {/* Global Signal */}
               </h3>
             </div>
             <p className="text-xs text-white/40 leading-relaxed">

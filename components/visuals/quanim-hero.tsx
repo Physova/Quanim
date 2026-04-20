@@ -171,11 +171,11 @@ export default function QuanimHero() {
     const photonR2 = new THREE.Mesh(new THREE.RingGeometry(0.965, 1.05, 256), photonR2M); photonR2.rotation.x = Math.PI * 0.27; bhGrp.add(photonR2);
 
     // Accretion disk
-    const DN = isMobile ? 7000 : 14000;
+    const DN = 2500;
     const dkPos = new Float32Array(DN * 3), dkOrig = new Float32Array(DN * 3), dkSpd = new Float32Array(DN), dkCol = new Float32Array(DN * 3);
     for (let i = 0; i < DN; i++) {
       const a = Math.random() * Math.PI * 2, r = 1.18 + Math.pow(Math.random(), 0.6) * 2.7;
-      const h = (Math.random() - 0.5) * 0.07 * Math.max(0.5, r - 1);
+      const h = (Math.random() - 0.5) * 0.12 * Math.max(0.5, r - 1);
       dkOrig[i*3] = Math.cos(a)*r; dkOrig[i*3+1] = h; dkOrig[i*3+2] = Math.sin(a)*r;
       dkPos[i*3] = dkOrig[i*3]; dkPos[i*3+1] = dkOrig[i*3+1]; dkPos[i*3+2] = dkOrig[i*3+2];
       dkSpd[i] = 0.4 + Math.random() * 0.6;
@@ -185,7 +185,7 @@ export default function QuanimHero() {
     const dkGeom = new THREE.BufferGeometry();
     dkGeom.setAttribute('position', new THREE.BufferAttribute(dkPos, 3));
     dkGeom.setAttribute('color', new THREE.BufferAttribute(dkCol, 3));
-    const dkMat = new THREE.PointsMaterial({ size: 0.018, vertexColors: true, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
+    const dkMat = new THREE.PointsMaterial({ size: 0.038, vertexColors: true, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
     const dkPts = new THREE.Points(dkGeom, dkMat); dkPts.rotation.x = Math.PI * 0.27; bhGrp.add(dkPts);
 
     // Inner ISCO band

@@ -110,6 +110,18 @@ function WaveBridge({ dist }: { dist: number }) {
   const line2Ref = React.useRef<THREE.Line>(null);
   const points1 = React.useMemo(() => new Float32Array(100 * 3), []);
   const points2 = React.useMemo(() => new Float32Array(100 * 3), []);
+
+  const line1 = React.useMemo(() => {
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(points1, 3));
+    return new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: "#ffffff", transparent: true, opacity: 0.6 }));
+  }, [points1]);
+
+  const line2 = React.useMemo(() => {
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(points2, 3));
+    return new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: "#ffffff", transparent: true, opacity: 0.3 }));
+  }, [points2]);
   
   useFrame((state) => {
     if (!line1Ref.current || !line2Ref.current) return;
@@ -143,18 +155,8 @@ function WaveBridge({ dist }: { dist: number }) {
 
   return (
     <group>
-      <line ref={line1Ref as any}>
-         <bufferGeometry>
-            <bufferAttribute attach="attributes-position" args={[points1, 3]} />
-         </bufferGeometry>
-         <lineBasicMaterial color="#ffffff" transparent opacity={0.6} />
-      </line>
-      <line ref={line2Ref as any}>
-         <bufferGeometry>
-            <bufferAttribute attach="attributes-position" args={[points2, 3]} />
-         </bufferGeometry>
-         <lineBasicMaterial color="#ffffff" transparent opacity={0.3} />
-      </line>
+      <primitive object={line1} ref={line1Ref} />
+      <primitive object={line2} ref={line2Ref} />
     </group>
   );
 }
