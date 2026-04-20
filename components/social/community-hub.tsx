@@ -56,7 +56,7 @@ export function CommunityHub({ initialThreads }: CommunityHubProps) {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
         >
-          <Button className="h-12 px-8 bg-white text-black font-bold rounded-none transition-all hover:bg-white/90 text-[10px] uppercase tracking-[0.2em]">
+          <Button className="h-12 px-8 bg-white text-black font-extrabold rounded-none transition-all duration-300 hover:bg-black hover:text-white hover:border-2 hover:border-white hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.15)] text-[10px] uppercase tracking-[0.3em] border-2 border-transparent">
             Initialize Discussion
           </Button>
         </motion.div>

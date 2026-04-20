@@ -84,8 +84,8 @@ export function TopicsList({ topics }: TopicsListProps) {
               </CardContent>
               
               <CardFooter className="relative z-10 border-t border-white/5 bg-white/[0.01]">
-                <Button asChild variant="outline" className="w-full h-10 rounded-none border-white/10 hover:bg-white hover:text-black transition-all duration-300 font-bold text-[10px] uppercase tracking-[0.2em] group/btn">
-                  <Link href={`/topics/${topic.slug}`} className="flex items-center justify-center gap-2 text-white group-hover/btn:text-black transition-colors">
+                <Button asChild className="w-full h-10 rounded-none border border-white/10 text-white bg-black hover:!bg-white hover:!text-black transition-all duration-300 font-bold text-[10px] uppercase tracking-[0.2em] group/btn">
+                  <Link href={`/topics/${topic.slug}`} className="flex items-center justify-center gap-2">
                     Enter Simulation
                     <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
                   </Link>

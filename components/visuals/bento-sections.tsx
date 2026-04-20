@@ -113,11 +113,11 @@ export function DiscoverySection({ scrollProgress }: { scrollProgress: MotionVal
           </div>
           <div className="min-w-[85vw] md:min-w-0 snap-center">
             <BentoCard 
-              title="Community Hub"
-              description="Peer-to-peer knowledge transfer. Collaborative problem solving and research synthesis. Decentralized discussion nodes."
-              icon={<MessageSquare className="w-5 h-5" />}
-              href="/community"
-              metrics="4.2k NODES"
+              title="Superposition Theory"
+              description="Wavefunction mechanics. Interacting directly with the Bloch Sphere. Manipulating probability densities across multiple quantum states simultaneously."
+              icon={<User className="w-5 h-5" />}
+              href="/topics/superposition"
+              metrics="BLO_SPHERE: ACTIVE"
             />
           </div>
         </div>

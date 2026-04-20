@@ -13,6 +13,8 @@ const QuanimHero = dynamic(() => import("@/components/visuals/quanim-hero"), {
   loading: () => <div className="fixed inset-0 bg-black" />,
 });
 
+import { Navbar } from "@/components/navbar";
+
 /**
  * Stage 1: The Void (Hero)
  * Stage 2: The Spark (Mission/Discovery)
@@ -64,33 +66,7 @@ export default function LandingPage() {
   return (
     <div ref={containerRef} className="relative h-[950vh] bg-black text-white overflow-x-hidden no-scrollbar">
       {/* Floating Navbar — appears after Stage 1 */}
-      <motion.header
-        className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-6 lg:px-12 h-[72px] backdrop-blur-xl bg-black/60 border-b border-white/5 transition-all"
-        initial={{ y: -80 }}
-        animate={{ y: navVisible ? 0 : -80 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-      >
-        <Link href="/" className="flex items-center gap-2 group">
-          <span className="text-base font-bold tracking-[0.2em] uppercase text-foreground group-hover:opacity-80 transition-opacity">
-            Quanim
-          </span>
-        </Link>
-        <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex justify-center">
-          <nav className="flex items-center gap-8">
-            <Link href="/" className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors">Nexus</Link>
-            <Link href="/topics" className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors">Repository</Link>
-            <Link href="/community" className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50 hover:text-white transition-colors">Network</Link>
-          </nav>
-        </div>
-        <div className="flex items-center gap-4">
-          <Link href="/auth/signin" className="hidden sm:flex text-[10px] font-bold text-white/50 hover:text-white transition-all uppercase tracking-[0.2em]">
-            Access
-          </Link>
-          <Link href="/auth/signup" className="px-6 py-2 bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white/90 transition-colors">
-            JOIN_VOID
-          </Link>
-        </div>
-      </motion.header>
+      <Navbar visible={navVisible} />
 
       {/* Background 3D Narrative */}
       <div className="fixed inset-0 z-0 pointer-events-none">
@@ -137,16 +113,21 @@ export default function LandingPage() {
 
         {/* Stage 4: The Community (Connection) */}
         <motion.div 
-          className="absolute inset-0 z-40 flex flex-col items-center justify-center p-4 md:p-8 bg-purple-900/5"
+          className="absolute inset-0 z-40 flex flex-col items-center justify-center p-4 md:p-8 bg-black/80"
           style={{ opacity: stage4Opacity, pointerEvents: activeStage === 4 ? 'auto' : 'none' }}
         >
-          <div className="max-w-2xl space-y-6 md:space-y-8 text-center">
-            <span className="font-mono text-purple-400 text-xs md:text-sm tracking-[0.4em] uppercase font-bold">Phase 04</span>
-            <h2 className="text-4xl md:text-6xl font-serif font-bold tracking-tighter uppercase">The Community</h2>
-            <div className="h-px w-24 bg-purple-500/50 mx-auto" />
+          <div className="max-w-2xl space-y-6 md:space-y-8 text-center flex flex-col items-center">
+            <span className="font-mono text-white/40 text-xs md:text-sm tracking-[0.4em] uppercase font-bold">Phase 04</span>
+            <h2 className="text-4xl md:text-6xl font-serif font-bold tracking-tighter uppercase text-white">The Community</h2>
+            <div className="h-px w-24 bg-white/20 mx-auto" />
             <p className="text-lg md:text-2xl text-white/80 leading-relaxed font-medium px-4">
               Join the discussion and explore the frontiers of knowledge with fellow enthusiasts.
             </p>
+            <div className="pt-8">
+              <Link href="/auth/signup" className="px-8 py-4 bg-white text-black text-xs font-bold uppercase tracking-[0.2em] hover:bg-white/90 transition-colors border-2 border-white pointer-events-auto">
+                Join Community &rarr;
+              </Link>
+            </div>
           </div>
         </motion.div>
 

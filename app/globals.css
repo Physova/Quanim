@@ -138,6 +138,11 @@
     @apply bg-background text-foreground antialiased no-scrollbar;
     background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
     background-size: 24px 24px;
+    transition: padding-left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  body.split-mode {
+    padding-left: var(--split-width, 50vw);
   }
   
   html {

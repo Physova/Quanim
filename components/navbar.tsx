@@ -16,11 +16,14 @@ import {
 import { MobileNav } from "@/components/mobile-nav"
 import { LogOut, User as UserIcon } from "lucide-react"
 
-export function Navbar() {
+export function Navbar({ visible = true }: { visible?: boolean }) {
   const { data: session, status } = useSession()
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 lg:px-12 h-[72px] backdrop-blur-xl bg-background/60 border-b border-white/5 transition-all">
+    <header className={cn(
+      "fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-6 lg:px-12 h-[72px] backdrop-blur-xl bg-black/60 border-b border-white/5 transition-transform duration-500 ease-out",
+      visible ? "translate-y-0" : "-translate-y-full"
+    )}>
       <Link href="/" className="flex items-center gap-2 group">
         <span className="text-base font-bold tracking-[0.2em] uppercase text-foreground group-hover:opacity-80 transition-opacity">
           Quanim
@@ -90,7 +93,7 @@ export function Navbar() {
             </Link>
             <Button asChild size="sm" className="rounded-none px-3 md:px-6 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em]">
               <Link href="/auth/signup" className="flex items-center gap-2">
-                Join
+                Join Us
               </Link>
             </Button>
           </>

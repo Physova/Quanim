@@ -367,7 +367,7 @@ export function Lab({ type, title, description, className }: LabProps) {
       onReset={handleReset}
       controls={getControls()}
       sidebarControls={getSidebarControls()}
-      is3D={type === 'double-slit'}
+      is3D={true}
       className={className}
     >
       {renderSimulation()}
