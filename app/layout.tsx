@@ -20,7 +20,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Quanim - Interactive Physics Visualizations",
+  title: "Physova - Interactive Physics Visualizations",
   description: "Explore the world of physics through stunning interactive simulations. A community of learners, free to join.",
   icons: {
     icon: "/favicon.svg",

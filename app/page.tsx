@@ -8,7 +8,7 @@ import { DiscoverySection } from "@/components/visuals/bento-sections";
 import Link from "next/link";
 
 // Dynamic import — no SSR, eliminates Three.js from server bundle
-const QuanimHero = dynamic(() => import("@/components/visuals/quanim-hero"), {
+const PhysovaHero = dynamic(() => import("@/components/visuals/physova-hero"), {
   ssr: false,
   loading: () => <div className="fixed inset-0 bg-black" />,
 });
@@ -70,7 +70,7 @@ export default function LandingPage() {
 
       {/* Background 3D Narrative */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        {mounted && <QuanimHero />}
+        {mounted && <PhysovaHero />}
       </div>
 
       {/* Main Narrative Content (Foreground) */}
@@ -83,7 +83,7 @@ export default function LandingPage() {
         >
           <div className="max-w-4xl space-y-4 md:space-y-6">
             <h1 className="text-5xl sm:text-7xl md:text-[12rem] font-serif font-bold tracking-tighter uppercase leading-[0.8]">
-              QUANIM
+              Physova
             </h1>
             <p className="text-base sm:text-xl md:text-3xl text-white/60 font-medium tracking-tight px-4">
               Interpreting the Universe through Interactive Visual Physics.

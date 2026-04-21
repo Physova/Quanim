@@ -1,10 +1,10 @@
-# Quanim 2.0 — Design Specification
+# Physova 2.0 — Design Specification
 # 2026-04-16 — Physics Overhaul
 
 ---
 
 ## 1. Vision & Goals
-Transform the existing Quanim HTML site into a professional, high-end physics education and community platform.
+Transform the existing Physova HTML site into a professional, high-end physics education and community platform.
 - **Vibe:** Tech/Physics-y (Dynamic).
 - **Core Engine:** Next.js 14 (App Router) + Three.js (via React Three Fiber).
 - **Primary Goal:** Immersive, in-situ articles with interactive simulations and integrated community social layer.

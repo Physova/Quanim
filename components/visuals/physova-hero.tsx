@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useCallback } from 'react';
 import * as THREE from 'three';
-import './quanim-hero.css';
+import './physova-hero.css';
 
 /* ── Smoothstep ─────────────────────────────────────────────────── */
 const ss = (e0: number, e1: number, x: number): number => {
@@ -116,7 +116,7 @@ function mkSvgLine(svg: SVGSVGElement): SVGLineElement {
 /* ═══════════════════════════════════════════════════════════════════
    COMPONENT
    ═══════════════════════════════════════════════════════════════════ */
-export default function QuanimHero() {
+export default function PhysovaHero() {
   const mountRef = useRef<HTMLDivElement>(null);
   const spRef = useRef(0);
 

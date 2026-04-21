@@ -1,7 +1,7 @@
 # Quantum Simulation & UI Rework v2 Design
 
 ## Objective
-Evolve the Quanim physics simulations from technically functional 3D models into highly polished, intuitive, pedagogical tools suitable for general students. Implement specific UI UX enhancements to refine split-screen workflows, hover states, and navigational routing.
+Evolve the Physova physics simulations from technically functional 3D models into highly polished, intuitive, pedagogical tools suitable for general students. Implement specific UI UX enhancements to refine split-screen workflows, hover states, and navigational routing.
 
 ## 1. Simulation Redesign Specifications
 

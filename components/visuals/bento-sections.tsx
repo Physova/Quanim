@@ -162,7 +162,7 @@ export function SynthesisSection({ scrollProgress }: { scrollProgress: MotionVal
           />
           <BentoCard 
             title="Researcher Profiles"
-            description="Track your progress, showcase your discoveries, and connect with other curious minds in the Quanim network."
+            description="Track your progress, showcase your discoveries, and connect with other curious minds in the Physova network."
             icon={<User className="w-5 h-5" />}
             href="/community"
           />

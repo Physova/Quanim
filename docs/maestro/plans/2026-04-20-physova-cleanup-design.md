@@ -1,4 +1,4 @@
-# Quanim Cleanup Design
+# Physova Cleanup Design
 
 ## Objectives
 Cleanup session for production readiness. Focus on stability, performance, and UX polishing.

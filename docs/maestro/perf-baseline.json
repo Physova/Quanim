@@ -2,7 +2,7 @@
   "build_time_ms": 25335,
   "module_count": 1778,
   "node_modules_mb": 1039.74,
-  "critical_bottleneck": "components/visuals/quanim-hero.tsx",
+  "critical_bottleneck": "components/visuals/physova-hero.tsx",
   "generated_code_pressure": "lib/generated-prisma/",
   "timestamp": "2026-04-19T12:14:00Z"
 }

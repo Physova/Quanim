@@ -66,7 +66,7 @@ export function TopicActions() {
                 exit={{ opacity: 0, scale: 0.9 }}
                 className="absolute top-full right-0 mt-3 w-48 bg-black border border-white/40 p-3 text-[10px] font-mono uppercase tracking-widest text-white/80 pointer-events-none z-50 shadow-2xl leading-relaxed text-right backdrop-blur-md"
               >
-                Topic simulation developed for Quanim visualization engine.
+                Topic simulation developed for Physova visualization engine.
               </motion.div>
             )}
          </AnimatePresence>

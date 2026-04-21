@@ -174,11 +174,10 @@ export function LabContainer({
       {/* Sidebar Controls (Optional) */}
       {(sidebarControls || (controls && isFullscreen)) && (
         <div className={cn(
-          "absolute top-16 z-30 w-52 max-h-[calc(100%-8rem)] overflow-y-auto p-4 bg-black/90 backdrop-blur-xl border border-white/10 rounded-none transition-all duration-500",
-          isFullscreen ? "left-6 opacity-100 translate-x-0" : "right-4 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0"
+          "absolute top-16 z-30 w-52 max-h-[calc(100%-8rem)] overflow-y-auto p-4 bg-black/90 backdrop-blur-xl border border-white/10 rounded-none transition-all duration-500 no-scrollbar", 
+          isFullscreen ? "right-6 opacity-100 translate-x-0" : "right-4 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0"
         )}>
-          <div className="space-y-4">
-            {sidebarControls}
+          <div className="space-y-4">            {sidebarControls}
             {isFullscreen && controls && (
               <div className="pt-4 border-t border-white/10 flex flex-col gap-2">
                 <span className="text-[10px] font-bold text-white/40 uppercase tracking-wider block">Controls</span>

@@ -1,7 +1,7 @@
-# Quanim Frontend Overhaul: High-Fidelity Physics Narrative
+# Physova Frontend Overhaul: High-Fidelity Physics Narrative
 
 ## Objective
-Rebuild the Quanim landing page into a cinematic, scroll-driven journey using "Celestial Morphing" 3D visuals and an "Inverted Minimalist" design (Option B: Tech-Lab aesthetic). Generalize the platform from "Quantum" to "Physics" while preserving core educational value.
+Rebuild the Physova landing page into a cinematic, scroll-driven journey using "Celestial Morphing" 3D visuals and an "Inverted Minimalist" design (Option B: Tech-Lab aesthetic). Generalize the platform from "Quantum" to "Physics" while preserving core educational value.
 
 ## 1. Design Direction (Option B: Minimalist Tech-Lab)
 - **Aesthetic:** Dark mode (`bg-black`), high-contrast typography, monospace accents for "data" feel.
@@ -19,7 +19,7 @@ The page is a `600vh` scroll experience divided into 4 main "Stages":
 
 ### Stage 1: The Singularity (Hero) - 0-100vh
 - **Visual:** A centered 3D **Black Hole** (Singularity) with a subtle accretion disk.
-- **Text:** Large title "QUANIM" with a monospace tagline: `INTERPRETING THE UNIVERSE // v2.0`.
+- **Text:** Large title "Physova" with a monospace tagline: `INTERPRETING THE UNIVERSE // v2.0`.
 - **Interaction:** Subtle floating motion.
 
 ### Stage 2: The Scale of Life (Mission) - 100-250vh

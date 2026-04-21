@@ -1,24 +1,24 @@
-# Quanim 3D Narrative 3.0 (High Fidelity) Implementation Plan
+# Physova 3D Narrative 3.0 (High Fidelity) Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Implement a cinematic 3D background scroll narrative featuring a rotating Black Hole, a twinkling Flare transition, a centered procedural Earth, a diagnostic Plane mechanism, and a pulsing Sun synthesis.
 
-**Architecture:** Port high-fidelity 3D assets from `files/QuanimHero.jsx` into the existing Next.js `QuanimHero` component. Use `THREE.Points` for the 22k particle Black Hole and a custom `ShaderMaterial` for the Sun. Orchestrate camera movements and diagnostic overlays (Heat, Aero, Fuel) based on scroll progress.
+**Architecture:** Port high-fidelity 3D assets from `files/PhysovaHero.jsx` into the existing Next.js `PhysovaHero` component. Use `THREE.Points` for the 22k particle Black Hole and a custom `ShaderMaterial` for the Sun. Orchestrate camera movements and diagnostic overlays (Heat, Aero, Fuel) based on scroll progress.
 
 **Tech Stack:** Next.js 14, TypeScript, Three.js, Tailwind CSS.
 
-**Constraints:** DO NOT use git commands (add/commit). Focus on high-fidelity visual parity with `files/QuanimHero.jsx`.
+**Constraints:** DO NOT use git commands (add/commit). Focus on high-fidelity visual parity with `files/PhysovaHero.jsx`.
 
 ---
 
 ### Task 1: Singularity (Black Hole Port)
 
 **Files:**
-- Modify: `components/visuals/quanim-hero.tsx`
+- Modify: `components/visuals/physova-hero.tsx`
 
 - [ ] **Step 1: Port 22k Particle Accretion Disk**
-Copy the particle initialization and Doppler color logic exactly from `files/QuanimHero.jsx`.
+Copy the particle initialization and Doppler color logic exactly from `files/PhysovaHero.jsx`.
 
 ```typescript
 const DN = 22000;
@@ -62,7 +62,7 @@ Ensure the 4000-particle ISCO band is also ported for high-fidelity "hot" core.
 ### Task 2: Warp Transition (Twinkling Flare)
 
 **Files:**
-- Modify: `components/visuals/quanim-hero.tsx`
+- Modify: `components/visuals/physova-hero.tsx`
 
 - [ ] **Step 1: Create Twinkle Sprite**
 Initialize a `THREE.Sprite` with a radial gradient texture for the central flare.
@@ -75,7 +75,7 @@ Update `animate` loop: `const flare = ss(0.21, 0.28, s) * (1 - ss(0.28, 0.36, s)
 ### Task 3: Mechanism - Plane Construction
 
 **Files:**
-- Modify: `components/visuals/quanim-hero.tsx`
+- Modify: `components/visuals/physova-hero.tsx`
 
 - [ ] **Step 1: Construct Low-Poly Plane**
 Use `BoxGeometry` and `CylinderGeometry` to build a plane silhouette. Position at `x: 1.8` for sideways view.
@@ -88,7 +88,7 @@ Use `MeshPhongMaterial` with `transparent: true`.
 ### Task 4: Mechanism - Heat & Fuel Diagnostics
 
 **Files:**
-- Modify: `components/visuals/quanim-hero.tsx`
+- Modify: `components/visuals/physova-hero.tsx`
 
 - [ ] **Step 1: Heat Overlay Logic**
 Lerp `pMat.emissive` and `pMat.color` to Red-Orange during 65-72% scroll.
@@ -101,7 +101,7 @@ Add a sprite label "FUEL: NOMINAL" that pulses during 72-79% scroll.
 ### Task 5: Mechanism - Aero Diagnostics & Sky Zoom
 
 **Files:**
-- Modify: `components/visuals/quanim-hero.tsx`
+- Modify: `components/visuals/physova-hero.tsx`
 
 - [ ] **Step 1: Aero Line Segments**
 Add animated blue lines over the wings during 79-85% scroll.
@@ -114,10 +114,10 @@ Orchestrate camera through clouds during 55-65% transition.
 ### Task 6: Synthesis - Sun Shader & Corona
 
 **Files:**
-- Modify: `components/visuals/quanim-hero.tsx`
+- Modify: `components/visuals/physova-hero.tsx`
 
 - [ ] **Step 1: Port FBM Sun Shader**
-Copy `sunVertexShader` and `sunFragmentShader` (with FBM and limb darkening) exactly from `files/QuanimHero.jsx`.
+Copy `sunVertexShader` and `sunFragmentShader` (with FBM and limb darkening) exactly from `files/PhysovaHero.jsx`.
 
 - [ ] **Step 2: Add 4 Corona Layers**
 Implement the sphere layers with additive blending for the solar glow.
@@ -127,7 +127,7 @@ Implement the sphere layers with additive blending for the solar glow.
 ### Task 7: Synthesis - Solar Flares & Cosmic Zoom
 
 **Files:**
-- Modify: `components/visuals/quanim-hero.tsx`
+- Modify: `components/visuals/physova-hero.tsx`
 
 - [ ] **Step 1: Implement Solar Flares**
 Add the 3 procedural flare sprites that pulse with `now`.

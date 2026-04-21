@@ -27,7 +27,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  // Quanim content relations
+  // Physova content relations
   articles      Article[]
   comments      Comment[]
   threads       Thread[]

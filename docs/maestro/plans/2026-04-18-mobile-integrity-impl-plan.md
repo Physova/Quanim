@@ -84,7 +84,7 @@ Scale 3D labels relative to viewport width to avoid overlap.
 ### Parallel: No
 
 ### Files to Modify
-- `components/visuals/quanim-hero.tsx` — Add `mobileScale` factor to label projection logic.
+- `components/visuals/physova-hero.tsx` — Add `mobileScale` factor to label projection logic.
 
 ### Validation
 - Check label alignment on mobile emulation.
@@ -101,7 +101,7 @@ Scale 3D labels relative to viewport width to avoid overlap.
 | 1 | `components/mobile-nav.tsx` | 1 | Mobile drawer navigation. |
 | 2 | `components/navbar.tsx` | 1 | Integrate mobile nav. |
 | 3 | `app/page.tsx` | 2 | Responsive layout switching. |
-| 4 | `components/visuals/quanim-hero.tsx` | 3 | Label scaling logic. |
+| 4 | `components/visuals/physova-hero.tsx` | 3 | Label scaling logic. |
 
 ## Risk Classification
 | Phase | Risk | Rationale |

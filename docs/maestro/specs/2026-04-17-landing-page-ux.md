@@ -1,4 +1,4 @@
-# Interaction Specification & Wireframe: Quanim Landing Page Overhaul
+# Interaction Specification & Wireframe: Physova Landing Page Overhaul
 
 **Date**: 2026-04-17
 **Agent**: UX Designer
@@ -25,7 +25,7 @@
 - **Left Panel (Brand & Navigation)**:
     - **Fixed/Sticky**: Remains stationary during interactions.
     - **Content Stack**:
-        1. **Top (Margin-8)**: Logo "Quanim" (Gradient: Cyan to Violet). Tagline: "Interpreting the Quantum Void: Interactive Visual Physics".
+        1. **Top (Margin-8)**: Logo "Physova" (Gradient: Cyan to Violet). Tagline: "Interpreting the Quantum Void: Interactive Visual Physics".
         2. **Center (Flex-Grow)**: Navigation List.
             - `Explore Topics`
             - `Interactive Labs`

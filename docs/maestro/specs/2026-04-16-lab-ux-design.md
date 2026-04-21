@@ -1,4 +1,4 @@
-# Quanim Lab — UX Design Specification
+# Physova Lab — UX Design Specification
 # 2026-04-16 — Lab Simulation Interface
 
 ## 1. Wireframe Descriptions

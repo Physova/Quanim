@@ -1,4 +1,4 @@
-# Design System Guidelines — Quanim
+# Design System Guidelines — Physova
 
 ## Theme: Modern Tech / Future
 The design system is built around a high-contrast, futuristic aesthetic using Space Black, Quantum Cyan, and Deep Violet.

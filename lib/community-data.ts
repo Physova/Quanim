@@ -22,7 +22,7 @@ export const communityConstellation = {
   nodes: [
     { 
       id: "u1", 
-      name: "QuanimOwner", 
+      name: "PhysovaOwner", 
       role: "owner", 
       topicsCount: 15, 
       connections: 20 

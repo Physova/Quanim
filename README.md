@@ -1,10 +1,10 @@
-# Quanim v2 — Physics Reimagined
+# Physova v2 — Physics Reimagined
 
-Quanim is a high-fidelity, interactive physics education and community platform. It combines cinematic 3D narratives with hands-on quantum simulations to create an immersive learning experience.
+Physova is a high-fidelity, interactive physics education and community platform. It combines cinematic 3D narratives with hands-on quantum simulations to create an immersive learning experience.
 
 ## 🌌 Project Overview
 
-Quanim v2 is built for stability, performance, and visual impact. It utilizes a state-of-the-art tech stack to deliver smooth physics simulations directly in the browser.
+Physova v2 is built for stability, performance, and visual impact. It utilizes a state-of-the-art tech stack to deliver smooth physics simulations directly in the browser.
 
 ### Core Features
 - **Cinematic Hero:** A scroll-driven 3D journey through the Singularity, Classical Mechanics, and Stellar Physics.
@@ -26,7 +26,7 @@ Quanim v2 is built for stability, performance, and visual impact. It utilizes a 
 
 ## 📝 Content Management (For Clients)
 
-Quanim uses a "Content-as-Code" approach, allowing you to publish new physics topics simply by writing Markdown files.
+Physova uses a "Content-as-Code" approach, allowing you to publish new physics topics simply by writing Markdown files.
 
 ### Where to write
 All articles are located in the `content/topics/` directory.

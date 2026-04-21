@@ -63,7 +63,7 @@ Correct the scroll dot overflow, sync Stage 3 shutters, and lift the spacecraft.
 
 ### Files to Modify
 - `app/page.tsx` — Change `dotTop` mapping to `["4px", "calc(100% - 4px)"]`. Adjust `stage3Opacity` and `stage4Opacity` breakpoints.
-- `components/visuals/quanim-hero.tsx` — Increase `bentoLift` from `1.8` to `2.8`.
+- `components/visuals/physova-hero.tsx` — Increase `bentoLift` from `1.8` to `2.8`.
 - `components/visuals/bento-sections.tsx` — Update `DiscoverySection` shutter scroll ranges to match the parent's new breakpoints.
 
 ### Implementation Details
@@ -101,7 +101,7 @@ Ensure no regressions in the scroll narrative across different scroll speeds.
 | # | File | Phase | Purpose |
 |---|------|-------|---------|
 | 1 | `app/page.tsx` | 1, 2 | Scroll dots logic, timing breakpoints, overflow fix. |
-| 2 | `components/visuals/quanim-hero.tsx` | 2 | Spacecraft lift logic. |
+| 2 | `components/visuals/physova-hero.tsx` | 2 | Spacecraft lift logic. |
 | 3 | `components/visuals/bento-sections.tsx` | 2 | Shutter animation timing. |
 
 ## Risk Classification

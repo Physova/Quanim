@@ -1,10 +1,10 @@
-# Quanim Overhaul — Mega Implementation Plan
+# Physova Overhaul — Mega Implementation Plan
 # 2026-04-16 — Multi-Agent Parallel Execution
 
 ---
 
 ## 1. Objective
-Complete the Quanim 2.0 migration: Port content, build simulation engine, and wire up social logic.
+Complete the Physova 2.0 migration: Port content, build simulation engine, and wire up social logic.
 
 ## 2. Key Files & Context
 - `app/topics/`: MDX content destination.

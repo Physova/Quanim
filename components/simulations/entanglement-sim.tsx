@@ -136,15 +136,12 @@ function WaveBridge({ dist }: { dist: number }) {
     
     for (let i = 0; i < 100; i++) {
        const x = startX + (i / 99) * length;
-       // We create an envelope so it tapers at the ends
        const envelope = Math.sin((i / 99) * Math.PI);
        
-       // Wave 1
        positions1[i * 3] = x;
        positions1[i * 3 + 1] = Math.sin((i / 99) * Math.PI * 6 - time) * 0.4 * envelope;
        positions1[i * 3 + 2] = Math.cos((i / 99) * Math.PI * 6 - time) * 0.4 * envelope;
 
-       // Wave 2 (offset phase)
        positions2[i * 3] = x;
        positions2[i * 3 + 1] = Math.sin((i / 99) * Math.PI * 6 - time + Math.PI) * 0.4 * envelope;
        positions2[i * 3 + 2] = Math.cos((i / 99) * Math.PI * 6 - time + Math.PI) * 0.4 * envelope;

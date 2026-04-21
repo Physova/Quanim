@@ -1,6 +1,6 @@
 ---
-title: "Quanim Cleanup Implementation Plan"
-design_ref: "docs/maestro/plans/2026-04-20-quanim-cleanup-design.md"
+title: "Physova Cleanup Implementation Plan"
+design_ref: "docs/maestro/plans/2026-04-20-Physova-cleanup-design.md"
 created: "2026-04-20T10:30:00Z"
 status: "draft"
 total_phases: 3
@@ -8,7 +8,7 @@ estimated_files: 12
 task_complexity: "medium"
 ---
 
-# Quanim Cleanup Implementation Plan
+# Physova Cleanup Implementation Plan
 
 ## Plan Overview
 
@@ -81,7 +81,7 @@ Optimize Blackhole simulation and add background grain effect.
 ### Parallel: No
 
 ### Files to Modify
-- `components/visuals/quanim-hero.tsx` — Reduce `DN` (particle count) to 2,500. Adjust distribution loop (`dkOrig`) for spacing.
+- `components/visuals/physova-hero.tsx` — Reduce `DN` (particle count) to 2,500. Adjust distribution loop (`dkOrig`) for spacing.
 - `app/globals.css` — Update `.qh-grain` SVG filter opacity and visibility for 2-3% grain impact.
 
 ### Implementation Details
@@ -139,7 +139,7 @@ Implement split screen exit and fullscreen UI repositioning.
 | 6 | `components/simulations/double-slit-sim.tsx` | 1 | Lint fix |
 | 7 | `components/simulations/entanglement-sim.tsx` | 1 | Type fix |
 | 8 | `components/social/community-hub.tsx` | 1 | Lint fix |
-| 9 | `components/visuals/quanim-hero.tsx` | 2 | Particle optimization |
+| 9 | `components/visuals/physova-hero.tsx` | 2 | Particle optimization |
 | 10| `app/globals.css` | 2 | Background grain |
 | 11| `components/simulations/lab-container.tsx` | 3 | UX logic |
 | 12| `components/simulations/lab-interface.tsx` | 3 | UX UI updates |

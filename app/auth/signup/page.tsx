@@ -14,7 +14,7 @@ export default function SignUpPage() {
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-serif font-bold tracking-tighter uppercase">Join the Void</CardTitle>
           <CardDescription className="text-white/40 font-sans">
-            Join the Quanim community today
+            Join the Physova community today
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
@@ -36,7 +36,7 @@ export default function SignUpPage() {
             </label>
             <Input
               id="email"
-              placeholder="isaac@quanim.edu"
+              placeholder="isaac@Physova.edu"
               type="email"
               className="border-white/10 bg-white/5 rounded-none font-sans"
               disabled

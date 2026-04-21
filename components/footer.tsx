@@ -9,7 +9,7 @@ export function Footer() {
           <div className="col-span-1 md:col-span-2">
             <Link href="/" className="group flex flex-col gap-1">
               <span className="text-base font-bold tracking-[0.2em] uppercase text-white group-hover:opacity-80 transition-opacity">
-                Quanim
+                Physova
               </span>
               <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/40">
                 Visualizing Physics
@@ -51,7 +51,7 @@ export function Footer() {
         
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[10px] font-mono text-white/20 uppercase tracking-widest">
-            &copy; {new Date().getFullYear()} Quanim Project. All Rights Reserved.
+            &copy; {new Date().getFullYear()} Physova Project. All Rights Reserved.
           </p>
           <div className="flex gap-8">
             <Link href="/privacy" className="text-[10px] font-mono text-white/20 uppercase tracking-widest hover:text-white/60 transition-colors">Privacy</Link>

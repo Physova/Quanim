@@ -1,5 +1,5 @@
 ---
-title: "Quanim 3D Narrative 2.0 Implementation Plan"
+title: "Physova 3D Narrative 2.0 Implementation Plan"
 design_ref: "docs/maestro/plans/2026-04-18-3d-narrative-design.md"
 created: "2026-04-18T12:00:00Z"
 status: "draft"
@@ -8,7 +8,7 @@ estimated_files: 2
 task_complexity: "complex"
 ---
 
-# Quanim 3D Narrative 2.0 Implementation Plan
+# Physova 3D Narrative 2.0 Implementation Plan
 
 ## Plan Overview
 
@@ -45,11 +45,11 @@ Define types for the new narrative stages and prepare canvas texture helpers.
 ### Parallel: No
 
 ### Files to Modify
-- `components/visuals/quanim-hero.tsx` — Add `SCENES` metadata for the new 4 stages. Port `mkEarthTex` and `mkCloudTex`.
+- `components/visuals/physova-hero.tsx` — Add `SCENES` metadata for the new 4 stages. Port `mkEarthTex` and `mkCloudTex`.
 
 ### Implementation Details
 - Update `Scene` interface.
-- Add texture generators from `quanim.html`.
+- Add texture generators from `Physova.html`.
 
 ### Validation
 - `npm run lint` and `npx tsc --noEmit`.
@@ -68,11 +68,11 @@ Implement the high-fidelity Black Hole and the centered Earth visual.
 ### Parallel: No
 
 ### Files to Modify
-- `components/visuals/quanim-hero.tsx` — Replace current Black Hole/Earth logic with `files/` and `quanim.html` sources.
+- `components/visuals/physova-hero.tsx` — Replace current Black Hole/Earth logic with `files/` and `Physova.html` sources.
 
 ### Implementation Details
 - Accretion disk: 22k particles, Keplerian velocities (Source: `files/`).
-- Earth: Centered sphere, CanvasTexture landmass (Source: `quanim.html`).
+- Earth: Centered sphere, CanvasTexture landmass (Source: `Physova.html`).
 - Sync ranges: BH (0-28%), Earth (34-55%).
 
 ### Validation
@@ -92,7 +92,7 @@ Build the Low-Poly Plane scene with Heat/Aero/Fuel diagnostic overlays.
 ### Parallel: No
 
 ### Files to Modify
-- `components/visuals/quanim-hero.tsx` — Add Plane group. Implement zoom transition.
+- `components/visuals/physova-hero.tsx` — Add Plane group. Implement zoom transition.
 
 ### Implementation Details
 - Plane: Compose from `BoxGeometry` and `CylinderGeometry`.
@@ -116,7 +116,7 @@ Finalize the zoom out to Earth orbit and the Sun fixation.
 ### Parallel: No
 
 ### Files to Modify
-- `components/visuals/quanim-hero.tsx` — Finalize Sun sequence (95-100%). Adjust camera curves.
+- `components/visuals/physova-hero.tsx` — Finalize Sun sequence (95-100%). Adjust camera curves.
 
 ### Implementation Details
 - Sun: Port FBM Shader and Corona layers from `files/`.
@@ -135,8 +135,8 @@ Finalize the zoom out to Earth orbit and the Sun fixation.
 
 | # | File | Phase | Purpose |
 |---|------|-------|---------|
-| 1 | `components/visuals/quanim-hero.tsx` | 1-4 | Main Narrative implementation |
-| 2 | `components/visuals/quanim-hero.css` | 1 | Layout and overlays |
+| 1 | `components/visuals/physova-hero.tsx` | 1-4 | Main Narrative implementation |
+| 2 | `components/visuals/physova-hero.css` | 1 | Layout and overlays |
 
 ## Risk Classification
 
@@ -150,7 +150,7 @@ Finalize the zoom out to Earth orbit and the Sun fixation.
 ```
 Execution Profile:
 - Total phases: 4
-- Parallelizable phases: 0 (File overlap on quanim-hero.tsx)
+- Parallelizable phases: 0 (File overlap on physova-hero.tsx)
 - Sequential-only phases: 4
 - Estimated sequential wall time: 70 mins
 

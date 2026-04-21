@@ -1,6 +1,6 @@
 ---
 {
-  "session_id": "quanim-physics-redesign-20260418",
+  "session_id": "Physova-physics-redesign-20260418",
   "task": "Overhaul landing page with 3D scroll animations, generalize to 'Physics', and fix navigation.",
   "created": "2026-04-18T04:52:00.498Z",
   "updated": "2026-04-18T05:02:36.177Z",

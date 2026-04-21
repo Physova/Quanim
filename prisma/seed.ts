@@ -7,30 +7,30 @@ async function main() {
 
   // 1. Seed Mock Users
   const admin = await prisma.user.upsert({
-    where: { email: 'admin@quanim.com' },
+    where: { email: 'admin@Physova.com' },
     update: {},
     create: {
-      email: 'admin@quanim.com',
-      name: 'Quanim Admin',
+      email: 'admin@Physova.com',
+      name: 'Physova Admin',
       role: Role.ADMIN,
     },
   })
 
   const author = await prisma.user.upsert({
-    where: { email: 'author@quanim.com' },
+    where: { email: 'author@Physova.com' },
     update: {},
     create: {
-      email: 'author@quanim.com',
+      email: 'author@Physova.com',
       name: 'Physics Author',
       role: Role.USER,
     },
   })
 
   const user = await prisma.user.upsert({
-    where: { email: 'user@quanim.com' },
+    where: { email: 'user@Physova.com' },
     update: {},
     create: {
-      email: 'user@quanim.com',
+      email: 'user@Physova.com',
       name: 'Curious Student',
       role: Role.USER,
     },

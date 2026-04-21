@@ -1,7 +1,7 @@
-# DESIGN DOCUMENT: Quanim 3D Narrative 3.0 (High Fidelity)
+# DESIGN DOCUMENT: Physova 3D Narrative 3.0 (High Fidelity)
 
 ## 1. Objective
-Complete the high-fidelity overhaul of the Quanim background narrative. Integrate the Black Hole (22k particles) from `files/`, a new "Central Flare" transition, and the full Plane Mechanism and Sun Synthesis sequences. Ensure the Black Hole is visible immediately upon page load.
+Complete the high-fidelity overhaul of the Physova background narrative. Integrate the Black Hole (22k particles) from `files/`, a new "Central Flare" transition, and the full Plane Mechanism and Sun Synthesis sequences. Ensure the Black Hole is visible immediately upon page load.
 
 ## 2. Narrative Choreography
 | Scroll (%) | Stage | Visual Content | Key Logic |
@@ -15,13 +15,13 @@ Complete the high-fidelity overhaul of the Quanim background narrative. Integrat
 | **95 - 100** | **Synthesis** | Pulsing Sun | FBM turbulence shader, limb darkening, flares. |
 
 ## 3. Implementation Details
-- **Singularity**: Re-port 22k particle system from `files/QuanimHero.jsx`. Fix `bhA` start value.
+- **Singularity**: Re-port 22k particle system from `files/PhysovaHero.jsx`. Fix `bhA` start value.
 - **Twinkling Light**: Use `THREE.Sprite` with a radial gradient texture for the flare.
 - **Plane Mechanism**:
     - **Heat**: Lerp `pMat.emissive` and `pMat.color` to Red-Orange.
     - **Aero**: Use `LineSegments` with animated vertices or moving X-offset to show airflow.
     - **Labels**: "Heat Transmission", "Fuel Consumption", "Aerodynamicity" using `mkTextTex`.
-- **Sun**: Port full FBM shader, corona layers, and flares from `files/QuanimHero.jsx`.
+- **Sun**: Port full FBM shader, corona layers, and flares from `files/PhysovaHero.jsx`.
 
 ## 4. Technical Constraints
 - **Performance**: Standard primitives only (Box, Cylinder, Sphere). No high-poly external models.

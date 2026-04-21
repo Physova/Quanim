@@ -22,11 +22,11 @@ The landing page scroll narrative has several UX and visual coordination issues:
 
 ## Approach
 ### Approach 1: Coordinated Scroll Transformation (Recommended)
-**Summary**: Adjust the mapping of `scrollYProgress` in `app/page.tsx` and the `bentoLift` in `quanim-hero.tsx`. Sync the `DiscoverySection` shutters with the main Stage 3 transition range.
+**Summary**: Adjust the mapping of `scrollYProgress` in `app/page.tsx` and the `bentoLift` in `physova-hero.tsx`. Sync the `DiscoverySection` shutters with the main Stage 3 transition range.
 
 **Architecture**:
 - **app/page.tsx**: Adjust `dotTop` transform range to `[4px, "calc(100% - 4px)"]`. Update `stage3Opacity` and `stage4Opacity` breakpoints to improve timing.
-- **quanim-hero.tsx**: Increase `bentoLift` from `1.8` to `2.8` to move the spacecraft above the modules. Add a `width` transform to the scroll dots using `useTransform`.
+- **physova-hero.tsx**: Increase `bentoLift` from `1.8` to `2.8` to move the spacecraft above the modules. Add a `width` transform to the scroll dots using `useTransform`.
 - **bento-sections.tsx**: Align `shutterLeft/Right` and `contentOpacity` ranges with the parent's `stage3Opacity` scroll points.
 
 **Pros**:

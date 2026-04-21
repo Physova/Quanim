@@ -1,4 +1,4 @@
-# Quanim Content Pages — Full Implementation Plan
+# Physova Content Pages — Full Implementation Plan
 
 ## Problem Statement
 
@@ -52,7 +52,7 @@ CURRENTLY BROKEN                          TARGET STATE
 
 **Fix:** Replace with static import map pattern:
 
-#### [MODIFY] [page.tsx](file:///c:/Users/Shubhadeep%20Roy/Downloads/Quanim-main/app/topics/%5Bslug%5D/page.tsx)
+#### [MODIFY] [page.tsx](file:///c:/Users/Shubhadeep%20Roy/Downloads/Physova-main/app/topics/%5Bslug%5D/page.tsx)
 
 Replace lines 41-44:
 ```diff
@@ -81,7 +81,7 @@ Also wrap the `<Content />` usage in a `<Suspense>` boundary.
 
 #### Step A: Simplify `lib/prisma.ts` — remove LibSQL adapter
 
-#### [MODIFY] [prisma.ts](file:///c:/Users/Shubhadeep%20Roy/Downloads/Quanim-main/lib/prisma.ts)
+#### [MODIFY] [prisma.ts](file:///c:/Users/Shubhadeep%20Roy/Downloads/Physova-main/lib/prisma.ts)
 
 Replace the entire file:
 ```ts
@@ -121,11 +121,11 @@ const prisma = new PrismaClient()
 async function main() {
   // Create admin user
   const admin = await prisma.user.upsert({
-    where: { email: 'admin@quanim.dev' },
+    where: { email: 'admin@Physova.dev' },
     update: {},
     create: {
-      email: 'admin@quanim.dev',
-      name: 'QuanimOwner',
+      email: 'admin@Physova.dev',
+      name: 'PhysovaOwner',
       role: 'OWNER',
     },
   })
@@ -158,7 +158,7 @@ Run with: `npx tsx prisma/seed.ts`
 
 ### 1.3 — Fix `/community/[threadId]` Page
 
-#### [MODIFY] [page.tsx](file:///c:/Users/Shubhadeep%20Roy/Downloads/Quanim-main/app/community/%5BthreadId%5D/page.tsx)
+#### [MODIFY] [page.tsx](file:///c:/Users/Shubhadeep%20Roy/Downloads/Physova-main/app/community/%5BthreadId%5D/page.tsx)
 
 Once Prisma is working (1.2), update this page to query thread + comments from DB. If the threadId doesn't exist, call `notFound()`.
 
@@ -166,7 +166,7 @@ Once Prisma is working (1.2), update this page to query thread + comments from D
 
 The `CommentSection` component (used in community sidebar) makes API calls to `/api/comments`. These API routes need to use the working Prisma client.
 
-#### [MODIFY] [comment-section.tsx](file:///c:/Users/Shubhadeep%20Roy/Downloads/Quanim-main/components/social/comment-section.tsx)
+#### [MODIFY] [comment-section.tsx](file:///c:/Users/Shubhadeep%20Roy/Downloads/Physova-main/components/social/comment-section.tsx)
 
 Review the component. If it fetches from `/api/comments`, make sure those API routes exist and work with the real DB. The `threadId="global-discussion"` needs a matching thread in the seed data — add one to the seed script.
 
@@ -334,7 +334,7 @@ The double-slit sim already exists in `double-slit-sim.tsx` using R3F Canvas. Ve
 ### 4.1 — Footer Component
 
 Create a shared `<Footer />` component used on all non-landing pages:
-- Quanim logo with gradient
+- Physova logo with gradient
 - Copyright text
 - Links: Home, Topics, Community, Discord
 - Match old HTML footer design

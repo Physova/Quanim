@@ -1,4 +1,4 @@
-# Quanim — Physics Community Platform
+# Physova — Physics Community Platform
 # gemini.md
 
 ---

@@ -25,7 +25,7 @@ The landing page relies on a fixed `100vh` absolute container, breaking layout f
 **Architecture**:
 - **app/page.tsx**: Introduce `isMobile` hook and conditional rendering to switch the narrative container from `absolute inset-0` to `relative` (scrolling) on small viewports.
 - **components/navbar.tsx**: Add Hamburger menu component using `Radix UI` or `shadcn` Drawer.
-- **components/visuals/quanim-hero.tsx**: Implement a `mobileScale` factor for label offsets, ensuring they remain proportional to viewport width rather than fixed multipliers.
+- **components/visuals/physova-hero.tsx**: Implement a `mobileScale` factor for label offsets, ensuring they remain proportional to viewport width rather than fixed multipliers.
 
 **Pros**:
 - Solves vertical overflow issue fundamentally.

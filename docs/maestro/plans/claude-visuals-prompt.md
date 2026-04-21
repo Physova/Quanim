@@ -1,7 +1,7 @@
-# TECHNICAL SPECIFICATION: QUANIM CELESTIAL NARRATIVE ASSET
+# TECHNICAL SPECIFICATION: Physova CELESTIAL NARRATIVE ASSET
 
 ## 1. PROJECT OVERVIEW
-**Title**: Quanim Physics Narrative (v2.0)
+**Title**: Physova Physics Narrative (v2.0)
 **Objective**: Generate a cinematic, high-fidelity 3D animation sequence to be used as a "Video-Scrubbing" background for a 600vh scroll-driven landing page.
 **Tone**: Sophisticated, Research-Grade, Cinematic (Inspiration: *Interstellar*, *Cosmos*, *Tenet*).
 

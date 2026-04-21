@@ -24,7 +24,7 @@ export function MobileNav() {
         <div className="flex flex-col h-full">
           <div className="p-6 border-b border-white/5">
             <span className="text-base font-bold tracking-[0.2em] uppercase text-foreground">
-              Quanim
+              Physova
             </span>
           </div>
           <nav className="flex flex-col p-6 gap-6">

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import * as THREE from 'three'
-import './QuanimHero.css'
+import './PhysovaHero.css'
 
 // ─── Scene metadata ───────────────────────────────────────────────────────
 const SCENES = [
@@ -35,7 +35,7 @@ const ss = (e0, e1, x) => {
   return t * t * (3 - 2 * t)
 }
 
-export default function QuanimHero() {
+export default function PhysovaHero() {
   const mountRef     = useRef(null)
   const containerRef = useRef(null)
   const spRef        = useRef(0)

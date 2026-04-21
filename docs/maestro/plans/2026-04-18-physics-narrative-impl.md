@@ -1,8 +1,8 @@
-# Quanim Physics Narrative Implementation Plan
+# Physova Physics Narrative Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Rebuild the Quanim landing page into a 600vh cinematic journey with 3D celestial morphing and Option B tech-lab aesthetic.
+**Goal:** Rebuild the Physova landing page into a 600vh cinematic journey with 3D celestial morphing and Option B tech-lab aesthetic.
 
 **Architecture:** Next.js App Router with Framer Motion for scroll-linked orchestration and React Three Fiber for the central celestial engine.
 

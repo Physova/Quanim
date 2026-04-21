@@ -1,10 +1,10 @@
-# Project Quanim: Handoff to Design & Frontend Phase
+# Project Physova: Handoff to Design & Frontend Phase
 
 ## 1. What Has Been Accomplished (The "Stabilization & UX" Phase)
 - **Backend & Database Decoupling**: We successfully stripped out the fatal Prisma database crashing errors on build. The application now runs cleanly via mock data APIs (`/api/comments`, `/api/reactions`, etc) allowing rapid frontend prototyping without DB connection errors.
 - **TypeScript & ESLint Purge**: Resolved all infinite render loops (`entanglement-sim.tsx`), `useSimulationStore` stale closure reactivity issues, and Prisma type constraints. The project now successfully passes `npm run build` with **Exit Code: 0** — no lint errors or type failures exist.
 - **MDX Integration Fix**: Added proper processing for YAML frontmatter in Next.js (`remark-frontmatter`, `remark-mdx-frontmatter`), ensuring raw markdown code no longer bleeds into article texts.
-- **Scroll-Driven 3D UX Polish**: Fully optimized the `QuanimHero` 3D Canvas experience.
+- **Scroll-Driven 3D UX Polish**: Fully optimized the `PhysovaHero` 3D Canvas experience.
   - Aligned exact CSS scrollbar tracker dots mathematically to scroll thresholds without gaps.
   - Eliminated "Empty Scroll" latency by adjusting `smoothstep` boundary layers, making the Black Hole accretion disk react instantly to the user's scroll wheel.
   - Fine-tuned the `z-index` overlaps in Stage 4 so the typography remains on screen while the solar labels render perfectly in front.

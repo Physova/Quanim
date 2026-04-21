@@ -26,7 +26,7 @@ export function Navbar({ visible = true }: { visible?: boolean }) {
     )}>
       <Link href="/" className="flex items-center gap-2 group">
         <span className="text-base font-bold tracking-[0.2em] uppercase text-foreground group-hover:opacity-80 transition-opacity">
-          Quanim
+          Physova
         </span>
       </Link>
 

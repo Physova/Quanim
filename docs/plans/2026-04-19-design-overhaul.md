@@ -1,4 +1,4 @@
-# Quanim Design Overhaul — Implementation Plan
+# Physova Design Overhaul — Implementation Plan
 
 > **For Antigravity:** REQUIRED WORKFLOW: Use `.agent/workflows/execute-plan.md` to execute this plan in single-flow mode.
 
@@ -414,7 +414,7 @@ Delete violet glow div.
 **Lines 11-15 — Kill gradient:**
 ```tsx
 <span className="text-white group-hover:opacity-80 transition-opacity">
-  Quanim
+  Physova
 </span>
 ```
 
@@ -533,4 +533,4 @@ rg "amber-" --include "*.tsx" --include "*.mdx" -l app/ components/ content/
 4. `/community/t1` — Monochrome thread view
 5. `/auth/signin` — Stark monochrome form
 6. `/auth/signup` — Stark monochrome form
-7. Every footer — No gradient on "Quanim"
+7. Every footer — No gradient on "Physova"

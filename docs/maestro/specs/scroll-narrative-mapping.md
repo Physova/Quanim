@@ -1,7 +1,7 @@
-# Scroll-Linked Narrative Mapping — Quanim Overhaul
+# Scroll-Linked Narrative Mapping — Physova Overhaul
 
 ## Overview
-This document defines the choreography for the Quanim landing page, mapping the [0, 1] scroll range to specific stages, 3D celestial states, and transition effects.
+This document defines the choreography for the Physova landing page, mapping the [0, 1] scroll range to specific stages, 3D celestial states, and transition effects.
 
 ## Global Scroll Configuration
 - **Total Scroll Height**: 600vh
@@ -75,7 +75,7 @@ Triggered as we move from the Scale of Life to Discovery Labs.
 ---
 
 ## 5. Visual Summary (The Narrative Arc)
-1. **0.0 - 0.2 (Singularity)**: Pure energy. Focus on "What is Quanim?"
+1. **0.0 - 0.2 (Singularity)**: Pure energy. Focus on "What is Physova?"
 2. **0.2 - 0.45 (Humanity)**: Physics at our scale. Focus on "Why Physics matters."
 3. **0.45 - 0.75 (Mechanism)**: The tools of discovery. Focus on "The Labs/Simulations."
 4. **0.75 - 1.0 (Synthesis)**: Knowledge shared. Focus on "The Community."
