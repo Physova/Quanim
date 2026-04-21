@@ -14,10 +14,12 @@ const eslintConfig = [
     ignores: [
       ".next/**",
       "node_modules/**",
-      "(old version)/**",
+      "old-version/**",
+      ".agent/**",
       "out/**",
       "build/**",
       "lib/generated-prisma/**",
+      "next-env.d.ts",
     ],
   },
   ...compat.extends("next/core-web-vitals", "next/typescript"),

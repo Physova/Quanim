@@ -19,7 +19,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     code: (props) => <code className="bg-slate-800 rounded px-1.5 py-0.5 text-amber-400 font-mono text-sm" {...props} />,
     pre: (props) => <pre className="bg-slate-900 border border-slate-800 rounded-lg p-4 mb-6 overflow-x-auto" {...props} />,
     hr: () => <hr className="my-10 border-slate-800" />,
-    Lab: (props: any) => <Lab {...props} />,
+    Lab: (props: React.ComponentProps<typeof Lab>) => <Lab {...props} />,
     ...components,
   }
 }
