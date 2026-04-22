@@ -1,41 +1,88 @@
 import { NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { ensureArticleExists } from "@/lib/actions/article";
 
-// Mock comments API — returns empty array for GET, mock response for POST
-// Replace with Prisma queries once database is properly configured
-
-export async function GET() {
-  // Return empty comments array for now
-  return NextResponse.json([]);
-}
-
-export async function POST(req: Request) {
+/**
+ * GET: Fetch threaded comments for an article by its slug.
+ */
+export async function GET(req: Request) {
   try {
-    const body = await req.json();
-    const { content } = body;
+    const { searchParams } = new URL(req.url);
+    const slug = searchParams.get("slug");
 
-    if (!content) {
-      return NextResponse.json({ error: "Content is required" }, { status: 400 });
+    if (!slug) {
+      return NextResponse.json({ error: "Slug is required" }, { status: 400 });
     }
 
-    // Return a mock comment for optimistic UI
-    const mockComment = {
-      id: `mock-${Date.now()}`,
-      content,
-      createdAt: new Date().toISOString(),
-      parentId: body.parentId || null,
-      author: {
-        id: "mock-user",
-        name: "Guest User",
-        image: null,
+    // Comments are nested in DB but we'll fetch them all for a 2-level structure
+    // Schema:parentId = null → top-level, parentId = ID → reply
+    const comments = await prisma.comment.findMany({
+      where: {
+        article: { slug },
       },
-      _count: {
-        reactions: 0,
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+            image: true,
+          },
+        },
       },
-    };
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
 
-    return NextResponse.json(mockComment);
+    return NextResponse.json(comments);
   } catch (error) {
-    console.error("POST_COMMENT_ERROR", error);
+    console.error("[COMMENTS_GET_ERROR]", error);
+    return NextResponse.json({ error: "Internal Error" }, { status: 500 });
+  }
+}
+
+/**
+ * POST: Create a new comment or reply.
+ */
+export async function POST(req: Request) {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const body = await req.json();
+    const { body: commentText, slug, parentId } = body;
+
+    if (!commentText || !slug) {
+      return NextResponse.json({ error: "Text and slug are required" }, { status: 400 });
+    }
+
+    // Ensure the article exists in the DB
+    const article = await ensureArticleExists(slug);
+
+    const comment = await prisma.comment.create({
+      data: {
+        body: commentText,
+        parentId: parentId || null,
+        articleId: article.id,
+        authorId: session.user.id,
+      },
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+            image: true,
+          },
+        },
+      },
+    });
+
+    return NextResponse.json(comment);
+  } catch (error) {
+    console.error("[COMMENTS_POST_ERROR]", error);
     return NextResponse.json({ error: "Internal Error" }, { status: 500 });
   }
 }

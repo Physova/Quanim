@@ -1,52 +1,30 @@
-import NextAuth from "next-auth"
-import Google from "next-auth/providers/google"
-import Credentials from "next-auth/providers/credentials"
+// lib/auth.ts
+import NextAuth from "next-auth";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import Google from "next-auth/providers/google";
+import GitHub from "next-auth/providers/github";
+import { prisma } from "./prisma";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  // Removed PrismaAdapter — DB is not ready yet.  
-  // Using JWT-only auth for development.
+  adapter: PrismaAdapter(prisma),
   providers: [
     Google({
-      clientId: process.env.AUTH_GOOGLE_ID,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+      clientId: process.env.AUTH_GOOGLE_ID!,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET!,
     }),
-    // Dev-only credentials provider for testing without OAuth
-    Credentials({
-      name: "Dev Login",
-      credentials: {
-        email: { label: "Email", type: "email" },
-        name: { label: "Name", type: "text" },
-      },
-      async authorize(credentials) {
-        if (!credentials?.email) return null
-        return {
-          id: "dev-user-1",
-          email: credentials.email as string,
-          name: (credentials.name as string) || "Dev User",
-          role: "USER",
-        }
-      },
+    GitHub({
+      clientId: process.env.AUTH_GITHUB_ID!,
+      clientSecret: process.env.AUTH_GITHUB_SECRET!,
     }),
   ],
   session: {
-    strategy: "jwt",
-  },
-  pages: {
-    signIn: "/auth/signin",
+    strategy: "database",  // store sessions in Supabase, not JWTs
   },
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.role = (user as Record<string, unknown>).role || "USER"
-      }
-      return token
-    },
-    async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.sub as string
-        session.user.role = token.role as string
-      }
-      return session
+    session({ session, user }) {
+      session.user.id = user.id;
+      session.user.role = (user as any).role ?? "USER";
+      return session;
     },
   },
-})
+});

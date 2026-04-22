@@ -1,5 +1,6 @@
 import type { MDXComponents } from 'mdx/types'
 import { Lab } from '@/components/simulations/lab-interface'
+import { EquationBlock } from '@/components/content/equation-block'
 import React from 'react'
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
@@ -7,7 +8,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     h1: (props) => <h1 className="text-3xl font-bold mt-8 mb-4 text-slate-100" {...props} />,
     h2: (props) => <h2 className="text-2xl font-semibold mt-8 mb-4 text-amber-500" {...props} />,
     h3: (props) => <h3 className="text-xl font-medium mt-6 mb-3 text-slate-200" {...props} />,
-    p: (props) => <p className="leading-relaxed mb-4 text-slate-400" {...props} />,
+    p: (props) => <p className="leading-relaxed mb-4 text-slate-400 mdx-para" {...props} />,
     strong: (props) => <strong className="font-semibold text-slate-200" {...props} />,
     em: (props) => <em className="italic text-slate-300" {...props} />,
     ul: (props) => <ul className="list-disc list-inside mb-4 space-y-2 text-slate-400" {...props} />,
@@ -20,6 +21,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     pre: (props) => <pre className="bg-slate-900 border border-slate-800 rounded-lg p-4 mb-6 overflow-x-auto" {...props} />,
     hr: () => <hr className="my-10 border-slate-800" />,
     Lab: (props: React.ComponentProps<typeof Lab>) => <Lab {...props} />,
+    EquationBlock: (props: React.ComponentProps<typeof EquationBlock>) => <EquationBlock {...props} />,
     ...components,
   }
 }

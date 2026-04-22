@@ -72,20 +72,15 @@ export type Article = Prisma.ArticleModel
  */
 export type Comment = Prisma.CommentModel
 /**
- * Model Thread
- * 
- */
-export type Thread = Prisma.ThreadModel
-/**
  * Model Reaction
  * 
  */
 export type Reaction = Prisma.ReactionModel
 /**
- * Model Course
+ * Model ConfusedReaction
  * 
  */
-export type Course = Prisma.CourseModel
+export type ConfusedReaction = Prisma.ConfusedReactionModel
 /**
  * Model SimState
  * 

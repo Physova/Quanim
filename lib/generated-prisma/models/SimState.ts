@@ -26,58 +26,42 @@ export type AggregateSimState = {
 
 export type SimStateMinAggregateOutputType = {
   id: string | null
-  name: string | null
-  parameters: string | null
-  userId: string | null
+  simType: string | null
   createdAt: Date | null
-  updatedAt: Date | null
 }
 
 export type SimStateMaxAggregateOutputType = {
   id: string | null
-  name: string | null
-  parameters: string | null
-  userId: string | null
+  simType: string | null
   createdAt: Date | null
-  updatedAt: Date | null
 }
 
 export type SimStateCountAggregateOutputType = {
   id: number
-  name: number
-  parameters: number
-  userId: number
+  simType: number
+  params: number
   createdAt: number
-  updatedAt: number
   _all: number
 }
 
 
 export type SimStateMinAggregateInputType = {
   id?: true
-  name?: true
-  parameters?: true
-  userId?: true
+  simType?: true
   createdAt?: true
-  updatedAt?: true
 }
 
 export type SimStateMaxAggregateInputType = {
   id?: true
-  name?: true
-  parameters?: true
-  userId?: true
+  simType?: true
   createdAt?: true
-  updatedAt?: true
 }
 
 export type SimStateCountAggregateInputType = {
   id?: true
-  name?: true
-  parameters?: true
-  userId?: true
+  simType?: true
+  params?: true
   createdAt?: true
-  updatedAt?: true
   _all?: true
 }
 
@@ -155,11 +139,9 @@ export type SimStateGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 
 export type SimStateGroupByOutputType = {
   id: string
-  name: string
-  parameters: string
-  userId: string
+  simType: string
+  params: runtime.JsonValue
   createdAt: Date
-  updatedAt: Date
   _count: SimStateCountAggregateOutputType | null
   _min: SimStateMinAggregateOutputType | null
   _max: SimStateMaxAggregateOutputType | null
@@ -185,22 +167,16 @@ export type SimStateWhereInput = {
   OR?: Prisma.SimStateWhereInput[]
   NOT?: Prisma.SimStateWhereInput | Prisma.SimStateWhereInput[]
   id?: Prisma.StringFilter<"SimState"> | string
-  name?: Prisma.StringFilter<"SimState"> | string
-  parameters?: Prisma.StringFilter<"SimState"> | string
-  userId?: Prisma.StringFilter<"SimState"> | string
+  simType?: Prisma.StringFilter<"SimState"> | string
+  params?: Prisma.JsonFilter<"SimState">
   createdAt?: Prisma.DateTimeFilter<"SimState"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"SimState"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type SimStateOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  parameters?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  simType?: Prisma.SortOrder
+  params?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type SimStateWhereUniqueInput = Prisma.AtLeast<{
@@ -208,21 +184,16 @@ export type SimStateWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.SimStateWhereInput | Prisma.SimStateWhereInput[]
   OR?: Prisma.SimStateWhereInput[]
   NOT?: Prisma.SimStateWhereInput | Prisma.SimStateWhereInput[]
-  name?: Prisma.StringFilter<"SimState"> | string
-  parameters?: Prisma.StringFilter<"SimState"> | string
-  userId?: Prisma.StringFilter<"SimState"> | string
+  simType?: Prisma.StringFilter<"SimState"> | string
+  params?: Prisma.JsonFilter<"SimState">
   createdAt?: Prisma.DateTimeFilter<"SimState"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"SimState"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
 export type SimStateOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  parameters?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  simType?: Prisma.SortOrder
+  params?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   _count?: Prisma.SimStateCountOrderByAggregateInput
   _max?: Prisma.SimStateMaxOrderByAggregateInput
   _min?: Prisma.SimStateMinOrderByAggregateInput
@@ -233,303 +204,119 @@ export type SimStateScalarWhereWithAggregatesInput = {
   OR?: Prisma.SimStateScalarWhereWithAggregatesInput[]
   NOT?: Prisma.SimStateScalarWhereWithAggregatesInput | Prisma.SimStateScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"SimState"> | string
-  name?: Prisma.StringWithAggregatesFilter<"SimState"> | string
-  parameters?: Prisma.StringWithAggregatesFilter<"SimState"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"SimState"> | string
+  simType?: Prisma.StringWithAggregatesFilter<"SimState"> | string
+  params?: Prisma.JsonWithAggregatesFilter<"SimState">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"SimState"> | Date | string
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SimState"> | Date | string
 }
 
 export type SimStateCreateInput = {
   id?: string
-  name: string
-  parameters: string
+  simType: string
+  params: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutSimStatesInput
 }
 
 export type SimStateUncheckedCreateInput = {
   id?: string
-  name: string
-  parameters: string
-  userId: string
+  simType: string
+  params: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
-  updatedAt?: Date | string
 }
 
 export type SimStateUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  parameters?: Prisma.StringFieldUpdateOperationsInput | string
+  simType?: Prisma.StringFieldUpdateOperationsInput | string
+  params?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutSimStatesNestedInput
 }
 
 export type SimStateUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  parameters?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  simType?: Prisma.StringFieldUpdateOperationsInput | string
+  params?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SimStateCreateManyInput = {
   id?: string
-  name: string
-  parameters: string
-  userId: string
+  simType: string
+  params: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
-  updatedAt?: Date | string
 }
 
 export type SimStateUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  parameters?: Prisma.StringFieldUpdateOperationsInput | string
+  simType?: Prisma.StringFieldUpdateOperationsInput | string
+  params?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SimStateUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  parameters?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  simType?: Prisma.StringFieldUpdateOperationsInput | string
+  params?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type SimStateListRelationFilter = {
-  every?: Prisma.SimStateWhereInput
-  some?: Prisma.SimStateWhereInput
-  none?: Prisma.SimStateWhereInput
-}
-
-export type SimStateOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
 }
 
 export type SimStateCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  parameters?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  simType?: Prisma.SortOrder
+  params?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
 }
 
 export type SimStateMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  parameters?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  simType?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
 }
 
 export type SimStateMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  parameters?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  simType?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
-}
-
-export type SimStateCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.SimStateCreateWithoutUserInput, Prisma.SimStateUncheckedCreateWithoutUserInput> | Prisma.SimStateCreateWithoutUserInput[] | Prisma.SimStateUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.SimStateCreateOrConnectWithoutUserInput | Prisma.SimStateCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.SimStateCreateManyUserInputEnvelope
-  connect?: Prisma.SimStateWhereUniqueInput | Prisma.SimStateWhereUniqueInput[]
-}
-
-export type SimStateUncheckedCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.SimStateCreateWithoutUserInput, Prisma.SimStateUncheckedCreateWithoutUserInput> | Prisma.SimStateCreateWithoutUserInput[] | Prisma.SimStateUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.SimStateCreateOrConnectWithoutUserInput | Prisma.SimStateCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.SimStateCreateManyUserInputEnvelope
-  connect?: Prisma.SimStateWhereUniqueInput | Prisma.SimStateWhereUniqueInput[]
-}
-
-export type SimStateUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.SimStateCreateWithoutUserInput, Prisma.SimStateUncheckedCreateWithoutUserInput> | Prisma.SimStateCreateWithoutUserInput[] | Prisma.SimStateUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.SimStateCreateOrConnectWithoutUserInput | Prisma.SimStateCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.SimStateUpsertWithWhereUniqueWithoutUserInput | Prisma.SimStateUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.SimStateCreateManyUserInputEnvelope
-  set?: Prisma.SimStateWhereUniqueInput | Prisma.SimStateWhereUniqueInput[]
-  disconnect?: Prisma.SimStateWhereUniqueInput | Prisma.SimStateWhereUniqueInput[]
-  delete?: Prisma.SimStateWhereUniqueInput | Prisma.SimStateWhereUniqueInput[]
-  connect?: Prisma.SimStateWhereUniqueInput | Prisma.SimStateWhereUniqueInput[]
-  update?: Prisma.SimStateUpdateWithWhereUniqueWithoutUserInput | Prisma.SimStateUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.SimStateUpdateManyWithWhereWithoutUserInput | Prisma.SimStateUpdateManyWithWhereWithoutUserInput[]
-  deleteMany?: Prisma.SimStateScalarWhereInput | Prisma.SimStateScalarWhereInput[]
-}
-
-export type SimStateUncheckedUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.SimStateCreateWithoutUserInput, Prisma.SimStateUncheckedCreateWithoutUserInput> | Prisma.SimStateCreateWithoutUserInput[] | Prisma.SimStateUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.SimStateCreateOrConnectWithoutUserInput | Prisma.SimStateCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.SimStateUpsertWithWhereUniqueWithoutUserInput | Prisma.SimStateUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.SimStateCreateManyUserInputEnvelope
-  set?: Prisma.SimStateWhereUniqueInput | Prisma.SimStateWhereUniqueInput[]
-  disconnect?: Prisma.SimStateWhereUniqueInput | Prisma.SimStateWhereUniqueInput[]
-  delete?: Prisma.SimStateWhereUniqueInput | Prisma.SimStateWhereUniqueInput[]
-  connect?: Prisma.SimStateWhereUniqueInput | Prisma.SimStateWhereUniqueInput[]
-  update?: Prisma.SimStateUpdateWithWhereUniqueWithoutUserInput | Prisma.SimStateUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.SimStateUpdateManyWithWhereWithoutUserInput | Prisma.SimStateUpdateManyWithWhereWithoutUserInput[]
-  deleteMany?: Prisma.SimStateScalarWhereInput | Prisma.SimStateScalarWhereInput[]
-}
-
-export type SimStateCreateWithoutUserInput = {
-  id?: string
-  name: string
-  parameters: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type SimStateUncheckedCreateWithoutUserInput = {
-  id?: string
-  name: string
-  parameters: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type SimStateCreateOrConnectWithoutUserInput = {
-  where: Prisma.SimStateWhereUniqueInput
-  create: Prisma.XOR<Prisma.SimStateCreateWithoutUserInput, Prisma.SimStateUncheckedCreateWithoutUserInput>
-}
-
-export type SimStateCreateManyUserInputEnvelope = {
-  data: Prisma.SimStateCreateManyUserInput | Prisma.SimStateCreateManyUserInput[]
-}
-
-export type SimStateUpsertWithWhereUniqueWithoutUserInput = {
-  where: Prisma.SimStateWhereUniqueInput
-  update: Prisma.XOR<Prisma.SimStateUpdateWithoutUserInput, Prisma.SimStateUncheckedUpdateWithoutUserInput>
-  create: Prisma.XOR<Prisma.SimStateCreateWithoutUserInput, Prisma.SimStateUncheckedCreateWithoutUserInput>
-}
-
-export type SimStateUpdateWithWhereUniqueWithoutUserInput = {
-  where: Prisma.SimStateWhereUniqueInput
-  data: Prisma.XOR<Prisma.SimStateUpdateWithoutUserInput, Prisma.SimStateUncheckedUpdateWithoutUserInput>
-}
-
-export type SimStateUpdateManyWithWhereWithoutUserInput = {
-  where: Prisma.SimStateScalarWhereInput
-  data: Prisma.XOR<Prisma.SimStateUpdateManyMutationInput, Prisma.SimStateUncheckedUpdateManyWithoutUserInput>
-}
-
-export type SimStateScalarWhereInput = {
-  AND?: Prisma.SimStateScalarWhereInput | Prisma.SimStateScalarWhereInput[]
-  OR?: Prisma.SimStateScalarWhereInput[]
-  NOT?: Prisma.SimStateScalarWhereInput | Prisma.SimStateScalarWhereInput[]
-  id?: Prisma.StringFilter<"SimState"> | string
-  name?: Prisma.StringFilter<"SimState"> | string
-  parameters?: Prisma.StringFilter<"SimState"> | string
-  userId?: Prisma.StringFilter<"SimState"> | string
-  createdAt?: Prisma.DateTimeFilter<"SimState"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"SimState"> | Date | string
-}
-
-export type SimStateCreateManyUserInput = {
-  id?: string
-  name: string
-  parameters: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type SimStateUpdateWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  parameters?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type SimStateUncheckedUpdateWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  parameters?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type SimStateUncheckedUpdateManyWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  parameters?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
 
 export type SimStateSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  name?: boolean
-  parameters?: boolean
-  userId?: boolean
+  simType?: boolean
+  params?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["simState"]>
 
 export type SimStateSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  name?: boolean
-  parameters?: boolean
-  userId?: boolean
+  simType?: boolean
+  params?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["simState"]>
 
 export type SimStateSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  name?: boolean
-  parameters?: boolean
-  userId?: boolean
+  simType?: boolean
+  params?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["simState"]>
 
 export type SimStateSelectScalar = {
   id?: boolean
-  name?: boolean
-  parameters?: boolean
-  userId?: boolean
+  simType?: boolean
+  params?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
 }
 
-export type SimStateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "parameters" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["simState"]>
-export type SimStateInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
-export type SimStateIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
-export type SimStateIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
+export type SimStateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "simType" | "params" | "createdAt", ExtArgs["result"]["simState"]>
 
 export type $SimStatePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SimState"
-  objects: {
-    user: Prisma.$UserPayload<ExtArgs>
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    name: string
-    parameters: string
-    userId: string
+    simType: string
+    params: runtime.JsonValue
     createdAt: Date
-    updatedAt: Date
   }, ExtArgs["result"]["simState"]>
   composites: {}
 }
@@ -924,7 +711,6 @@ readonly fields: SimStateFieldRefs;
  */
 export interface Prisma__SimStateClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -955,11 +741,9 @@ export interface Prisma__SimStateClient<T, Null = never, ExtArgs extends runtime
  */
 export interface SimStateFieldRefs {
   readonly id: Prisma.FieldRef<"SimState", 'String'>
-  readonly name: Prisma.FieldRef<"SimState", 'String'>
-  readonly parameters: Prisma.FieldRef<"SimState", 'String'>
-  readonly userId: Prisma.FieldRef<"SimState", 'String'>
+  readonly simType: Prisma.FieldRef<"SimState", 'String'>
+  readonly params: Prisma.FieldRef<"SimState", 'Json'>
   readonly createdAt: Prisma.FieldRef<"SimState", 'DateTime'>
-  readonly updatedAt: Prisma.FieldRef<"SimState", 'DateTime'>
 }
     
 
@@ -976,10 +760,6 @@ export type SimStateFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the SimState
    */
   omit?: Prisma.SimStateOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SimStateInclude<ExtArgs> | null
   /**
    * Filter, which SimState to fetch.
    */
@@ -999,10 +779,6 @@ export type SimStateFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.SimStateOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SimStateInclude<ExtArgs> | null
-  /**
    * Filter, which SimState to fetch.
    */
   where: Prisma.SimStateWhereUniqueInput
@@ -1020,10 +796,6 @@ export type SimStateFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the SimState
    */
   omit?: Prisma.SimStateOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SimStateInclude<ExtArgs> | null
   /**
    * Filter, which SimState to fetch.
    */
@@ -1073,10 +845,6 @@ export type SimStateFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.SimStateOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SimStateInclude<ExtArgs> | null
-  /**
    * Filter, which SimState to fetch.
    */
   where?: Prisma.SimStateWhereInput
@@ -1124,10 +892,6 @@ export type SimStateFindManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the SimState
    */
   omit?: Prisma.SimStateOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SimStateInclude<ExtArgs> | null
   /**
    * Filter, which SimStates to fetch.
    */
@@ -1177,10 +941,6 @@ export type SimStateCreateArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   omit?: Prisma.SimStateOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SimStateInclude<ExtArgs> | null
-  /**
    * The data needed to create a SimState.
    */
   data: Prisma.XOR<Prisma.SimStateCreateInput, Prisma.SimStateUncheckedCreateInput>
@@ -1194,6 +954,7 @@ export type SimStateCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * The data used to create many SimStates.
    */
   data: Prisma.SimStateCreateManyInput | Prisma.SimStateCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1212,10 +973,7 @@ export type SimStateCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extens
    * The data used to create many SimStates.
    */
   data: Prisma.SimStateCreateManyInput | Prisma.SimStateCreateManyInput[]
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SimStateIncludeCreateManyAndReturn<ExtArgs> | null
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1230,10 +988,6 @@ export type SimStateUpdateArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the SimState
    */
   omit?: Prisma.SimStateOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SimStateInclude<ExtArgs> | null
   /**
    * The data needed to update a SimState.
    */
@@ -1286,10 +1040,6 @@ export type SimStateUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many SimStates to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SimStateIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1304,10 +1054,6 @@ export type SimStateUpsertArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the SimState
    */
   omit?: Prisma.SimStateOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SimStateInclude<ExtArgs> | null
   /**
    * The filter to search for the SimState to update in case it exists.
    */
@@ -1334,10 +1080,6 @@ export type SimStateDeleteArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the SimState
    */
   omit?: Prisma.SimStateOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SimStateInclude<ExtArgs> | null
   /**
    * Filter which SimState to delete.
    */
@@ -1370,8 +1112,4 @@ export type SimStateDefaultArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the SimState
    */
   omit?: Prisma.SimStateOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SimStateInclude<ExtArgs> | null
 }

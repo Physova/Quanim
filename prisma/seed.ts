@@ -105,6 +105,7 @@ async function main() {
     create: {
       id: 'global-discussion',
       title: 'Global Discussion',
+      content: 'General physics discussions for the community.',
       authorId: admin.id,
     },
   })

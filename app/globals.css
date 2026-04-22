@@ -3,6 +3,7 @@
 @import "tw-animate-css";
 
 @plugin "tailwindcss-animate";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -148,6 +149,42 @@
   html {
     @apply font-sans no-scrollbar;
   }
+}
+
+/* ── Editorial Typography ────────────────────────────────────────── */
+.prose-editorial {
+  @apply prose prose-invert prose-lg max-w-none;
+  --tw-prose-body: theme('colors.white / 60%');
+  --tw-prose-headings: theme('colors.white');
+  --tw-prose-links: theme('colors.white / 80%');
+  --tw-prose-bold: theme('colors.white');
+  --tw-prose-counters: theme('colors.white / 40%');
+  --tw-prose-bullets: theme('colors.white / 20%');
+  --tw-prose-hr: theme('colors.white / 10%');
+  --tw-prose-quotes: theme('colors.white / 50%');
+  --tw-prose-quote-borders: theme('colors.white / 20%');
+  --tw-prose-captions: theme('colors.white / 40%');
+  --tw-prose-code: theme('colors.white / 70%');
+  --tw-prose-pre-code: theme('colors.white / 70%');
+  --tw-prose-pre-bg: theme('colors.white / 2%');
+  --tw-prose-th-borders: theme('colors.white / 20%');
+  --tw-prose-td-borders: theme('colors.white / 10%');
+}
+
+.prose-editorial :where(h1, h2, h3, h4):not(:where([class~="not-prose"] *)) {
+  @apply font-serif tracking-tighter uppercase leading-[1.1];
+}
+
+.prose-editorial :where(p):not(:where([class~="not-prose"] *)) {
+  @apply leading-relaxed mb-8;
+}
+
+.prose-editorial :where(a):not(:where([class~="not-prose"] *)) {
+  @apply underline underline-offset-4 decoration-white/20 hover:decoration-white transition-colors;
+}
+
+.prose-editorial :where(blockquote):not(:where([class~="not-prose"] *)) {
+  @apply border-l border-white/20 pl-8 italic font-serif text-xl md:text-2xl text-white/40 my-12;
 }
 
 @utility tracking-tight-heading {

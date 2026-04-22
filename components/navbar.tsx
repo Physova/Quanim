@@ -14,7 +14,8 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { MobileNav } from "@/components/mobile-nav"
-import { LogOut, User as UserIcon } from "lucide-react"
+import { LogOut, User as UserIcon, Twitter } from "lucide-react"
+import { NAV_LINKS, SOCIAL_LINKS } from "@/config/navigation"
 
 export function Navbar({ visible = true }: { visible?: boolean }) {
   const { data: session, status } = useSession()
@@ -33,32 +34,29 @@ export function Navbar({ visible = true }: { visible?: boolean }) {
       <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex justify-center">
         <NavigationMenu className="flex">
           <NavigationMenuList className="gap-8">
-            <NavigationMenuItem>
-              <Link href="/" legacyBehavior passHref>
-                <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-white/5 text-muted-foreground hover:text-foreground transition-all font-bold text-[10px] uppercase tracking-[0.2em]")}>
-                  Home
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/topics" legacyBehavior passHref>
-                <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-white/5 text-muted-foreground hover:text-foreground transition-all font-bold text-[10px] uppercase tracking-[0.2em]")}>
-                  Topics
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/community" legacyBehavior passHref>
-                <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-white/5 text-muted-foreground hover:text-foreground transition-all font-bold text-[10px] uppercase tracking-[0.2em]")}>
-                  Community
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
+            {NAV_LINKS.map((link) => (
+              <NavigationMenuItem key={link.href}>
+                <Link href={link.href} legacyBehavior passHref>
+                  <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-white/5 text-muted-foreground hover:text-foreground transition-all font-bold text-[10px] uppercase tracking-[0.2em]")}>
+                    {link.label}
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+            ))}
           </NavigationMenuList>
         </NavigationMenu>
       </div>
 
       <div className="flex items-center gap-2 md:gap-4">
+        <Link 
+          href={SOCIAL_LINKS.x} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="hidden sm:flex text-muted-foreground hover:text-foreground transition-all px-2"
+        >
+          <Twitter className="w-4 h-4" />
+          <span className="sr-only">X (Twitter)</span>
+        </Link>
         {status === "authenticated" ? (
           <>
             <div className="hidden lg:flex items-center gap-3 pr-4 border-r border-border group cursor-pointer">

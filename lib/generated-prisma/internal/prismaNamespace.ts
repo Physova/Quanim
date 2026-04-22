@@ -390,9 +390,8 @@ export const ModelName = {
   VerificationToken: 'VerificationToken',
   Article: 'Article',
   Comment: 'Comment',
-  Thread: 'Thread',
   Reaction: 'Reaction',
-  Course: 'Course',
+  ConfusedReaction: 'ConfusedReaction',
   SimState: 'SimState'
 } as const
 
@@ -409,7 +408,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "article" | "comment" | "thread" | "reaction" | "course" | "simState"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "article" | "comment" | "reaction" | "confusedReaction" | "simState"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -857,80 +856,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Thread: {
-      payload: Prisma.$ThreadPayload<ExtArgs>
-      fields: Prisma.ThreadFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.ThreadFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThreadPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.ThreadFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThreadPayload>
-        }
-        findFirst: {
-          args: Prisma.ThreadFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThreadPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.ThreadFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThreadPayload>
-        }
-        findMany: {
-          args: Prisma.ThreadFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThreadPayload>[]
-        }
-        create: {
-          args: Prisma.ThreadCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThreadPayload>
-        }
-        createMany: {
-          args: Prisma.ThreadCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.ThreadCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThreadPayload>[]
-        }
-        delete: {
-          args: Prisma.ThreadDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThreadPayload>
-        }
-        update: {
-          args: Prisma.ThreadUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThreadPayload>
-        }
-        deleteMany: {
-          args: Prisma.ThreadDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.ThreadUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.ThreadUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThreadPayload>[]
-        }
-        upsert: {
-          args: Prisma.ThreadUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThreadPayload>
-        }
-        aggregate: {
-          args: Prisma.ThreadAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateThread>
-        }
-        groupBy: {
-          args: Prisma.ThreadGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ThreadGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.ThreadCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ThreadCountAggregateOutputType> | number
-        }
-      }
-    }
     Reaction: {
       payload: Prisma.$ReactionPayload<ExtArgs>
       fields: Prisma.ReactionFieldRefs
@@ -1005,77 +930,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Course: {
-      payload: Prisma.$CoursePayload<ExtArgs>
-      fields: Prisma.CourseFieldRefs
+    ConfusedReaction: {
+      payload: Prisma.$ConfusedReactionPayload<ExtArgs>
+      fields: Prisma.ConfusedReactionFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.CourseFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload> | null
+          args: Prisma.ConfusedReactionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfusedReactionPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.CourseFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload>
+          args: Prisma.ConfusedReactionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfusedReactionPayload>
         }
         findFirst: {
-          args: Prisma.CourseFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload> | null
+          args: Prisma.ConfusedReactionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfusedReactionPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.CourseFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload>
+          args: Prisma.ConfusedReactionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfusedReactionPayload>
         }
         findMany: {
-          args: Prisma.CourseFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload>[]
+          args: Prisma.ConfusedReactionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfusedReactionPayload>[]
         }
         create: {
-          args: Prisma.CourseCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload>
+          args: Prisma.ConfusedReactionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfusedReactionPayload>
         }
         createMany: {
-          args: Prisma.CourseCreateManyArgs<ExtArgs>
+          args: Prisma.ConfusedReactionCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.CourseCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload>[]
+          args: Prisma.ConfusedReactionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfusedReactionPayload>[]
         }
         delete: {
-          args: Prisma.CourseDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload>
+          args: Prisma.ConfusedReactionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfusedReactionPayload>
         }
         update: {
-          args: Prisma.CourseUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload>
+          args: Prisma.ConfusedReactionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfusedReactionPayload>
         }
         deleteMany: {
-          args: Prisma.CourseDeleteManyArgs<ExtArgs>
+          args: Prisma.ConfusedReactionDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.CourseUpdateManyArgs<ExtArgs>
+          args: Prisma.ConfusedReactionUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.CourseUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload>[]
+          args: Prisma.ConfusedReactionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfusedReactionPayload>[]
         }
         upsert: {
-          args: Prisma.CourseUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CoursePayload>
+          args: Prisma.ConfusedReactionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConfusedReactionPayload>
         }
         aggregate: {
-          args: Prisma.CourseAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateCourse>
+          args: Prisma.ConfusedReactionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateConfusedReaction>
         }
         groupBy: {
-          args: Prisma.CourseGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CourseGroupByOutputType>[]
+          args: Prisma.ConfusedReactionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ConfusedReactionGroupByOutputType>[]
         }
         count: {
-          args: Prisma.CourseCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CourseCountAggregateOutputType> | number
+          args: Prisma.ConfusedReactionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ConfusedReactionCountAggregateOutputType> | number
         }
       }
     }
@@ -1183,6 +1108,9 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
  */
 
 export const TransactionIsolationLevel = runtime.makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 } as const)
 
@@ -1243,16 +1171,8 @@ export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFi
 export const ArticleScalarFieldEnum = {
   id: 'id',
   slug: 'slug',
-  title: 'title',
-  description: 'description',
-  content: 'content',
-  published: 'published',
-  publishedAt: 'publishedAt',
-  difficulty: 'difficulty',
-  tags: 'tags',
-  authorId: 'authorId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  viewCount: 'viewCount',
+  createdAt: 'createdAt'
 } as const
 
 export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeof ArticleScalarFieldEnum]
@@ -1260,61 +1180,45 @@ export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeo
 
 export const CommentScalarFieldEnum = {
   id: 'id',
-  content: 'content',
+  body: 'body',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  isDeleted: 'isDeleted',
   authorId: 'authorId',
   articleId: 'articleId',
-  threadId: 'threadId',
-  parentId: 'parentId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  parentId: 'parentId'
 } as const
 
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
-export const ThreadScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  authorId: 'authorId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ThreadScalarFieldEnum = (typeof ThreadScalarFieldEnum)[keyof typeof ThreadScalarFieldEnum]
-
-
 export const ReactionScalarFieldEnum = {
   id: 'id',
   type: 'type',
+  createdAt: 'createdAt',
   userId: 'userId',
-  articleId: 'articleId',
-  commentId: 'commentId',
-  createdAt: 'createdAt'
+  articleId: 'articleId'
 } as const
 
 export type ReactionScalarFieldEnum = (typeof ReactionScalarFieldEnum)[keyof typeof ReactionScalarFieldEnum]
 
 
-export const CourseScalarFieldEnum = {
+export const ConfusedReactionScalarFieldEnum = {
   id: 'id',
-  slug: 'slug',
-  title: 'title',
-  description: 'description',
-  content: 'content',
+  paragraphId: 'paragraphId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  userId: 'userId',
+  articleSlug: 'articleSlug'
 } as const
 
-export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
+export type ConfusedReactionScalarFieldEnum = (typeof ConfusedReactionScalarFieldEnum)[keyof typeof ConfusedReactionScalarFieldEnum]
 
 
 export const SimStateScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  parameters: 'parameters',
-  userId: 'userId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  simType: 'simType',
+  params: 'params',
+  createdAt: 'createdAt'
 } as const
 
 export type SimStateScalarFieldEnum = (typeof SimStateScalarFieldEnum)[keyof typeof SimStateScalarFieldEnum]
@@ -1328,12 +1232,36 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+} as const
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
 export const NullsOrder = {
   first: 'first',
   last: 'last'
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -1350,9 +1278,37 @@ export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
 
 
 /**
+ * Reference to a field of type 'String[]'
+ */
+export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+/**
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime[]'
+ */
+export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Role'
+ */
+export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
+    
+
+
+/**
+ * Reference to a field of type 'Role[]'
+ */
+export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
     
 
 
@@ -1364,6 +1320,13 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
 
 
 /**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
@@ -1371,9 +1334,30 @@ export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 /**
@@ -1477,9 +1461,8 @@ export type GlobalOmitConfig = {
   verificationToken?: Prisma.VerificationTokenOmit
   article?: Prisma.ArticleOmit
   comment?: Prisma.CommentOmit
-  thread?: Prisma.ThreadOmit
   reaction?: Prisma.ReactionOmit
-  course?: Prisma.CourseOmit
+  confusedReaction?: Prisma.ConfusedReactionOmit
   simState?: Prisma.SimStateOmit
 }
 

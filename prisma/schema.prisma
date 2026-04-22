@@ -1,20 +1,16 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// prisma/schema.prisma
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider  = "postgresql"
 }
 
-enum Role {
-  USER
-  ADMIN
-  OWNER
-}
-
+// ─────────────────────────────────────────────
+// USERS
+// ─────────────────────────────────────────────
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -22,35 +18,37 @@ model User {
   emailVerified DateTime?
   image         String?
   role          Role      @default(USER)
-  
-  // NextAuth relations
-  accounts      Account[]
-  sessions      Session[]
-
-  // Physova content relations
-  articles      Article[]
-  comments      Comment[]
-  threads       Thread[]
-  reactions     Reaction[]
-  simStates     SimState[]
-
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+
+  accounts Account[]
+  sessions Session[]
+  comments Comment[]
+  reactions Reaction[]
+  confusedReactions ConfusedReaction[]
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
+// ─────────────────────────────────────────────
+// NEXTAUTH TABLES (required by Prisma adapter)
+// ─────────────────────────────────────────────
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?
-  access_token       String?
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -62,7 +60,8 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
@@ -73,102 +72,86 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+// ─────────────────────────────────────────────
+// ARTICLES (MDX filesystem articles — tracked in DB for relations)
+// ─────────────────────────────────────────────
 model Article {
   id          String   @id @default(cuid())
-  slug        String   @unique
-  title       String
-  description String?
-  content     String
-  published   Boolean  @default(false)
-  publishedAt DateTime?
-  difficulty  String?  // e.g., "Beginner", "Intermediate", "Advanced"
-  tags        String?
-  
-  authorId    String
-  author      User     @relation(fields: [authorId], references: [id])
-  
+  slug        String   @unique  // matches the MDX filename slug
+  viewCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+
   comments    Comment[]
   reactions   Reaction[]
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  confusedReactions ConfusedReaction[]
 }
 
+// ─────────────────────────────────────────────
+// COMMENTS — 2-LEVEL THREADED
+// ─────────────────────────────────────────────
+// Depth rules:
+//   parentId = null  → top-level comment (depth 0)
+//   parentId = ID    → reply (depth 1)
+// A reply to a depth-1 comment stays at depth 1 visually but
+// tags the user with @username. Never store depth > 1 in DB.
 model Comment {
-  id          String   @id @default(cuid())
-  content     String
-  
-  authorId    String
-  author      User     @relation(fields: [authorId], references: [id])
-  
-  articleId   String?
-  article     Article? @relation(fields: [articleId], references: [id])
-  
-  threadId    String?
-  thread      Thread?  @relation(fields: [threadId], references: [id])
-  
-  parentId    String?
-  parent      Comment? @relation("CommentToComment", fields: [parentId], references: [id])
-  replies     Comment[] @relation("CommentToComment")
-  
-  reactions   Reaction[]
+  id        String   @id @default(cuid())
+  body      String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isDeleted Boolean  @default(false)  // soft delete, show "[deleted]"
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  articleId String
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  parentId  String?  // null = top level, non-null = reply
+  parent    Comment? @relation("CommentReplies", fields: [parentId], references: [id])
+  replies   Comment[] @relation("CommentReplies")
 }
 
-
-model Thread {
-  id          String   @id @default(cuid())
-  title       String
-  
-  authorId    String
-  author      User     @relation(fields: [authorId], references: [id])
-  
-  comments    Comment[]
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
+// ─────────────────────────────────────────────
+// REACTIONS — Emoji reactions on articles
+// ─────────────────────────────────────────────
 model Reaction {
-  id          String   @id @default(cuid())
-  type        String   // e.g., \"LIKE\", \"UPVOTE\", \"HEART\"
-  
-  userId      String
-  user        User     @relation(fields: [userId], references: [id])
-  
-  articleId   String?
-  article     Article? @relation(fields: [articleId], references: [id])
-  
-  commentId   String?
-  comment     Comment? @relation(fields: [commentId], references: [id])
+  id        String   @id @default(cuid())
+  type      String   // e.g. "🔥", "🤯", "💡"
+  createdAt DateTime @default(now())
 
-  createdAt   DateTime @default(now())
-  
-  @@unique([userId, articleId, type])
-  @@unique([userId, commentId, type])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  articleId String
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, articleId, type])  // one reaction per type per user per article
 }
 
-model Course {
+// ─────────────────────────────────────────────
+// CONFUSED REACTIONS — "I got lost here" paragraph tracking
+// ─────────────────────────────────────────────
+model ConfusedReaction {
   id          String   @id @default(cuid())
-  slug        String   @unique
-  title       String
-  description String?
-  content     String
-
+  paragraphId String   // e.g. "para-3" — matches data-para-id on DOM element
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+
+  userId      String?  // nullable — allow anonymous reactions
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  articleSlug String
+  article     Article  @relation(fields: [articleSlug], references: [slug], onDelete: Cascade)
+
+  @@unique([userId, articleSlug, paragraphId])  // one confused-click per para per user
 }
 
+// ─────────────────────────────────────────────
+// SIMULATION STATES — for shareable URL states
+// ─────────────────────────────────────────────
 model SimState {
-  id          String   @id @default(cuid())
-  name        String
-  parameters  String
-  
-  userId      String
-  user        User     @relation(fields: [userId], references: [id])
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(cuid())
+  simType   String   // e.g. "double-slit"
+  params    Json     // serialized simulation parameters
+  createdAt DateTime @default(now())
 }

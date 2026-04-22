@@ -6,8 +6,6 @@ difficulty: "Intermediate"
 tags: ["Quantum Mechanics", "Entanglement", "EPR Paradox", "Bell Tests"]
 ---
 
-import { Lab } from "@/components/simulations/lab-interface";
-
 <Lab 
   type="entanglement" 
   title="Entanglement Laboratory"
@@ -18,7 +16,17 @@ import { Lab } from "@/components/simulations/lab-interface";
 
 Quantum entanglement is one of the most counterintuitive phenomena in physics. When two particles become entangled, they share a single quantum state. Measuring one particle **instantly** determines the state of the other, no matter how far apart they are.
 
+<EquationBlock 
+  equation="|Ψ⟩ = 1/√2 (|↑↓⟩ - |↓↑⟩)" 
+  description="The Bell State: Maximally entangled anti-correlated particles" 
+/>
+
 Albert Einstein was famously skeptical of this, calling it **"spooky action at a distance."** He believed it suggested that quantum mechanics was incomplete and that there must be "hidden variables" we didn't yet understand.
+
+<EquationBlock 
+  equation="E(a, b) = -cos(a - b)" 
+  description="Quantum correlation between measurement angles" 
+/>
 
 > "I cannot seriously believe in [quantum theory] because... physics should represent a reality in time and space, free from spooky actions at a distance."
 > — *Albert Einstein, 1947*

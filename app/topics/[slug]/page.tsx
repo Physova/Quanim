@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 
 import { TopicActions } from "@/components/social/topic-actions";
+import { CommentsSection } from "@/components/social/comments-section";
 
 const TOPIC_MAP = {
   "double-slit": React.lazy(() => import("@/content/topics/double-slit.mdx")),
@@ -90,9 +91,9 @@ export default async function TopicPage({ params }: TopicPageProps) {
 
             {/* Integrated Simulation removed - now handled purely inside MDX */}
 
-            <div className="border border-white/5 rounded-none p-8 md:p-16 mb-12 prose prose-invert max-w-none relative">
+            <div className="border border-white/5 rounded-none p-8 md:p-16 mb-12 relative">
                <div className="relative z-10">
-                <MDXContent>
+                <MDXContent slug={slug}>
                   <Suspense fallback={<div className="h-96 bg-white/[0.02] border border-white/5"></div>}>
                     <Content />
                   </Suspense>
@@ -107,6 +108,8 @@ export default async function TopicPage({ params }: TopicPageProps) {
                 </span>
               ))}
             </div>
+
+            <CommentsSection slug={slug} />
           </div>
 
           {/* Sidebar (Desktop View) */}

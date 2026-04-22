@@ -57,9 +57,8 @@ export const ModelName = {
   VerificationToken: 'VerificationToken',
   Article: 'Article',
   Comment: 'Comment',
-  Thread: 'Thread',
   Reaction: 'Reaction',
-  Course: 'Course',
+  ConfusedReaction: 'ConfusedReaction',
   SimState: 'SimState'
 } as const
 
@@ -70,6 +69,9 @@ export type ModelName = (typeof ModelName)[keyof typeof ModelName]
  */
 
 export const TransactionIsolationLevel = runtime.makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 } as const)
 
@@ -130,16 +132,8 @@ export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFi
 export const ArticleScalarFieldEnum = {
   id: 'id',
   slug: 'slug',
-  title: 'title',
-  description: 'description',
-  content: 'content',
-  published: 'published',
-  publishedAt: 'publishedAt',
-  difficulty: 'difficulty',
-  tags: 'tags',
-  authorId: 'authorId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  viewCount: 'viewCount',
+  createdAt: 'createdAt'
 } as const
 
 export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeof ArticleScalarFieldEnum]
@@ -147,61 +141,45 @@ export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeo
 
 export const CommentScalarFieldEnum = {
   id: 'id',
-  content: 'content',
+  body: 'body',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  isDeleted: 'isDeleted',
   authorId: 'authorId',
   articleId: 'articleId',
-  threadId: 'threadId',
-  parentId: 'parentId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  parentId: 'parentId'
 } as const
 
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
-export const ThreadScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  authorId: 'authorId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ThreadScalarFieldEnum = (typeof ThreadScalarFieldEnum)[keyof typeof ThreadScalarFieldEnum]
-
-
 export const ReactionScalarFieldEnum = {
   id: 'id',
   type: 'type',
+  createdAt: 'createdAt',
   userId: 'userId',
-  articleId: 'articleId',
-  commentId: 'commentId',
-  createdAt: 'createdAt'
+  articleId: 'articleId'
 } as const
 
 export type ReactionScalarFieldEnum = (typeof ReactionScalarFieldEnum)[keyof typeof ReactionScalarFieldEnum]
 
 
-export const CourseScalarFieldEnum = {
+export const ConfusedReactionScalarFieldEnum = {
   id: 'id',
-  slug: 'slug',
-  title: 'title',
-  description: 'description',
-  content: 'content',
+  paragraphId: 'paragraphId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  userId: 'userId',
+  articleSlug: 'articleSlug'
 } as const
 
-export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
+export type ConfusedReactionScalarFieldEnum = (typeof ConfusedReactionScalarFieldEnum)[keyof typeof ConfusedReactionScalarFieldEnum]
 
 
 export const SimStateScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  parameters: 'parameters',
-  userId: 'userId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  simType: 'simType',
+  params: 'params',
+  createdAt: 'createdAt'
 } as const
 
 export type SimStateScalarFieldEnum = (typeof SimStateScalarFieldEnum)[keyof typeof SimStateScalarFieldEnum]
@@ -215,10 +193,34 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+} as const
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
 export const NullsOrder = {
   first: 'first',
   last: 'last'
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

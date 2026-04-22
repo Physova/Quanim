@@ -362,6 +362,8 @@ export function Lab({ type, title, description, className }: LabProps) {
 
   return (
     <LabContainer
+      id={`lab-${type}`}
+      simType={type}
       title={getTitle()}
       description={getDescription()}
       onReset={handleReset}

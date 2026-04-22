@@ -2,8 +2,9 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Menu } from "lucide-react"
+import { Menu, Twitter } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { NAV_LINKS, SOCIAL_LINKS } from "@/config/navigation"
 import {
   Sheet,
   SheetContent,
@@ -28,16 +29,27 @@ export function MobileNav() {
             </span>
           </div>
           <nav className="flex flex-col p-6 gap-6">
-            <Link href="/" className="text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors">
-              Nexus
-            </Link>
-            <Link href="/topics" className="text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors">
-              Repository
-            </Link>
-            <Link href="/community" className="text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors">
-              Network
-            </Link>
+            {NAV_LINKS.map((link) => (
+              <Link 
+                key={link.href} 
+                href={link.href} 
+                className="text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
           </nav>
+          <div className="mt-auto p-6 border-t border-white/5">
+            <Link 
+              href={SOCIAL_LINKS.x} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Twitter className="w-4 h-4" />
+              Follow on X
+            </Link>
+          </div>
         </div>
       </SheetContent>
     </Sheet>

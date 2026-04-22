@@ -3,10 +3,11 @@
 import React, { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, PerspectiveCamera, Environment } from "@react-three/drei";
-import { Loader2, Maximize2, Minimize2, RotateCcw, PanelLeftDashed, X, GripVertical } from "lucide-react";
+import { Loader2, Maximize2, Minimize2, RotateCcw, PanelLeftDashed, X, GripVertical, Share2, Check } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useSimulationStore } from "@/lib/stores/simulation-store";
 
 interface LabContainerProps {
   children: React.ReactNode;
@@ -17,6 +18,8 @@ interface LabContainerProps {
   controls?: React.ReactNode;
   sidebarControls?: React.ReactNode;
   is3D?: boolean;
+  id?: string;
+  simType?: string;
 }
 
 export function LabContainer({
@@ -28,12 +31,60 @@ export function LabContainer({
   controls,
   sidebarControls,
   is3D = true,
+  id,
+  simType = "unknown",
 }: LabContainerProps) {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [isSplitMode, setIsSplitMode] = React.useState(false);
   const [splitWidth, setSplitWidth] = React.useState(50);
   const [isFullscreen, setIsFullscreen] = React.useState(false);
   const isDragging = React.useRef(false);
+  const [isCopied, setIsCopied] = React.useState(false);
+  const [isSaving, setIsSaving] = React.useState(false);
+
+  const { getParamsObject, applyParamsObject } = useSimulationStore();
+
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const stateId = params.get("state");
+    
+    if (stateId) {
+      fetch(`/api/sim-state?id=${stateId}`)
+        .then(res => res.json())
+        .then(data => {
+          // Only apply if simulation types match
+          if (data.params && data.simType === simType) {
+            applyParamsObject(data.params);
+          }
+        })
+        .catch(err => console.error("Failed to hydrate state:", err));
+    }
+  }, [applyParamsObject, simType]);
+
+  const handleShare = async () => {
+    setIsSaving(true);
+    try {
+      const params = getParamsObject();
+      const response = await fetch("/api/sim-state", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ simType, params }),
+      });
+      
+      const data = await response.json();
+      if (data.id) {
+        const url = new URL(window.location.href);
+        url.searchParams.set("state", data.id);
+        await navigator.clipboard.writeText(url.toString());
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+      }
+    } catch (error) {
+      console.error("Failed to share state:", error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   React.useEffect(() => {
     if (isSplitMode) {
@@ -104,6 +155,7 @@ export function LabContainer({
   return (
     <Card 
       ref={containerRef}
+      id={id}
       style={isSplitMode ? { width: `${splitWidth}vw` } : undefined}
       className={cn(
       "relative overflow-hidden bg-black border border-white/10 group rounded-none transition-[height,left,top,bottom] duration-500",
@@ -137,6 +189,19 @@ export function LabContainer({
         </div>
         
         <div className={cn("flex items-center gap-2 pointer-events-auto", isSplitMode && "md:mr-32")}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleShare}
+            disabled={isSaving}
+            className={cn(
+              "h-7 w-7 transition-colors rounded-none",
+              isCopied ? "text-green-500 bg-green-500/10" : "text-slate-500 hover:text-white hover:bg-white/10"
+            )}
+            title="Share Simulation State"
+          >
+            {isCopied ? <Check className="h-3.5 w-3.5" /> : isSaving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Share2 className="h-3.5 w-3.5" />}
+          </Button>
           {onReset && (
             <Button
               variant="ghost"
