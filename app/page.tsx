@@ -145,11 +145,11 @@ export default function LandingPage() {
               <span className="text-[10px] font-mono text-white/20 uppercase tracking-widest">
                 Stage 0{stage}
               </span>
-              <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
+              <div className="w-1.5 h-1.5 rounded-none bg-white/20" />
             </div>
           ))}
           <motion.div 
-            className="absolute right-0 w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+            className="absolute right-0 w-2 h-2 rounded-none bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]"
             style={{ top: dotTop, y: "-50%" }}
           />
         </div>

@@ -45,8 +45,10 @@ interface SimulationState {
   setEntanglementDistance: (distance: number) => void;
 
   // Persistence
-  getParamsObject: () => Record<string, any>;
-  applyParamsObject: (params: Record<string, any>) => void;
+  getParamsObject: () => Record<string, unknown>;
+  applyParamsObject: (params: Record<string, unknown>) => void;
+  serialize: () => string;
+  deserialize: (base64: string) => void;
 }
 
 const SIM_PARAMS = [
@@ -105,10 +107,10 @@ export const useSimulationStore = create<SimulationState>((set, get) => ({
 
   getParamsObject: () => {
     const state = get();
-    const params: Record<string, any> = {};
+    const params: Record<string, unknown> = {};
     
     SIM_PARAMS.forEach(key => {
-      const value = (state as any)[key];
+      const value = state[key as keyof SimulationState];
       if (value !== undefined && typeof value !== 'function') {
         params[key] = value;
       }
@@ -116,17 +118,37 @@ export const useSimulationStore = create<SimulationState>((set, get) => ({
     return params;
   },
 
-  applyParamsObject: (params: Record<string, any>) => {
-    const updates: Partial<SimulationState> = {};
+  applyParamsObject: (params: Record<string, unknown>) => {
+    const updates: Record<string, unknown> = {};
     
     SIM_PARAMS.forEach(key => {
       if (params[key] !== undefined) {
-        (updates as any)[key] = params[key];
+        updates[key] = params[key];
       }
     });
     
     if (Object.keys(updates).length > 0) {
-      set(updates);
+      set(updates as unknown as Partial<SimulationState>);
+    }
+  },
+
+  serialize: () => {
+    const params = get().getParamsObject();
+    try {
+      return btoa(JSON.stringify(params));
+    } catch (e) {
+      console.error("Failed to serialize simulation state", e);
+      return "";
+    }
+  },
+
+  deserialize: (base64: string) => {
+    try {
+      const json = atob(base64);
+      const params = JSON.parse(json);
+      get().applyParamsObject(params);
+    } catch (e) {
+      console.error("Failed to deserialize simulation state", e);
     }
   },
 }));

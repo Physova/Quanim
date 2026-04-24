@@ -17,13 +17,7 @@ if (result.error) {
 
 console.log("DATABASE_URL present:", !!process.env.DATABASE_URL);
 
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: process.env.DATABASE_URL,
-    },
-  },
-});
+const prisma = new PrismaClient();
 const TOPICS_DIR = path.join(process.cwd(), "content/topics");
 
 async function main() {
@@ -45,9 +39,6 @@ async function main() {
     // Parse frontmatter (as requested in task, even if not stored in DB yet)
     const slug = frontmatter.slug || file.replace(".mdx", "");
     const title = frontmatter.title || "Untitled";
-    const description = frontmatter.description || "";
-    const tags = frontmatter.tags || [];
-    const publishedAt = frontmatter.publishedAt || "";
     const difficulty = frontmatter.difficulty || "";
 
     console.log(`- ${slug}: "${title}" [${difficulty}]`);

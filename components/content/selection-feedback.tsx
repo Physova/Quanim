@@ -119,7 +119,7 @@ export function SelectionFeedback({ articleSlug }: SelectionFeedbackProps) {
             }}
             onMouseDown={(e) => e.preventDefault()} // Prevent losing selection on click
             onClick={handleSubmit}
-            className="z-[60] flex items-center gap-2 bg-slate-900 text-amber-500 px-4 py-2 rounded-full shadow-[0_0_20px_rgba(0,0,0,0.5)] border border-amber-500/50 hover:bg-slate-800 hover:border-amber-500 transition-all active:scale-95 whitespace-nowrap"
+            className="z-[60] flex items-center gap-2 bg-black text-white px-4 py-2 rounded-none shadow-[0_0_20px_rgba(0,0,0,0.5)] border border-white/20 hover:bg-white hover:text-black hover:border-white transition-all duration-300 active:scale-95 whitespace-nowrap"
           >
             <HelpCircle className="w-4 h-4" />
             <span className="text-xs font-bold uppercase tracking-wider">Confusing?</span>

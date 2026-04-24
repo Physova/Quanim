@@ -14,8 +14,8 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { MobileNav } from "@/components/mobile-nav"
-import { LogOut, User as UserIcon, Twitter } from "lucide-react"
-import { NAV_LINKS, SOCIAL_LINKS } from "@/config/navigation"
+import { LogOut, User as UserIcon } from "lucide-react"
+import { NAV_LINKS } from "@/config/navigation"
 
 export function Navbar({ visible = true }: { visible?: boolean }) {
   const { data: session, status } = useSession()
@@ -48,15 +48,6 @@ export function Navbar({ visible = true }: { visible?: boolean }) {
       </div>
 
       <div className="flex items-center gap-2 md:gap-4">
-        <Link 
-          href={SOCIAL_LINKS.x} 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="hidden sm:flex text-muted-foreground hover:text-foreground transition-all px-2"
-        >
-          <Twitter className="w-4 h-4" />
-          <span className="sr-only">X (Twitter)</span>
-        </Link>
         {status === "authenticated" ? (
           <>
             <div className="hidden lg:flex items-center gap-3 pr-4 border-r border-border group cursor-pointer">

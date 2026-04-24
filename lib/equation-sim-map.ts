@@ -4,7 +4,7 @@ export interface EquationSimConfig {
   type: SimulationType;
   label: string;
   description?: string;
-  initialParams?: Record<string, any>;
+  initialParams?: Record<string, unknown>;
 }
 
 /**

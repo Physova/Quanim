@@ -2,9 +2,9 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Menu, Twitter } from "lucide-react"
+import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { NAV_LINKS, SOCIAL_LINKS } from "@/config/navigation"
+import { NAV_LINKS } from "@/config/navigation"
 import {
   Sheet,
   SheetContent,
@@ -40,15 +40,6 @@ export function MobileNav() {
             ))}
           </nav>
           <div className="mt-auto p-6 border-t border-white/5">
-            <Link 
-              href={SOCIAL_LINKS.x} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <Twitter className="w-4 h-4" />
-              Follow on X
-            </Link>
           </div>
         </div>
       </SheetContent>

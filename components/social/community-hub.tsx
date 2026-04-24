@@ -143,7 +143,7 @@ export function CommunityHub({ initialThreads }: CommunityHubProps) {
                           <div className="space-y-2">
                             <div className="flex items-center gap-2">
                               <span className="text-[8px] font-mono text-white/20 uppercase">Transmission ID: {thread.id.slice(0, 8)}</span>
-                              <div className="w-1 h-1 rounded-full bg-white/20" />
+                              <div className="w-1 h-1 rounded-none bg-white/20" />
                               <span className="text-[8px] font-mono text-white/20 uppercase">Verified</span>
                             </div>
                             <CardTitle className="text-2xl font-serif font-bold tracking-tight text-white/90 group-hover:text-white transition-colors">
@@ -293,7 +293,7 @@ export function CommunityHub({ initialThreads }: CommunityHubProps) {
             </div>
 
             <div className="px-8 py-4 border-t border-white/5 bg-white/[0.02] flex items-center gap-3">
-              <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+              <div className="w-1.5 h-1.5 rounded-none bg-blue-500 animate-pulse" />
               <span className="text-[9px] font-mono font-bold text-white/30 uppercase tracking-[0.2em]">
                 Uplink Active // Encrypted Channel
               </span>

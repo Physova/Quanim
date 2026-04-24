@@ -1,0 +1,29 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "title": "Update Reading Progress Bar",
+      "status": "pending"
+    },
+    {
+      "id": "2",
+      "title": "Update Related Topics",
+      "status": "pending"
+    },
+    {
+      "id": "3",
+      "title": "Implement Shareable Simulation URLs",
+      "status": "pending"
+    },
+    {
+      "id": "4",
+      "title": "Implement Fullscreen Simulation on URL open",
+      "status": "pending"
+    },
+    {
+      "id": "5",
+      "title": "Fix Styling Deviations (rounded corners)",
+      "status": "pending"
+    }
+  ]
+}

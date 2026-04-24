@@ -125,16 +125,16 @@ export default function SuperpositionSim() {
       {/* Z Axis */}
       <Line points={[new THREE.Vector3(0, 0, -3), new THREE.Vector3(0, 0, 3)]} color="#ffffff" opacity={0.15} transparent />
 
-      {/* Labels */}
-      <Html position={[0, 3.4, 0]} center className="pointer-events-none">
-        <div className="text-[10px] uppercase font-mono font-bold text-white tracking-widest px-2 py-1 bg-black border border-white/20 whitespace-nowrap">
+      {/* Labels — positioned at ±2.9 to stay within container bounds */}
+      <Html position={[0, 2.9, 0]} center className="pointer-events-none">
+        <div className="text-[8px] md:text-[9px] uppercase font-mono font-bold text-white tracking-widest px-2 py-0.5 bg-black/60 border border-white/10 backdrop-blur-md whitespace-nowrap">
           {isMeasured 
             ? (measuredState === 0 ? "STATE: SPIN UP COLLAPSE" : "") 
             : `PROBABILITY OF SPIN UP: ${Math.round(probUp * 100)}%`}
         </div>
       </Html>
-      <Html position={[0, -3.4, 0]} center className="pointer-events-none">
-        <div className="text-[10px] uppercase font-mono font-bold text-white/80 tracking-widest px-2 py-1 bg-black border border-white/10 whitespace-nowrap">
+      <Html position={[0, -2.9, 0]} center className="pointer-events-none">
+        <div className="text-[8px] md:text-[9px] uppercase font-mono font-bold text-white/70 tracking-widest px-2 py-0.5 bg-black/40 border border-white/5 backdrop-blur-sm whitespace-nowrap">
           {isMeasured 
             ? (measuredState === 1 ? "STATE: SPIN DOWN COLLAPSE" : "") 
             : `PROBABILITY OF SPIN DOWN: ${Math.round((1 - probUp) * 100)}%`}

@@ -235,9 +235,9 @@ export function CommentsSection({ slug }: CommentsSectionProps) {
   const rootComments = comments.filter(c => !c.parentId);
 
   return (
-    <div className="space-y-6 mt-16 pt-12 border-t border-white/10 max-w-4xl mx-auto px-4">
+    <div className="space-y-6 mt-16 pt-12 border-t border-white/10 max-w-4xl mx-auto px-4 font-mono">
       <h3 className="text-2xl font-bold text-white flex items-center gap-3">
-        <MessageSquare className="h-6 w-6 text-amber-400" />
+        <MessageSquare className="h-6 w-6 text-white" />
         Community Discussion
       </h3>
 
@@ -260,7 +260,7 @@ export function CommentsSection({ slug }: CommentsSectionProps) {
             <Button 
               onClick={() => handleSubmit()} 
               disabled={isLoading || !newComment.trim()}
-              className="bg-white hover:bg-white/90 text-black font-bold rounded-none px-8"
+              className="bg-black border border-white/20 text-white hover:bg-white hover:text-black font-bold rounded-none px-8 transition-all duration-300"
             >
               Post Comment
             </Button>
@@ -269,7 +269,7 @@ export function CommentsSection({ slug }: CommentsSectionProps) {
       ) : (
         <div className="p-8 bg-white/[0.02] border border-dashed border-white/10 text-center">
           <p className="text-white/40 mb-4">Join the physics community. Sign in to contribute to the discussion.</p>
-          <Button variant="outline" className="border-white/20 text-white hover:bg-white hover:text-black rounded-none px-8">
+          <Button variant="ghost" className="bg-black border border-white/20 text-white hover:!bg-white hover:!text-black rounded-none px-8 transition-all duration-300 font-bold uppercase tracking-widest text-[10px]">
             Sign In to Comment
           </Button>
         </div>

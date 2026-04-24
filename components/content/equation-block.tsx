@@ -73,11 +73,11 @@ export function EquationBlock({ equation, description, className }: EquationBloc
               e.stopPropagation();
               handleSimulate();
             }}
-            variant="outline"
+            variant="ghost"
             size="sm"
-            className="rounded-none border-white/10 bg-white/5 hover:bg-white hover:text-black transition-all gap-2 text-[10px] font-bold tracking-widest uppercase py-5"
+            className="rounded-none border border-white/20 bg-black text-white hover:!bg-white hover:!text-black transition-all gap-2 text-[10px] font-bold tracking-widest uppercase py-5 group/btn"
           >
-            <Zap className="h-3 w-3" />
+            <Zap className="h-3 w-3 group-hover/btn:text-black" />
             Simulate This Equation
           </Button>
         )}

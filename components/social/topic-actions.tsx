@@ -22,16 +22,16 @@ export function TopicActions() {
 
   return (
     <div className="flex items-center gap-3 relative">
-       <div className="relative group">
+       <div className="relative group/share">
          <Button 
-           variant="outline" 
+           variant="ghost" 
            size="icon" 
            onClick={handleShare}
-           className="rounded-none bg-black border border-white/20 hover:border-white hover:text-black hover:bg-white transition-all duration-300"
+           className="rounded-none bg-black border border-white/20 text-white hover:!bg-white hover:!text-black transition-all duration-300 group"
          >
-            <Share2 className="h-4 w-4" />
+            <Share2 className="h-4 w-4 group-hover:text-black" />
          </Button>
-         
+
          {/* Share Toast */}
          <AnimatePresence>
             {copied && (
@@ -46,17 +46,16 @@ export function TopicActions() {
             )}
          </AnimatePresence>
        </div>
-       
-       <div className="relative group">
+
+       <div className="relative group/info">
          <Button 
-           variant="outline" 
+           variant="ghost" 
            size="icon" 
            onClick={handleInfo}
-           className="rounded-none bg-black border border-white/20 hover:border-white hover:text-black hover:bg-white transition-all duration-300"
+           className="rounded-none bg-black border border-white/20 text-white hover:!bg-white hover:!text-black transition-all duration-300 group"
          >
-            <Info className="h-4 w-4" />
+            <Info className="h-4 w-4 group-hover:text-black" />
          </Button>
-
          {/* Info Toast */}
          <AnimatePresence>
             {infoOpen && (

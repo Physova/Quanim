@@ -104,7 +104,7 @@ export function CreateThreadDialog({
         <div className="flex justify-between items-center px-4 py-1.5 bg-white/5 border-b border-white/10">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+              <div className="w-1.5 h-1.5 rounded-none bg-blue-500 animate-pulse" />
               <span className="text-[8px] font-mono text-blue-500/80 uppercase tracking-widest">Link Stable</span>
             </div>
             <div className="flex items-center gap-1.5">
@@ -260,7 +260,7 @@ export function CreateThreadDialog({
             {[...Array(8)].map((_, i) => (
               <div 
                 key={i} 
-                className={`w-1 h-1 rounded-full ${i < 3 ? 'bg-white/40' : 'bg-white/10'}`} 
+                className={`w-1 h-1 rounded-none ${i < 3 ? 'bg-white/40' : 'bg-white/10'}`} 
               />
             ))}
           </div>

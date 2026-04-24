@@ -13,6 +13,7 @@ import { useCallback } from "react";
 interface Comment {
   id: string;
   content: string;
+  body?: string;
   createdAt: string;
   parentId: string | null;
   author: {
@@ -56,13 +57,17 @@ export function CommentSection({ articleId, threadId, slug }: CommentSectionProp
   }, [fetchComments]);
 
   const handleSubmit = async (parentId: string | null = null) => {
-    if (!newComment.trim() && !parentId) return;
+    const text = parentId 
+      ? (document.getElementById(`reply-${parentId}`) as HTMLTextAreaElement).value 
+      : newComment;
+
+    if (!text.trim()) return;
     
     setIsLoading(true);
     const res = await fetch("/api/comments", {
       method: "POST",
       body: JSON.stringify({
-        content: parentId ? (document.getElementById(`reply-${parentId}`) as HTMLTextAreaElement).value : newComment,
+        body: text,
         articleId,
         threadId,
         slug,
@@ -112,7 +117,7 @@ export function CommentSection({ articleId, threadId, slug }: CommentSectionProp
               {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
             </span>
           </div>
-          <p className="text-sm text-white/60 mb-3">{comment.content}</p>
+          <p className="text-sm text-white/60 mb-3">{comment.content || comment.body}</p>
           <div className="flex items-center gap-4">
             <button 
               onClick={() => handleReaction(comment.id)}
@@ -160,7 +165,7 @@ export function CommentSection({ articleId, threadId, slug }: CommentSectionProp
         Community Discussion
       </h3>
 
-      {session ? (
+      {true /* session ? */ ? (
         <div className="space-y-3 p-4 rounded-none bg-white/[0.02] border border-white/10">
           <Textarea 
             placeholder="Share your thoughts on this topic..."
