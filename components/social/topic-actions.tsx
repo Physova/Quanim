@@ -4,13 +4,18 @@ import React, { useState } from "react";
 import { Share2, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSimulationStore } from "@/lib/stores/simulation-store";
 
 export function TopicActions() {
   const [copied, setCopied] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
 
   const handleShare = () => {
-    navigator.clipboard.writeText(window.location.href);
+    // Encode current simulation state into URL
+    const simState = useSimulationStore.getState().serialize();
+    const baseUrl = window.location.origin + window.location.pathname;
+    const shareUrl = simState ? `${baseUrl}?sim=${simState}` : baseUrl;
+    navigator.clipboard.writeText(shareUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -41,7 +46,7 @@ export function TopicActions() {
                 exit={{ opacity: 0, scale: 0.9 }}
                 className="absolute top-full left-1/2 -translate-x-1/2 mt-3 whitespace-nowrap bg-white border border-white px-3 py-1.5 text-[9px] font-mono font-bold uppercase tracking-widest text-black pointer-events-none z-50 shadow-[0_0_15px_rgba(255,255,255,0.3)]"
               >
-                Link Copied
+                Link Copied (with sim state)
               </motion.div>
             )}
          </AnimatePresence>

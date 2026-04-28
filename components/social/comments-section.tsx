@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MessageSquare, Trash2, Edit2 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { cn } from "@/lib/utils";
+import { getGuestIdentity, type GuestIdentity } from "@/lib/guest-identity";
 
 interface Comment {
   id: string;
@@ -15,11 +16,14 @@ interface Comment {
   createdAt: string;
   parentId: string | null;
   isDeleted: boolean;
+  guestId: string | null;
+  guestName: string | null;
   author: {
     id: string;
     name: string | null;
+    username: string | null;
     image: string | null;
-  };
+  } | null;
 }
 
 interface CommentsSectionProps {
@@ -34,6 +38,13 @@ export function CommentsSection({ slug }: CommentsSectionProps) {
   const [editingComment, setEditingComment] = useState<string | null>(null);
   const [editText, setEditText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [guest, setGuest] = useState<GuestIdentity | null>(null);
+
+  useEffect(() => {
+    if (!session) {
+      setGuest(getGuestIdentity());
+    }
+  }, [session]);
 
   const fetchComments = useCallback(async () => {
     try {
@@ -52,12 +63,12 @@ export function CommentsSection({ slug }: CommentsSectionProps) {
   }, [fetchComments]);
 
   const handleSubmit = async (parentId: string | null = null) => {
-    const text = parentId 
-      ? (document.getElementById(`reply-${parentId}`) as HTMLTextAreaElement).value 
+    const text = parentId
+      ? (document.getElementById(`reply-${parentId}`) as HTMLTextAreaElement)?.value
       : newComment;
 
-    if (!text.trim()) return;
-    
+    if (!text?.trim()) return;
+
     setIsLoading(true);
     try {
       const res = await fetch("/api/comments", {
@@ -67,6 +78,7 @@ export function CommentsSection({ slug }: CommentsSectionProps) {
           body: text,
           slug,
           parentId,
+          ...(session ? {} : { guestId: guest?.guestId, guestName: guest?.displayName }),
         }),
       });
 
@@ -88,6 +100,7 @@ export function CommentsSection({ slug }: CommentsSectionProps) {
     try {
       const res = await fetch(`/api/comments/${commentId}`, {
         method: "DELETE",
+        headers: guest?.guestId ? { "x-guest-id": guest.guestId } : {},
       });
       if (res.ok) {
         fetchComments();
@@ -103,7 +116,10 @@ export function CommentsSection({ slug }: CommentsSectionProps) {
     try {
       const res = await fetch(`/api/comments/${commentId}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(guest?.guestId ? { "x-guest-id": guest.guestId } : {}),
+        },
         body: JSON.stringify({ body: editText }),
       });
       if (res.ok) {
@@ -115,124 +131,10 @@ export function CommentsSection({ slug }: CommentsSectionProps) {
     }
   };
 
-  const renderComment = (comment: Comment, isReply = false) => {
-    const isAuthor = session?.user?.id === comment.author.id;
-    const isAdmin = session?.user?.role === "ADMIN";
 
-    return (
-      <div 
-        key={comment.id} 
-        className={cn(
-          "flex gap-4 p-4 transition-colors",
-          isReply ? "ml-8 mt-2 bg-white/[0.01] border-l-2 border-white/5" : "bg-white/[0.02] border border-white/10",
-          comment.isDeleted && "opacity-60"
-        )}
-      >
-        <div className="flex-shrink-0">
-          <Avatar className="h-10 w-10 border border-white/10">
-            <AvatarImage src={comment.author.image || ""} />
-            <AvatarFallback className="bg-white/5 text-white/60">
-              {comment.author.name?.[0] || "?"}
-            </AvatarFallback>
-          </Avatar>
-        </div>
-        <div className="flex-grow min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="font-semibold text-white truncate">
-              {comment.isDeleted ? "[Deleted]" : (comment.author.name || "Anonymous")}
-            </span>
-            <span className="text-xs text-white/30 whitespace-nowrap">
-              {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
-            </span>
-          </div>
 
-          {editingComment === comment.id ? (
-            <div className="mt-2 space-y-2">
-              <Textarea 
-                value={editText}
-                onChange={(e) => setEditText(e.target.value)}
-                className="min-h-[80px] bg-black/50 border-white/10 focus-visible:ring-white/50 rounded-none"
-              />
-              <div className="flex justify-end gap-2">
-                <Button variant="ghost" size="sm" onClick={() => setEditingComment(null)}>Cancel</Button>
-                <Button size="sm" onClick={() => handleUpdate(comment.id)} className="bg-white hover:bg-white/90 text-black rounded-none">
-                  Save Changes
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <p className="text-sm text-white/60 mb-3 break-words">
-              {comment.isDeleted ? "This comment has been removed by the author or a moderator." : comment.body}
-            </p>
-          )}
-
-          {!comment.isDeleted && (
-            <div className="flex items-center gap-4">
-              {!isReply && (
-                <button 
-                  onClick={() => setReplyTo(replyTo === comment.id ? null : comment.id)}
-                  className="flex items-center gap-1 text-xs text-white/30 hover:text-white transition-colors"
-                >
-                  <MessageSquare className="h-3 w-3" />
-                  <span>Reply</span>
-                </button>
-              )}
-              {isAuthor && !editingComment && (
-                <button 
-                  onClick={() => {
-                    setEditingComment(comment.id);
-                    setEditText(comment.body);
-                  }}
-                  className="flex items-center gap-1 text-xs text-white/30 hover:text-white transition-colors"
-                >
-                  <Edit2 className="h-3 w-3" />
-                  <span>Edit</span>
-                </button>
-              )}
-              {(isAuthor || isAdmin) && (
-                <button 
-                  onClick={() => handleDelete(comment.id)}
-                  className="flex items-center gap-1 text-xs text-red-400/50 hover:text-red-400 transition-colors"
-                >
-                  <Trash2 className="h-3 w-3" />
-                  <span>Delete</span>
-                </button>
-              )}
-            </div>
-          )}
-
-          {replyTo === comment.id && (
-            <div className="mt-4 space-y-2">
-              <Textarea 
-                id={`reply-${comment.id}`}
-                placeholder={`Reply to ${comment.author.name}...`}
-                className="min-h-[80px] bg-black/50 border-white/10 focus-visible:ring-white/50 rounded-none"
-              />
-              <div className="flex justify-end gap-2">
-                <Button variant="ghost" size="sm" onClick={() => setReplyTo(null)}>Cancel</Button>
-                <Button 
-                  size="sm" 
-                  onClick={() => handleSubmit(comment.id)} 
-                  disabled={isLoading}
-                  className="bg-white hover:bg-white/90 text-black rounded-none"
-                >
-                  Post Reply
-                </Button>
-              </div>
-            </div>
-          )}
-
-          {/* Replies rendering - only if it's a top-level comment */}
-          {!isReply && comments
-            .filter(c => c.parentId === comment.id)
-            .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-            .map(reply => renderComment(reply, true))}
-        </div>
-      </div>
-    );
-  };
-
-  const rootComments = comments.filter(c => !c.parentId);
+  const currentDisplayName = session?.user?.name || session?.user?.username || guest?.displayName || "Anonymous";
+  const isAdmin = session?.user?.role === "ADMIN";
 
   return (
     <div className="space-y-6 mt-16 pt-12 border-t border-white/10 max-w-4xl mx-auto px-4 font-mono">
@@ -241,49 +143,277 @@ export function CommentsSection({ slug }: CommentsSectionProps) {
         Community Discussion
       </h3>
 
-      {session ? (
-        <div className="space-y-3 p-6 bg-white/[0.02] border border-white/10">
-          <div className="flex items-center gap-3 mb-2">
-            <Avatar className="h-8 w-8 border border-white/10">
-              <AvatarImage src={session.user?.image || ""} />
-              <AvatarFallback>{session.user?.name?.[0]}</AvatarFallback>
-            </Avatar>
-            <span className="text-sm font-medium text-white/80">{session.user?.name}</span>
-          </div>
-          <Textarea 
-            placeholder="Share your thoughts on this topic..."
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            className="min-h-[120px] bg-black/50 border-white/10 focus-visible:ring-white/50 rounded-none text-white"
-          />
-          <div className="flex justify-end">
-            <Button 
-              onClick={() => handleSubmit()} 
-              disabled={isLoading || !newComment.trim()}
-              className="bg-black border border-white/20 text-white hover:bg-white hover:text-black font-bold rounded-none px-8 transition-all duration-300"
-            >
-              Post Comment
-            </Button>
-          </div>
-        </div>
-      ) : (
-        <div className="p-8 bg-white/[0.02] border border-dashed border-white/10 text-center">
-          <p className="text-white/40 mb-4">Join the physics community. Sign in to contribute to the discussion.</p>
-          <Button variant="ghost" className="bg-black border border-white/20 text-white hover:!bg-white hover:!text-black rounded-none px-8 transition-all duration-300 font-bold uppercase tracking-widest text-[10px]">
-            Sign In to Comment
-          </Button>
-        </div>
-      )}
-
-      <div className="space-y-6 mt-8">
-        {rootComments.length === 0 ? (
+      {/* Comments list FIRST */}
+      <div className="space-y-6">
+        {comments.filter(c => !c.parentId).length === 0 ? (
           <div className="py-12 text-center border border-white/5 bg-white/[0.01]">
             <p className="text-white/30 italic">No comments yet. Start the conversation!</p>
           </div>
         ) : (
-          rootComments.map(comment => renderComment(comment))
+          comments
+            .filter(c => !c.parentId)
+            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+            .map(comment => (
+              <CommentItem
+                key={comment.id}
+                comment={comment}
+                allComments={comments}
+                session={session}
+                guest={guest}
+                isAdmin={isAdmin}
+                replyTo={replyTo}
+                setReplyTo={setReplyTo}
+                editingComment={editingComment}
+                setEditingComment={setEditingComment}
+                editText={editText}
+                setEditText={setEditText}
+                handleUpdate={handleUpdate}
+                handleDelete={handleDelete}
+                handleSubmit={handleSubmit}
+                isLoading={isLoading}
+              />
+            ))
         )}
+      </div>
+
+      {/* Comment input BELOW existing comments */}
+      <div className="space-y-3 p-6 bg-white/[0.02] border border-white/10">
+        <div className="flex items-center gap-3 mb-2">
+          <Avatar className="h-8 w-8 border border-white/10">
+            {session?.user?.image ? (
+              <AvatarImage src={session.user.image} />
+            ) : null}
+            <AvatarFallback className="bg-white/5 text-white/60 text-xs font-bold">
+              {currentDisplayName[0]?.toUpperCase() || "?"}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium text-white/80">{currentDisplayName}</span>
+            {!session && (
+              <span className="text-[8px] font-mono font-bold text-white/20 uppercase tracking-widest border border-white/10 px-1.5 py-0.5">
+                Guest
+              </span>
+            )}
+          </div>
+        </div>
+        <Textarea
+          placeholder="Share your thoughts on this topic..."
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          className="min-h-[120px] bg-black/50 border-white/10 focus-visible:ring-white/50 rounded-none text-white"
+        />
+        <div className="flex justify-end">
+          <Button
+            onClick={() => handleSubmit()}
+            disabled={isLoading || !newComment.trim()}
+            className="bg-black border border-white/20 text-white hover:bg-white hover:text-black font-bold rounded-none px-8 transition-all duration-300"
+          >
+            Post Comment
+          </Button>
+        </div>
       </div>
     </div>
   );
 }
+
+interface CommentItemProps {
+  comment: Comment;
+  allComments: Comment[];
+  session: {
+    user: {
+      id: string;
+      name?: string | null;
+      username?: string | null;
+      email?: string | null;
+      image?: string | null;
+      role?: string | null;
+    };
+  } | null;
+  guest: GuestIdentity | null;
+  isAdmin: boolean;
+  replyTo: string | null;
+  setReplyTo: (id: string | null) => void;
+  editingComment: string | null;
+  setEditingComment: (id: string | null) => void;
+  editText: string;
+  setEditText: (text: string) => void;
+  handleUpdate: (id: string) => void;
+  handleDelete: (id: string) => void;
+  handleSubmit: (parentId: string) => void;
+  isLoading: boolean;
+  depth?: number;
+}
+
+function CommentItem({
+  comment,
+  allComments,
+  session,
+  guest,
+  isAdmin,
+  replyTo,
+  setReplyTo,
+  editingComment,
+  setEditingComment,
+  editText,
+  setEditText,
+  handleUpdate,
+  handleDelete,
+  handleSubmit,
+  isLoading,
+  depth = 0,
+}: CommentItemProps) {
+  const isOwnComment = 
+    (session?.user?.id && comment.author?.id === session.user.id) ||
+    (guest?.guestId && comment.guestId === guest.guestId);
+  
+  const canEdit = isOwnComment;
+  const canDelete = isOwnComment || isAdmin;
+  const isGuest = !comment.author && comment.guestId;
+
+  const getCommentDisplayName = (c: Comment) => {
+    if (c.isDeleted) return "[Deleted]";
+    if (c.author) return c.author.username || c.author.name || "Anonymous";
+    return c.guestName || "Anonymous";
+  };
+
+  return (
+    <div
+      className={cn(
+        "flex gap-4 p-4 transition-colors",
+        depth > 0 ? "ml-4 md:ml-8 mt-2 bg-white/[0.01] border-l-2 border-white/5" : "bg-white/[0.02] border border-white/10",
+        comment.isDeleted && "opacity-60"
+      )}
+    >
+      <div className="flex-shrink-0">
+        <Avatar className="h-8 w-8 md:h-10 md:w-10 border border-white/10">
+          <AvatarImage src={comment.author?.image || ""} />
+          <AvatarFallback className={cn(
+            "text-white/60 font-bold text-[10px] md:text-sm",
+            isGuest ? "bg-white/[0.08]" : "bg-white/5"
+          )}>
+            {(comment.author?.name || comment.guestName || "?")[0]?.toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
+      </div>
+      <div className="flex-grow min-w-0">
+        <div className="flex items-center justify-between mb-1">
+          <div className="flex items-center gap-2 flex-wrap min-w-0">
+            <span className="font-semibold text-white text-sm md:text-base truncate">
+              {getCommentDisplayName(comment)}
+            </span>
+            {isGuest && !comment.isDeleted && (
+              <span className="text-[8px] font-mono font-bold text-white/20 uppercase tracking-widest border border-white/10 px-1.5 py-0.5">
+                Guest
+              </span>
+            )}
+            <span className="text-[10px] md:text-xs text-white/30 whitespace-nowrap">
+              {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
+            </span>
+          </div>
+          {!comment.isDeleted && (
+            <div className="flex items-center gap-1 flex-shrink-0 ml-2">
+              <button
+                onClick={() => setReplyTo(replyTo === comment.id ? null : comment.id)}
+                className={cn(
+                  "p-2 transition-colors",
+                  replyTo === comment.id ? "text-white bg-white/10" : "text-white/20 hover:text-white hover:bg-white/5"
+                )}
+                title="Reply"
+              >
+                <MessageSquare className="h-4 w-4" />
+              </button>
+              {canEdit && editingComment !== comment.id && (
+                <button
+                  onClick={() => { setEditingComment(comment.id); setEditText(comment.body); }}
+                  className="p-2 text-white/20 hover:text-white hover:bg-white/5 transition-colors"
+                  title="Edit"
+                >
+                  <Edit2 className="h-4 w-4" />
+                </button>
+              )}
+              {canDelete && (
+                <button
+                  onClick={() => handleDelete(comment.id)}
+                  className="p-2 text-white/20 hover:text-red-400 hover:bg-red-400/5 transition-colors"
+                  title="Delete"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+
+        {editingComment === comment.id ? (
+          <div className="mt-2 space-y-2">
+            <Textarea
+              value={editText}
+              onChange={(e) => setEditText(e.target.value)}
+              className="min-h-[80px] bg-black/50 border-white/10 focus-visible:ring-white/50 rounded-none text-white text-sm"
+            />
+            <div className="flex justify-end gap-2">
+              <Button variant="ghost" size="sm" onClick={() => setEditingComment(null)} className="text-[10px] uppercase font-bold tracking-widest">Cancel</Button>
+              <Button size="sm" onClick={() => handleUpdate(comment.id)} className="bg-white hover:bg-white/90 text-black rounded-none text-[10px] uppercase font-bold tracking-widest">
+                Save
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <p className="text-sm text-white/60 break-words leading-relaxed">
+            {comment.isDeleted ? "This comment has been removed by the author or a moderator." : comment.body}
+          </p>
+        )}
+
+        {replyTo === comment.id && (
+          <div className="mt-4 space-y-2">
+            <Textarea
+              id={`reply-${comment.id}`}
+              placeholder={`Reply to ${getCommentDisplayName(comment)}...`}
+              className="min-h-[80px] bg-black/50 border-white/10 focus-visible:ring-white/50 rounded-none text-white text-sm"
+            />
+            <div className="flex justify-end gap-2">
+              <Button variant="ghost" size="sm" onClick={() => setReplyTo(null)} className="text-[10px] uppercase font-bold tracking-widest">Cancel</Button>
+              <Button
+                size="sm"
+                onClick={() => handleSubmit(comment.id)}
+                disabled={isLoading}
+                className="bg-white hover:bg-white/90 text-black rounded-none text-[10px] uppercase font-bold tracking-widest"
+              >
+                Post Reply
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Nested replies */}
+        <div className="space-y-2">
+          {allComments
+            .filter(c => c.parentId === comment.id)
+            .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+            .map(reply => (
+              <CommentItem
+                key={reply.id}
+                comment={reply}
+                allComments={allComments}
+                session={session}
+                guest={guest}
+                isAdmin={isAdmin}
+                replyTo={replyTo}
+                setReplyTo={setReplyTo}
+                editingComment={editingComment}
+                setEditingComment={setEditingComment}
+                editText={editText}
+                setEditText={setEditText}
+                handleUpdate={handleUpdate}
+                handleDelete={handleDelete}
+                handleSubmit={handleSubmit}
+                isLoading={isLoading}
+                depth={depth + 1}
+              />
+            ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+

@@ -1,6 +1,9 @@
 import type { MDXComponents } from 'mdx/types'
 import { Lab } from '@/components/simulations/lab-interface'
+import { MotionLab } from '@/components/simulations/motion-lab'
+import { ForceAndLawsOfMotionLab } from '@/components/simulations/force-and-laws-of-motion-lab'
 import { EquationBlock } from '@/components/content/equation-block'
+import { Quiz } from '@/components/content/quiz'
 import React from 'react'
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
@@ -28,7 +31,10 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     pre: (props) => <pre className="bg-black border border-white/5 rounded-none p-6 mb-8 overflow-x-auto font-mono text-xs text-white/40" {...props} />,
     hr: () => <hr className="my-12 border-white/5" />,
     Lab: (props: React.ComponentProps<typeof Lab>) => <Lab {...props} />,
+    MotionLab: (props: React.ComponentProps<typeof MotionLab>) => <MotionLab {...props} />,
+    ForceAndLawsOfMotionLab: (props: React.ComponentProps<typeof ForceAndLawsOfMotionLab>) => <ForceAndLawsOfMotionLab {...props} />,
     EquationBlock: (props: React.ComponentProps<typeof EquationBlock>) => <EquationBlock {...props} />,
+    Quiz: (props: React.ComponentProps<typeof Quiz>) => <Quiz {...props} />,
     ...components,
   }
 }

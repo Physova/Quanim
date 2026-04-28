@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 /**
- * DELETE: Soft-delete a comment.
+ * DELETE: Soft-delete a comment. Supports both authenticated users and guests.
  */
 export async function DELETE(
   req: Request,
@@ -11,29 +11,27 @@ export async function DELETE(
 ) {
   try {
     const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { id } = await params;
+    const guestId = req.headers.get("x-guest-id");
 
-    // Find the comment to verify ownership
     const comment = await prisma.comment.findUnique({
       where: { id },
-      select: { authorId: true },
+      select: { authorId: true, guestId: true },
     });
 
     if (!comment) {
       return NextResponse.json({ error: "Comment not found" }, { status: 404 });
     }
 
-    // Only author or admin can delete
-    const userRole = session.user.role;
-    if (comment.authorId !== session.user.id && userRole !== "ADMIN") {
+    // Check permission: author, admin, or matching guest
+    const isAuthor = session?.user?.id && comment.authorId === session.user.id;
+    const isAdmin = session?.user?.role === "ADMIN";
+    const isGuestOwner = guestId && comment.guestId === guestId;
+
+    if (!isAuthor && !isAdmin && !isGuestOwner) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    // Soft delete
     await prisma.comment.update({
       where: { id },
       data: { isDeleted: true },
@@ -55,30 +53,29 @@ export async function PUT(
 ) {
   try {
     const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { id } = await params;
     const body = await req.json();
     const { body: newText } = body;
+    const guestId = req.headers.get("x-guest-id");
 
     if (!newText) {
       return NextResponse.json({ error: "Body text is required" }, { status: 400 });
     }
 
-    // Find the comment to verify ownership
     const comment = await prisma.comment.findUnique({
       where: { id },
-      select: { authorId: true },
+      select: { authorId: true, guestId: true },
     });
 
     if (!comment) {
       return NextResponse.json({ error: "Comment not found" }, { status: 404 });
     }
 
-    // Only author can edit
-    if (comment.authorId !== session.user.id) {
+    // Only author or guest owner can edit
+    const isAuthor = session?.user?.id && comment.authorId === session.user.id;
+    const isGuestOwner = guestId && comment.guestId === guestId;
+
+    if (!isAuthor && !isGuestOwner) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
@@ -90,6 +87,7 @@ export async function PUT(
           select: {
             id: true,
             name: true,
+            username: true,
             image: true,
           },
         },

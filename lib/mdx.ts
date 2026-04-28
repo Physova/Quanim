@@ -8,6 +8,7 @@ export interface TopicFrontmatter {
   tags: string[];
   publishedAt: string;
   difficulty: "Beginner" | "Intermediate" | "Advanced";
+  grade?: number;
 }
 
 export function getTopicSlugs() {
@@ -15,7 +16,11 @@ export function getTopicSlugs() {
     throw new Error("getTopicSlugs can only be used on the server.");
   }
   const TOPICS_PATH = path.join(process.cwd(), "content/topics");
-  return fs.readdirSync(TOPICS_PATH).filter((path) => /\.mdx?$/.test(path));
+  const EXCLUDED_SLUGS = ["double-slit", "superposition", "entanglement"];
+  
+  return fs.readdirSync(TOPICS_PATH)
+    .filter((file) => /\.mdx?$/.test(file))
+    .filter((file) => !EXCLUDED_SLUGS.includes(file.replace(/\.mdx?$/, "")));
 }
 
 export function getTopicBySlug(slug: string) {
@@ -37,7 +42,8 @@ export function getTopicBySlug(slug: string) {
     description: "",
     tags: [],
     publishedAt: "",
-    difficulty: "Beginner"
+    difficulty: "Beginner",
+    grade: undefined
   } as TopicFrontmatter;
   let content = fileContents;
 
@@ -62,6 +68,8 @@ export function getTopicBySlug(slug: string) {
           frontmatter.publishedAt = value;
         } else if (key === "difficulty") {
           frontmatter.difficulty = value as TopicFrontmatter["difficulty"];
+        } else if (key === "grade") {
+          frontmatter.grade = parseInt(value, 10) || undefined;
         }
       }
     });

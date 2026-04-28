@@ -11,12 +11,15 @@ import { CommentsSection } from "@/components/social/comments-section";
 import { ReadingProgress } from "@/components/ui/reading-progress";
 import { DifficultyBadge } from "@/components/ui/difficulty-badge";
 import { RelatedArticles } from "@/components/content/related-articles";
+import { SimStateLoader } from "@/components/simulations/sim-state-loader";
 import "katex/dist/katex.min.css";
 
 const TOPIC_MAP = {
   "double-slit": React.lazy(() => import("@/content/topics/double-slit.mdx")),
   "entanglement": React.lazy(() => import("@/content/topics/entanglement.mdx")),
   "superposition": React.lazy(() => import("@/content/topics/superposition.mdx")),
+  "motion": React.lazy(() => import("@/content/topics/motion.mdx")),
+  "force-and-laws-of-motion": React.lazy(() => import("@/content/topics/force-and-laws-of-motion.mdx")),
 };
 
 interface TopicPageProps {
@@ -55,6 +58,9 @@ export default async function TopicPage({ params }: TopicPageProps) {
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       <ReadingProgress />
+      <Suspense fallback={null}>
+        <SimStateLoader />
+      </Suspense>
       {/* Background handled by body dot-grid */}
 
       <div className="container mx-auto py-12 px-4 relative z-10">

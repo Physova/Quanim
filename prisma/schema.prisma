@@ -10,8 +10,10 @@ datasource db {
 model User {
   id                String             @id @default(cuid())
   name              String?
+  username          String?            @unique
   email             String?            @unique
   emailVerified     DateTime?
+  password          String?
   image             String?
   role              Role               @default(USER)
   createdAt         DateTime           @default(now())
@@ -22,6 +24,7 @@ model User {
   reactions         Reaction[]
   sessions          Session[]
   threads           Thread[]
+  completedArticles CompletedArticle[]
 }
 
 model Account {
@@ -74,13 +77,15 @@ model Comment {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   isDeleted Boolean   @default(false)
-  authorId  String
+  authorId  String?
+  guestId   String?
+  guestName String?
   articleId String?
   threadId  String?
   parentId  String?
   article   Article?  @relation(fields: [articleId], references: [id], onDelete: Cascade)
   thread    Thread?   @relation(fields: [threadId], references: [id], onDelete: Cascade)
-  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author    User?     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
   replies   Comment[] @relation("CommentReplies")
 }
@@ -125,6 +130,16 @@ model Thread {
   authorId  String
   author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   comments  Comment[]
+}
+
+model CompletedArticle {
+  id        String   @id @default(cuid())
+  userId    String
+  slug      String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, slug])
 }
 
 enum Role {

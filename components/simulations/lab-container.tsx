@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React, { Suspense, createContext, useContext } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { Loader2, Maximize2, Minimize2, RotateCcw, PanelLeftDashed, GripVertical, Share2, Check } from "lucide-react";
@@ -8,6 +8,14 @@ import { Loader2, Maximize2, Minimize2, RotateCcw, PanelLeftDashed, GripVertical
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useSimulationStore } from "@/lib/stores/simulation-store";
+
+interface LabContextType {
+  isFullscreen: boolean;
+}
+
+const LabContext = createContext<LabContextType>({ isFullscreen: false });
+
+export const useLab = () => useContext(LabContext);
 
 interface LabContainerProps {
   children: React.ReactNode;
@@ -156,135 +164,146 @@ export function LabContainer({
   };
 
   return (
-    <div 
-      ref={containerRef}
-      id={id}
-      style={{ 
-        width: isSplitMode ? `${splitWidth}vw` : undefined
-      }}
-      className={cn(
-      "relative flex flex-col overflow-hidden bg-black border border-white/10 group rounded-none transition-[height,left,top,bottom] duration-500",
-      isSplitMode ? "fixed inset-y-0 left-0 h-[100dvh] z-[100] border-r-0" : 
-      isPseudoFullscreen ? "fixed inset-0 h-[100dvh] w-screen z-[1000] border-0" :
-      "w-full aspect-video",
-      className
-    )}>
-      {isSplitMode && (
-        <div 
-          className="absolute top-0 bottom-0 right-0 w-2 cursor-col-resize z-50 flex items-center justify-center bg-white/5 hover:bg-white/10 transition-colors border-l border-white/10"
-          onMouseDown={() => {
-            isDragging.current = true;
-          }}
-        >
-          <GripVertical className="h-4 w-4 text-white/30" />
-        </div>
-      )}
-      
-      {/* Lab Header - HARD ANCHORED TO TOP 0 */}
-      <div className="absolute top-0 left-0 right-0 z-40 flex items-center justify-between p-2 bg-gradient-to-b from-black to-transparent pointer-events-none">
-        <div className="pointer-events-auto max-w-[40%] flex flex-col justify-start">
-          <div className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2 truncate">
-            <span className="flex-shrink-0 w-1.5 h-1.5 rounded-none bg-white/60 shadow-[0_0_5px_white]" />
-            <span className="truncate">{title}</span>
+    <LabContext.Provider value={{ isFullscreen: isFullscreen || isPseudoFullscreen }}>
+      <div 
+        ref={containerRef}
+        id={id}
+        style={{ 
+          width: isSplitMode ? `${splitWidth}vw` : undefined
+        }}
+        className={cn(
+        "relative flex flex-col overflow-hidden bg-black border border-white/10 group rounded-none transition-[height,left,top,bottom] duration-500",
+        isSplitMode ? "fixed inset-y-0 left-0 h-[100dvh] z-[100] border-r-0" : 
+        isPseudoFullscreen ? "fixed inset-0 h-[100dvh] w-screen z-[1000] border-0" :
+        "w-full aspect-video",
+        className
+      )}>
+        {isSplitMode && (
+          <div 
+            className="absolute top-0 bottom-0 right-0 w-2 cursor-col-resize z-50 flex items-center justify-center bg-white/5 hover:bg-white/10 transition-colors border-l border-white/10"
+            onMouseDown={() => {
+              isDragging.current = true;
+            }}
+          >
+            <GripVertical className="h-4 w-4 text-white/30" />
           </div>
-          {description && (
-            <div className="text-[10px] text-white/40 mt-0.5 line-clamp-1 font-mono uppercase truncate">
-              {description}
-            </div>
-          )}
-        </div>
+        )}
         
-        <div className="flex items-center gap-1 pointer-events-auto">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleShare}
-            disabled={isSaving}
-            className="h-7 w-7 transition-colors rounded-none text-white/40 hover:text-white hover:bg-white/5"
-          >
-            {isCopied ? <Check className="h-3.5 w-3.5 text-green-400" /> : isSaving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Share2 className="h-3.5 w-3.5" />}
-          </Button>
-          {onReset && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleResetClick}
-              className="h-7 w-7 transition-colors rounded-none text-white/40 hover:text-white hover:bg-white/5"
-            >
-              <RotateCcw className="h-3.5 w-3.5" />
-            </Button>
-          )}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsSplitMode(!isSplitMode)}
-            className={cn(
-              "h-7 w-7 transition-colors rounded-none hidden md:flex text-white/40 hover:text-white hover:bg-white/5",
-              isSplitMode && "text-white bg-white/10"
-            )}
-          >
-            <PanelLeftDashed className="h-3.5 w-3.5" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleFullscreen}
-            className="h-7 w-7 transition-colors rounded-none text-white/40 hover:text-white hover:bg-white/5"
-          >
-            {isFullscreen || isPseudoFullscreen ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
-          </Button>
-        </div>
-      </div>
-
-      {/* Sidebar Controls - Shifted UP to top-10 since header is smaller */}
-      {(sidebarControls || (controls && isFullscreen)) && (
-        <div className={cn(
-          "absolute top-10 z-50 w-52 max-h-[calc(100%-4rem)] overflow-y-auto p-4 bg-black/95 backdrop-blur-xl border border-white/10 rounded-none transition-all duration-500 no-scrollbar", 
-          isFullscreen ? "right-4 opacity-100" : "right-2 opacity-0 group-hover:opacity-100"
-        )}>
-          <div className="space-y-4">
-            {sidebarControls}
-            {isFullscreen && controls && (
-              <div className="pt-4 border-t border-white/10 flex flex-col gap-2">
-                <span className="text-[10px] font-bold text-white/40 uppercase tracking-wider block">Controls</span>
-                <div className="flex flex-col gap-2 [&>button]:w-full [&>button]:justify-start">
-                  {controls}
-                </div>
+        {/* Lab Header - HARD ANCHORED TO TOP 0 */}
+        <div className="absolute top-0 left-0 right-0 z-40 flex items-center justify-between p-2 bg-gradient-to-b from-black to-transparent pointer-events-none">
+          <div className="pointer-events-auto max-w-[40%] flex flex-col justify-start">
+            <div className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2 truncate">
+              <span className="flex-shrink-0 w-1.5 h-1.5 rounded-none bg-white/60 shadow-[0_0_5px_white]" />
+              <span className="truncate">{title}</span>
+            </div>
+            {description && (
+              <div className="text-[10px] text-white/40 mt-0.5 line-clamp-1 font-mono uppercase truncate">
+                {description}
               </div>
             )}
           </div>
-        </div>
-      )}
-
-      {/* Simulation Canvas */}
-      <div className="w-full h-full cursor-crosshair">
-        <Suspense fallback={
-          <div className="flex items-center justify-center w-full h-full bg-black">
-            <Loader2 className="h-8 w-8 text-white/20 animate-spin" />
+          
+          <div className="flex items-center gap-1 pointer-events-auto">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleShare}
+              disabled={isSaving}
+              className="h-7 w-7 transition-colors rounded-none text-white/40 hover:text-white hover:bg-white/5"
+            >
+              {isCopied ? <Check className="h-3.5 w-3.5 text-green-400" /> : isSaving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Share2 className="h-3.5 w-3.5" />}
+            </Button>
+            {onReset && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleResetClick}
+                className="h-7 w-7 transition-colors rounded-none text-white/40 hover:text-white hover:bg-white/5"
+              >
+                <RotateCcw className="h-3.5 w-3.5" />
+              </Button>
+            )}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsSplitMode(!isSplitMode)}
+              className={cn(
+                "h-7 w-7 transition-colors rounded-none hidden md:flex text-white/40 hover:text-white hover:bg-white/5",
+                isSplitMode && "text-white bg-white/10"
+              )}
+            >
+              <PanelLeftDashed className="h-3.5 w-3.5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleFullscreen}
+              className="h-7 w-7 transition-colors rounded-none text-white/40 hover:text-white hover:bg-white/5"
+            >
+              {isFullscreen || isPseudoFullscreen ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
+            </Button>
           </div>
-        }>
-          {is3D ? (
-            <Canvas key={resetKey} shadows gl={{ antialias: true, alpha: true }}>
-              <PerspectiveCamera makeDefault position={[0, 0, 10]} />
-              <OrbitControls enablePan={false} maxDistance={15} minDistance={3} enableDamping />
-              <ambientLight intensity={0.8} />
-              <pointLight position={[10, 10, 10]} intensity={2} />
-              {children}
-            </Canvas>
-          ) : (
-            <div className="w-full h-full relative z-0">{children}</div>
-          )}
-        </Suspense>
-      </div>
+        </div>
 
-      {/* Lab Overlay/Status */}
-      <div className="absolute bottom-4 left-4 z-10 pointer-events-none flex gap-2">
-        <div className="px-2 py-0.5 border border-white/10 text-[9px] font-mono text-white/40 tracking-wider">SYSTEM.READY</div>
-        <div className="px-2 py-0.5 border border-white/10 text-[9px] font-mono text-white/30 tracking-wider">V.2.0.4</div>
+        {/* Sidebar Controls - Shifted UP to top-10 since header is smaller */}
+        {(sidebarControls || (controls && (isFullscreen || isPseudoFullscreen))) && (
+          <div className={cn(
+            "absolute top-10 z-50 w-52 max-h-[calc(100%-4rem)] overflow-y-auto p-4 bg-black/95 backdrop-blur-xl border border-white/10 rounded-none transition-all duration-500 no-scrollbar", 
+            (isFullscreen || isPseudoFullscreen) ? "right-4 opacity-100" : "right-4 opacity-30 group-hover:opacity-100"
+          )}>
+            <div className="space-y-4">
+              {sidebarControls}
+              {(isFullscreen || isPseudoFullscreen) && controls && (
+                <div className="pt-4 border-t border-white/10 flex flex-col gap-2">
+                  <span className="text-[10px] font-bold text-white/40 uppercase tracking-wider block">Controls</span>
+                  <div className="flex flex-col gap-2 [&>button]:w-full [&>button]:justify-start">
+                    {controls}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Simulation Canvas */}
+        <div className="w-full h-full cursor-crosshair">
+          <Suspense fallback={
+            <div className="flex items-center justify-center w-full h-full bg-black">
+              <Loader2 className="h-8 w-8 text-white/20 animate-spin" />
+            </div>
+          }>
+            {is3D ? (
+              <Canvas key={resetKey} shadows gl={{ antialias: true, alpha: true }}>
+                <PerspectiveCamera makeDefault position={[0, 0, 10]} />
+                <OrbitControls enablePan={false} maxDistance={15} minDistance={3} enableDamping />
+                <ambientLight intensity={0.8} />
+                <pointLight position={[10, 10, 10]} intensity={2} />
+                {children}
+              </Canvas>
+            ) : (
+              <div className="w-full h-full relative z-0">{children}</div>
+            )}
+          </Suspense>
+        </div>
+
+        {/* Lab Overlay/Status */}
+        <div className="absolute bottom-4 left-4 z-10 pointer-events-none flex gap-2">
+          <div className="px-2 py-0.5 border border-white/10 text-[9px] font-mono text-white/40 tracking-wider">SYSTEM.READY</div>
+          <div className="px-2 py-0.5 border border-white/10 text-[9px] font-mono text-white/30 tracking-wider">V.2.0.4</div>
+        </div>
+        
+        {/* Bottom Floating Toolbar (Hover Mode Only) */}
+        {!isFullscreen && !isPseudoFullscreen && controls && (
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
+            <div className="flex items-center gap-1 p-1 bg-black/90 backdrop-blur-xl border border-white/20 pointer-events-auto rounded-none shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+              {controls}
+            </div>
+          </div>
+        )}
+        
+        {/* Scanline/Grid FX */}
+        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-[length:100%_2px,3px_100%] z-10 opacity-20" />
       </div>
-      
-      {/* Scanline/Grid FX */}
-      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-[length:100%_2px,3px_100%] z-10 opacity-20" />
-    </div>
+    </LabContext.Provider>
   );
 }

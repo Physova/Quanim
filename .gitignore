@@ -32,7 +32,7 @@ Thumbs.db
 
 # Project Workspace
 /.vscode/
-/.agent/
+# /.agent/
 /del/
 
 .vercel

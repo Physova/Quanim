@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import katex from "katex";
 import { getSimForEquation } from "@/lib/equation-sim-map";
 import { Button } from "@/components/ui/button";
 import { Zap } from "lucide-react";
@@ -21,7 +22,9 @@ export function EquationBlock({ equation, description, className }: EquationBloc
     
     // Apply parameters if they exist
     if (simConfig.initialParams) {
-      useSimulationStore.setState(simConfig.initialParams);
+      useSimulationStore.setState({ ...simConfig.initialParams, isPlaying: true });
+    } else {
+      useSimulationStore.setState({ isPlaying: true });
     }
 
     const element = document.getElementById(`lab-${simConfig.type}`);
@@ -56,10 +59,11 @@ export function EquationBlock({ equation, description, className }: EquationBloc
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="equation text-2xl md:text-4xl text-white font-serif tracking-wide mb-4 transition-transform duration-300 group-hover:scale-[1.02]"
-        >
-          {equation}
-        </motion.div>
+          className="equation text-2xl md:text-4xl text-white tracking-wide mb-4 transition-transform duration-300 group-hover:scale-[1.02]"
+          dangerouslySetInnerHTML={{
+            __html: katex.renderToString(equation, { throwOnError: false, displayMode: true })
+          }}
+        />
         
         {description && (
           <p className="description text-[10px] font-mono uppercase tracking-[0.2em] text-white/30 mb-6 max-w-md mx-auto group-hover:text-white/50 transition-colors">

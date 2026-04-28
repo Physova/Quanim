@@ -44,6 +44,12 @@ interface SimulationState {
   setMeasuredStateB: (measuredStateB: 0 | 1) => void;
   setEntanglementDistance: (distance: number) => void;
 
+  // Motion
+  initialVelocity: number;
+  acceleration: number;
+  setInitialVelocity: (v: number) => void;
+  setAcceleration: (a: number) => void;
+
   // Persistence
   getParamsObject: () => Record<string, unknown>;
   applyParamsObject: (params: Record<string, unknown>) => void;
@@ -54,11 +60,12 @@ interface SimulationState {
 const SIM_PARAMS = [
   'particleCount', 'waveMode', 'intensity', 'wavelength', 'slitDistance', 'observerState',
   'probUp', 'isMeasured', 'measuredState',
-  'isEntangled', 'isMeasuredA', 'isMeasuredB', 'measuredStateA', 'measuredStateB', 'entanglementDistance'
+  'isEntangled', 'isMeasuredA', 'isMeasuredB', 'measuredStateA', 'measuredStateB', 'entanglementDistance',
+  'initialVelocity', 'acceleration'
 ] as const;
 
 export const useSimulationStore = create<SimulationState>((set, get) => ({
-  isPlaying: true,
+  isPlaying: false,
   particleCount: 1000,
   waveMode: true,
   intensity: 1.0,
@@ -80,6 +87,10 @@ export const useSimulationStore = create<SimulationState>((set, get) => ({
   measuredStateA: 0,
   measuredStateB: 0,
   entanglementDistance: 300,
+
+  // Motion defaults
+  initialVelocity: 5,
+  acceleration: 1,
 
   togglePlay: () => set((state) => ({ isPlaying: !state.isPlaying })),
   setParticleCount: (count) => set({ particleCount: count }),
@@ -104,6 +115,10 @@ export const useSimulationStore = create<SimulationState>((set, get) => ({
   setMeasuredStateA: (measuredStateA) => set({ measuredStateA }),
   setMeasuredStateB: (measuredStateB) => set({ measuredStateB }),
   setEntanglementDistance: (entanglementDistance) => set({ entanglementDistance }),
+
+  // Motion setters
+  setInitialVelocity: (v) => set({ initialVelocity: v }),
+  setAcceleration: (a) => set({ acceleration: a }),
 
   getParamsObject: () => {
     const state = get();

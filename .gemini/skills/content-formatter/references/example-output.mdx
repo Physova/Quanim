@@ -1,0 +1,62 @@
+---
+title: "Static Friction"
+slug: "static-friction"
+description: "Understanding why objects resist motion."
+tags: ["mechanics", "friction"]
+publishedAt: "2026-04-27"
+difficulty: "Intermediate"
+---
+
+# Static Friction
+
+## What is Friction?
+
+Friction is a force that opposes the relative motion between two surfaces in contact. It is one of the most fundamental forces in everyday life.
+
+<EquationBlock
+  equation="f = \mu N"
+  description="Friction force equals coefficient of friction times the normal force"
+/>
+
+## Types of Friction
+
+There are two main types:
+- **Static friction** — the force that keeps stationary objects from moving
+- **Kinetic friction** — the force that opposes objects already in motion
+
+<EquationBlock
+  equation="f_s \geq f_k"
+  description="Static friction is always greater than or equal to kinetic friction"
+/>
+
+<EquationBlock
+  equation="f_{s,max} = \mu_s N"
+  description="Maximum static friction force"
+/>
+
+<Quiz
+  question="What determines the friction force?"
+  options={["Only the weight", "The surfaces and normal force", "Only the speed"]}
+  correctIndex={1}
+/>
+
+## On an Inclined Plane
+
+When an object sits on a ramp at angle θ:
+- The normal force is N = mg cos(θ)
+- The component of gravity along the ramp is F = mg sin(θ)
+- The object stays still when f_s ≥ mg sin(θ)
+
+<EquationBlock
+  equation="\theta_c = \arctan(\mu_s)"
+  description="Critical angle where the object begins to slide"
+/>
+
+<Quiz
+  question="At what angle does a block start sliding if μ = 0.5?"
+  options={["30 degrees", "26.6 degrees", "45 degrees"]}
+  correctIndex={1}
+/>
+
+> "There is no branch of mathematics that cannot someday be applied to the problems of the real world."
+> — Nikolai Lobachevsky

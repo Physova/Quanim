@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { ConditionalLayout } from "@/components/conditional-layout";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -40,6 +41,7 @@ export default function RootLayout({
             {children}
           </ConditionalLayout>
         </Providers>
+        <Analytics />
       </body>
     </html>
   );

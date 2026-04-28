@@ -1,14 +1,50 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence, useSpring, useMotionValue } from "framer-motion";
+import { useSession } from "next-auth/react";
+import { markGuestArticleCompleted } from "@/lib/guest-identity";
 
 export function ReadingProgress({ targetId = "article-content", endId = "article-end" }: { targetId?: string, endId?: string }) {
+  const { data: session } = useSession();
   const [hasCompleted, setHasCompleted] = useState(false);
   const [showCompleted, setShowCompleted] = useState(false);
   const [percent, setPercent] = useState(0);
+  const completionSentRef = useRef(false);
   
   const motionPercent = useMotionValue(0);
+
+  // Extract slug from current URL path
+  const getSlug = useCallback(() => {
+    if (typeof window === "undefined") return null;
+    const parts = window.location.pathname.split("/");
+    // /topics/[slug] → slug is last part
+    return parts[parts.length - 1] || null;
+  }, []);
+
+  const handleCompletion = useCallback(async () => {
+    if (completionSentRef.current) return;
+    completionSentRef.current = true;
+
+    const slug = getSlug();
+    if (!slug) return;
+
+    if (session?.user?.id) {
+      // Logged-in user: persist to DB
+      try {
+        await fetch("/api/completed", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ slug }),
+        });
+      } catch (error) {
+        console.error("Failed to save completion", error);
+      }
+    } else {
+      // Guest: persist to localStorage
+      markGuestArticleCompleted(slug);
+    }
+  }, [session, getSlug]);
 
   const calculateProgress = useCallback(() => {
     const target = document.getElementById(targetId);
@@ -25,11 +61,12 @@ export function ReadingProgress({ targetId = "article-content", endId = "article
     const totalHeight = endPos - startPos;
     const currentScroll = window.scrollY;
     
-    // Calculate how much of the content is scrolled past the viewport start
     const scrollOffset = currentScroll - startPos;
-    const scrollableRange = totalHeight - window.innerHeight + 200; // Buffer for "finishing"
     
-    const rawPercent = (scrollOffset / scrollableRange) * 100;
+    // Reach 100% exactly when the end of the article is at the bottom of the viewport
+    const maxScroll = totalHeight - window.innerHeight;
+    const rawPercent = maxScroll > 0 ? (scrollOffset / maxScroll) * 100 : 100;
+    
     const clamped = Math.min(100, Math.max(0, rawPercent));
     
     setPercent(clamped);
@@ -38,9 +75,10 @@ export function ReadingProgress({ targetId = "article-content", endId = "article
     if (clamped >= 99 && !hasCompleted) {
       setHasCompleted(true);
       setShowCompleted(true);
+      handleCompletion();
       setTimeout(() => setShowCompleted(false), 5000);
     }
-  }, [targetId, endId, hasCompleted, motionPercent]);
+  }, [targetId, endId, hasCompleted, motionPercent, handleCompletion]);
 
   useEffect(() => {
     window.addEventListener("scroll", calculateProgress, { passive: true });

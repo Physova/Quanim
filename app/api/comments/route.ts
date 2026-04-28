@@ -3,6 +3,12 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { ensureArticleExists } from "@/lib/actions/article";
 
+const AUTHOR_SELECT = {
+  id: true,
+  name: true,
+  image: true,
+} as const;
+
 /**
  * GET: Fetch threaded comments for an article by its slug.
  */
@@ -15,19 +21,13 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Slug is required" }, { status: 400 });
     }
 
-    // Comments are nested in DB but we'll fetch them all for a 2-level structure
-    // Schema:parentId = null → top-level, parentId = ID → reply
     const comments = await prisma.comment.findMany({
       where: {
         article: { slug },
       },
       include: {
         author: {
-          select: {
-            id: true,
-            name: true,
-            image: true,
-          },
+          select: AUTHOR_SELECT,
         },
       },
       orderBy: {
@@ -44,38 +44,46 @@ export async function GET(req: Request) {
 
 /**
  * POST: Create a new comment or reply.
+ * Supports both authenticated users and anonymous guests.
  */
 export async function POST(req: Request) {
   try {
     const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const body = await req.json();
-    const { body: commentText, slug, parentId } = body;
+    const { body: commentText, slug, parentId, guestId, guestName } = body;
 
     if (!commentText || !slug) {
       return NextResponse.json({ error: "Text and slug are required" }, { status: 400 });
     }
 
-    // Ensure the article exists in the DB
+    // Must be either authenticated or have guest identity
+    if (!session?.user?.id && (!guestId || !guestName)) {
+      return NextResponse.json(
+        { error: "Must be signed in or provide guest identity" },
+        { status: 401 }
+      );
+    }
+
     const article = await ensureArticleExists(slug);
+
+    const isAuthenticated = !!session?.user?.id;
 
     const comment = await prisma.comment.create({
       data: {
         body: commentText,
         parentId: parentId || null,
         articleId: article.id,
-        authorId: session.user.id,
+        ...(isAuthenticated ? {
+          authorId: session!.user.id,
+        } : {
+          authorId: null,
+          guestId: guestId as string,
+          guestName: guestName as string,
+        }),
       },
       include: {
         author: {
-          select: {
-            id: true,
-            name: true,
-            image: true,
-          },
+          select: AUTHOR_SELECT,
         },
       },
     });

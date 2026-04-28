@@ -5,6 +5,7 @@ import { motion, useTransform, MotionValue } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Beaker, BookOpen, User, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { TopicFrontmatter } from "@/lib/mdx";
 
 interface BentoCardProps {
   title: string;
@@ -62,12 +63,23 @@ function BentoCard({ title, description, icon, href, className, metrics }: Bento
   );
 }
 
-export function DiscoverySection({ scrollProgress }: { scrollProgress: MotionValue<number> }) {
+export function DiscoverySection({ 
+  scrollProgress,
+  topics = []
+}: { 
+  scrollProgress: MotionValue<number>,
+  topics?: TopicFrontmatter[]
+}) {
   // Shutter effect timing: 0.45 to 0.65
   const shutterLeft = useTransform(scrollProgress, [0.53, 0.58, 0.74], ["0%", "-100%", "-100%"]);
   const shutterRight = useTransform(scrollProgress, [0.53, 0.58, 0.74], ["0%", "100%", "100%"]);
   const contentOpacity = useTransform(scrollProgress, [0.55, 0.60, 0.70, 0.74], [0, 1, 1, 0]);
   const contentScale = useTransform(scrollProgress, [0.55, 0.60], [0.95, 1]);
+
+  // Adjust grid based on number of topics
+  const gridCols = topics.length === 1 ? "md:grid-cols-1 max-w-md mx-auto" : 
+                   topics.length === 2 ? "md:grid-cols-2 max-w-3xl mx-auto" : 
+                   "md:grid-cols-3";
 
   return (
     <div className="w-full flex items-center justify-center pointer-events-none px-4 md:px-8">
@@ -92,34 +104,24 @@ export function DiscoverySection({ scrollProgress }: { scrollProgress: MotionVal
         </div>
 
         {/* Responsive Container: Swipe on mobile, Grid on desktop */}
-        <div className="flex overflow-x-auto md:grid md:grid-cols-3 gap-4 md:gap-6 snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
-          <div className="min-w-[85vw] md:min-w-0 snap-center">
-            <BentoCard 
-              title="Double Slit Lab"
-              description="Visualizing wave-particle duality. Observe the interference pattern emerge from individual electron strikes. Real-time probability density mapping."
-              icon={<Beaker className="w-5 h-5" />}
-              href="/topics/double-slit"
-              metrics="98% FIDELITY"
-            />
-          </div>
-          <div className="min-w-[85vw] md:min-w-0 snap-center">
-            <BentoCard 
-              title="Quantum Entanglement"
-              description="Non-local state correlation analyzer. Testing Bell's Inequality through synchronized photon pair emissions. Spatial separation: 12.4km."
-              icon={<BookOpen className="w-5 h-5" />}
-              href="/topics/entanglement"
-              metrics="LATENCY: 2ms"
-            />
-          </div>
-          <div className="min-w-[85vw] md:min-w-0 snap-center">
-            <BentoCard 
-              title="Superposition Theory"
-              description="Wavefunction mechanics. Interacting directly with the Bloch Sphere. Manipulating probability densities across multiple quantum states simultaneously."
-              icon={<User className="w-5 h-5" />}
-              href="/topics/superposition"
-              metrics="BLO_SPHERE: ACTIVE"
-            />
-          </div>
+        <div className={`flex overflow-x-auto md:grid ${gridCols} gap-4 md:gap-6 snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0`}>
+          {topics.length > 0 ? (
+            topics.slice(0, 3).map((topic, i) => (
+              <div key={topic.slug} className="min-w-[85vw] md:min-w-0 snap-center">
+                <BentoCard 
+                  title={topic.title}
+                  description={topic.description}
+                  icon={i % 2 === 0 ? <Beaker className="w-5 h-5" /> : <BookOpen className="w-5 h-5" />}
+                  href={`/topics/${topic.slug}`}
+                  metrics={topic.difficulty?.toUpperCase()}
+                />
+              </div>
+            ))
+          ) : (
+            <div className="col-span-full py-20 text-center border border-dashed border-white/10 bg-white/[0.02]">
+              <p className="font-mono text-white/30 uppercase tracking-widest text-xs">Awaiting Research Submissions...</p>
+            </div>
+          )}
         </div>
       </motion.div>
     </div>

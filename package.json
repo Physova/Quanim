@@ -1,6 +1,6 @@
 {
   "name": "Physova-app",
-  "version": "0.1.0",
+  "version": "3.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -23,6 +23,8 @@
     "@radix-ui/react-avatar": "^1.1.11",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.0",
+    "@vercel/analytics": "^2.0.1",
+    "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
@@ -42,6 +44,7 @@
     "remark-frontmatter": "^5.0.0",
     "remark-math": "^6.0.0",
     "remark-mdx-frontmatter": "^5.2.0",
+    "resend": "^6.12.2",
     "shadcn": "^4.2.0",
     "tailwind-merge": "^3.5.0",
     "tailwindcss-animate": "^1.0.7",
@@ -53,6 +56,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.19",
+    "@types/bcryptjs": "^2.4.6",
     "@types/katex": "^0.16.8",
     "@types/mdx": "^2.0.13",
     "@types/node": "^20.19.39",
