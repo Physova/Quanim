@@ -26,7 +26,7 @@ function BentoCard({ title, description, icon, href, className, metrics }: Bento
   }, []);
 
   return (
-    <Link href={href} className="block group">
+    <Link href={href} className="block group h-full">
       <Card className={`h-full p-6 bg-black border border-white/10 group-hover:border-white/40 transition-all duration-300 flex flex-col gap-6 relative overflow-hidden rounded-none ${className}`}>
         {/* Tech grid background pattern */}
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
@@ -43,8 +43,8 @@ function BentoCard({ title, description, icon, href, className, metrics }: Bento
           )}
         </div>
         
-        <div className="space-y-3 relative z-10">
-          <h3 className="text-xl font-mono font-bold tracking-tighter text-white uppercase">{title}</h3>
+        <div className="space-y-3 relative z-10 flex-1">
+          <h3 className="text-xl font-sans font-bold tracking-tight text-white uppercase">{title}</h3>
           <p className="text-white/50 leading-relaxed text-[11px] font-mono uppercase tracking-tight line-clamp-3">
             {description}
           </p>
@@ -96,18 +96,18 @@ export function DiscoverySection({
       {/* Content */}
       <motion.div 
         style={{ opacity: contentOpacity, scale: contentScale }}
-        className="relative z-40 w-full max-w-6xl pointer-events-auto my-12"
+        className="relative z-40 w-full max-w-6xl my-12 pointer-events-auto"
       >
         <div className="mb-6 md:mb-12 space-y-1">
           <span className="font-mono text-white/40 text-[9px] md:text-[10px] tracking-[0.4em] uppercase font-bold">Protocol 01</span>
-          <h2 className="text-3xl md:text-7xl font-mono font-bold tracking-tighter text-white uppercase">The Discovery</h2>
+          <h2 className="text-3xl md:text-7xl font-serif font-bold tracking-tighter text-white uppercase">The Discovery</h2>
         </div>
 
         {/* Responsive Container: Swipe on mobile, Grid on desktop */}
-        <div className={`flex overflow-x-auto md:grid ${gridCols} gap-4 md:gap-6 snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0`}>
+        <div className={`flex overflow-x-auto md:grid ${gridCols} gap-4 md:gap-6 snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0 md:auto-rows-[1fr]`}>
           {topics.length > 0 ? (
             topics.slice(0, 3).map((topic, i) => (
-              <div key={topic.slug} className="min-w-[85vw] md:min-w-0 snap-center">
+              <div key={topic.slug} className="min-w-[85vw] md:min-w-0 snap-center h-full">
                 <BentoCard 
                   title={topic.title}
                   description={topic.description}

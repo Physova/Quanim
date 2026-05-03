@@ -46,7 +46,7 @@ export default function LandingPage({ recentTopics = [] }: { recentTopics?: Topi
   const stage1Opacity = useTransform(smoothProgress, [0, 0.15, 0.20], [1, 1, 0]);
   const stage2Opacity = useTransform(smoothProgress, [0.25, 0.30, 0.48, 0.53], [0, 1, 1, 0]);
   const stage3Opacity = useTransform(smoothProgress, [0.55, 0.58, 0.70, 0.74], [0, 1, 1, 0]);
-  const stage4Opacity = useTransform(smoothProgress, [0.82, 0.87, 0.91, 1], [0, 1, 1, 0.3]);
+  const stage4Opacity = useTransform(smoothProgress, [0.84, 0.89, 1], [0, 1, 1]);
 
   // Progress dot — mapped to stage centers
   const dotTop = useTransform(
@@ -114,7 +114,7 @@ export default function LandingPage({ recentTopics = [] }: { recentTopics?: Topi
 
         {/* Stage 4: The Community (Connection) */}
         <motion.div 
-          className="absolute inset-0 z-40 flex flex-col items-center justify-center p-4 md:p-8 bg-black/80"
+          className="absolute inset-0 z-40 flex flex-col items-center justify-center p-4 md:p-8 bg-black/40"
           style={{ opacity: stage4Opacity, pointerEvents: activeStage === 4 ? 'auto' : 'none' }}
         >
           <div className="max-w-2xl space-y-6 md:space-y-8 text-center flex flex-col items-center">
@@ -125,7 +125,7 @@ export default function LandingPage({ recentTopics = [] }: { recentTopics?: Topi
               Join the discussion and explore the frontiers of knowledge with fellow enthusiasts.
             </p>
             <div className="pt-8">
-              <Link href="/auth/signup" className="px-8 py-4 bg-white text-black text-xs font-bold uppercase tracking-[0.2em] hover:bg-white/90 transition-colors border-2 border-white pointer-events-auto">
+              <Link href="/auth/signup" className="px-8 py-4 bg-white text-black text-xs font-bold uppercase tracking-[0.2em] hover:bg-white/90 transition-colors border-2 border-white">
                 Join Community &rarr;
               </Link>
             </div>

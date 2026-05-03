@@ -13,6 +13,27 @@ Physova v3 represents a complete architectural overhaul from the original Quanim
 - **Automated Communication**: Integrated Resend engine for stylized student onboarding.
 - **Security & Performance**: Hardened Supabase RLS policies and Vercel Analytics integration.
 
+## ✨ v3.1 Visual Polish & Feedback Fixes
+Based on comprehensive feedback (v3.1 Implementation Plan), we've refined the platform's aesthetics and interaction model.
+
+### Design & Typography
+- **Switzer Font Migration**: Replaced Geist Sans with Switzer (sans-serif) across the entire platform for a more sophisticated, editorial feel.
+- **Unified Font System**: Playfair Display for headers, Switzer for UI/Body, and JetBrains Mono for data/cipher elements.
+- **Baseline Alignment**: Fixed "Grade 9" and other old-style numeral alignment issues in topics index.
+- **Monochrome Depth**: Added subtle grey gradients and borders to the Topics page for improved visual hierarchy.
+
+### Cinematic 3D Scene
+- **Black Hole Refinement**: Removed the photon ring and background glow circle for a cleaner, more realistic gravitational void.
+- **Spaceship Choreography**: Spaceship now appears only after Stage 3 bento cards fade out, preventing visual overlap.
+- **Transition Logic**: Improved spaceship-to-sun transition with independent fade ranges and camera choreography to prevent overlaps.
+- **Earth Texture Fix**: Removed polar cap artifacts and seam lines.
+
+### UI & Interaction
+- **Navbar Refinement**: Increased contrast, font size, and tightened logo letter-spacing for better readability.
+- **Mobile Navigation Fix**: Resolved issue where the hamburger menu couldn't be closed; integrated Radix UI `SheetTrigger`.
+- **Bento Card Equalization**: Enforced consistent sizing for module cards on the landing page.
+- **Interaction Fixes**: Restored clickability to Phase 3 modules by correcting pointer-event layering.
+
 ## 📝 For Authors (Singerboy & Partners)
 If you are writing content for Physova, we have created a dedicated, step-by-step guide to help you publish without touching any code.
 
@@ -40,6 +61,6 @@ This guide explains how to use the **Gemini CLI** to turn your simple `.md` draf
 
 ---
 
-**Version:** 3.0.0
+**Version:** 3.1.0
 **Project Owner:** Shubhadeep Roy
 **Technical Orchestrator:** Antigravity AI

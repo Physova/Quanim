@@ -26,7 +26,7 @@ export function Navbar({ visible = true }: { visible?: boolean }) {
       visible ? "translate-y-0" : "-translate-y-full"
     )}>
       <Link href="/" className="flex items-center gap-2 group">
-        <span className="text-base font-bold tracking-[0.2em] uppercase text-foreground group-hover:opacity-80 transition-opacity">
+        <span className="text-base font-bold tracking-[0.08em] uppercase text-foreground group-hover:opacity-80 transition-opacity">
           Physova
         </span>
       </Link>
@@ -36,7 +36,7 @@ export function Navbar({ visible = true }: { visible?: boolean }) {
           <NavigationMenuList className="gap-8">
             {NAV_LINKS.map((link) => (
               <NavigationMenuItem key={link.href}>
-                <NavigationMenuLink asChild className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-white/5 text-muted-foreground hover:text-foreground transition-all font-bold text-[10px] uppercase tracking-[0.2em]")}>
+                <NavigationMenuLink asChild className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-white/5 text-white/60 hover:text-white transition-all font-bold text-xs uppercase tracking-[0.15em]")}>
                   <Link href={link.href}>
                     {link.label}
                   </Link>
@@ -77,7 +77,7 @@ export function Navbar({ visible = true }: { visible?: boolean }) {
           </>
         ) : (
           <>
-            <Link href="/auth/signin" className="hidden sm:flex text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all uppercase tracking-[0.2em] px-2 md:px-4">
+            <Link href="/auth/signin" className="hidden sm:flex text-xs font-bold text-white/50 hover:text-white transition-all uppercase tracking-[0.15em] px-2 md:px-4">
               Sign In
             </Link>
             <Button asChild size="sm" className="rounded-none px-3 md:px-6 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em]">

@@ -63,8 +63,8 @@ function mkEarthTex(): THREE.CanvasTexture {
   ([[160,150,100,90],[195,230,58,88],[440,138,64,58],[465,255,58,118],[595,128,152,98],[698,208,58,48],[742,328,66,38]] as number[][]).forEach(([cx,cy,rw,rh]) => { x.beginPath(); x.ellipse(cx,cy,rw/2,rh/2,0,0,Math.PI*2); x.fill(); });
   x.fillStyle = '#145520';
   ([[165,155,70,60],[200,235,38,60],[445,142,44,38],[600,132,120,70]] as number[][]).forEach(([cx,cy,rw,rh]) => { x.beginPath(); x.ellipse(cx,cy,rw/2,rh/2,0,0,Math.PI*2); x.fill(); });
-  x.fillStyle = '#ddeeff'; x.globalAlpha = 0.8;
-  x.fillRect(0, 0, W, 16); x.fillRect(0, H - 13, W, 13); x.globalAlpha = 1;
+  x.fillStyle = '#ddeeff'; x.globalAlpha = 0.5;
+  x.fillRect(0, 0, W, 10); x.fillRect(0, H - 8, W, 8); x.globalAlpha = 1;
   x.fillStyle = '#ffffaa'; x.globalAlpha = 0.65;
   ([[160,150],[195,230],[440,138],[595,128],[698,208],[742,328]] as number[][]).forEach(([cx,cy]) => {
     for (let i = 0; i < 22; i++) { x.beginPath(); x.arc(cx + (Math.random() - 0.5) * 72, cy + (Math.random() - 0.5) * 50, Math.random() * 1.4 + 0.5, 0, Math.PI * 2); x.fill(); }
@@ -149,6 +149,7 @@ export default function PhysovaHero() {
       renderer.setSize(mount.clientWidth, mount.clientHeight);
       camera.aspect = mount.clientWidth / mount.clientHeight;
       camera.updateProjectionMatrix();
+      if (planeGrp) planeGrp.scale.setScalar(isMobile ? Math.min(0.9, window.innerWidth / 420) : 1.8);
     };
     window.addEventListener('resize', onResize);
 
@@ -165,10 +166,6 @@ export default function PhysovaHero() {
     const bhGrp = new THREE.Group(); scene.add(bhGrp);
     const bhSphereMat = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 1 });
     bhGrp.add(new THREE.Mesh(new THREE.SphereGeometry(1, 64, 64), bhSphereMat));
-    const photonRM = new THREE.MeshBasicMaterial({ color: 0xfff0cc, transparent: true, opacity: 0, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, depthWrite: false });
-    const photonR = new THREE.Mesh(new THREE.RingGeometry(0.975, 1.19, 256), photonRM); photonR.rotation.x = Math.PI * 0.27; bhGrp.add(photonR);
-    const photonR2M = new THREE.MeshBasicMaterial({ color: 0x88ccff, transparent: true, opacity: 0, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, depthWrite: false });
-    const photonR2 = new THREE.Mesh(new THREE.RingGeometry(0.965, 1.05, 256), photonR2M); photonR2.rotation.x = Math.PI * 0.27; bhGrp.add(photonR2);
 
     // Accretion disk
     const DN = 2500;
@@ -201,11 +198,7 @@ export default function PhysovaHero() {
     const hMat = new THREE.PointsMaterial({ size: 0.026, color: 0xfff4e0, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
     const hPts = new THREE.Points(hGeom, hMat); hPts.rotation.x = Math.PI * 0.27; bhGrp.add(hPts);
 
-    // Glow
-    const glowM = new THREE.MeshBasicMaterial({ color: 0xff6600, transparent: true, opacity: 0, side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false });
-    bhGrp.add(new THREE.Mesh(new THREE.SphereGeometry(3.2, 32, 32), glowM));
-    const glow2M = new THREE.MeshBasicMaterial({ color: 0xff2200, transparent: true, opacity: 0, side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false });
-    bhGrp.add(new THREE.Mesh(new THREE.SphereGeometry(5.5, 32, 32), glow2M));
+
 
     /* ── TRANSITION FLARE ────────────────────────────────────────── */
     const flareSprMat = new THREE.SpriteMaterial({ map: mkFlareTex(), transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
@@ -225,16 +218,12 @@ export default function PhysovaHero() {
     const dL = new THREE.DirectionalLight(0xffffff, 1.9); dL.position.set(4, 1, 3); scene.add(dL);
     scene.add(new THREE.AmbientLight(0x102040, 0.75));
 
-    /* ── TINY SPACECRAFT ─────────────────────────────────────────── */
-    const tinyShipGrp = new THREE.Group(); scene.add(tinyShipGrp);
-    const tinyShipMat = new THREE.MeshBasicMaterial({ color: 0xcccccc, transparent: true, opacity: 0 });
-    const tinyBody = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.006, 0.06, 8), tinyShipMat); tinyBody.rotation.z = Math.PI / 2; tinyShipGrp.add(tinyBody);
-    const tinyNose = new THREE.Mesh(new THREE.ConeGeometry(0.008, 0.02, 8), tinyShipMat); tinyNose.rotation.z = -Math.PI / 2; tinyNose.position.x = 0.04; tinyShipGrp.add(tinyNose);
-    tinyShipGrp.position.set(1.0, 0.8, 0.5);
+
 
     /* ── SPACESHIP ───────────────────────────────────────────────── */
     const planeGrp = new THREE.Group(); scene.add(planeGrp);
-    planeGrp.scale.setScalar(isMobile ? 1.2 : 1.8);
+    const shipScale = () => isMobile ? Math.min(0.9, window.innerWidth / 420) : 1.8;
+    planeGrp.scale.setScalar(shipScale());
     const mkSolid = (col: number, spec = 0x6688aa, shin = 70) => new THREE.MeshPhongMaterial({ color: col, specular: spec, shininess: shin, transparent: true, opacity: 0, depthWrite: true, side: THREE.FrontSide });
     const mBod = mkSolid(0xdddddd, 0xffffff, 50), mMet = mkSolid(0xaaaaaa, 0x8899aa, 90), mDrk = mkSolid(0x222222, 0x111111, 20), mGls = mkSolid(0x08121e, 0xffffff, 210);
     const addM = (geo: THREE.BufferGeometry, mat: THREE.Material, px=0,py=0,pz=0,rx=0,ry=0,rz=0) => { const m = new THREE.Mesh(geo, mat); m.position.set(px,py,pz); m.rotation.set(rx,ry,rz); planeGrp.add(m); return m; };
@@ -331,13 +320,9 @@ export default function PhysovaHero() {
     const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); svgEl.setAttribute('class', 'qh-label-svg'); svgEl.setAttribute('width', '100%'); svgEl.setAttribute('height', '100%'); document.body.appendChild(svgEl);
 
     const lnHeat = mkSvgLine(svgEl), lnFuel = mkSvgLine(svgEl), lnAero = mkSvgLine(svgEl);
-    const lnCore = mkSvgLine(svgEl), lnSurf = mkSvgLine(svgEl), lnLum = mkSvgLine(svgEl);
     const lblHeat = mkLabel(labelRoot, 'rgba(255,155,55,.95)', 'Heat Transmission', '1,850 °C', 'leading edge surface temp');
     const lblFuel = mkLabel(labelRoot, 'rgba(100,235,165,.95)', 'Thrust Output', '160 kN', 'rocket acceleration phase');
     const lblAero = mkLabel(labelRoot, 'rgba(80,185,255,.95)', 'Aerodynamics', 'Cd 0.027', 'drag coeff · hypersonic');
-    const lblCore = mkLabel(labelRoot, 'rgba(255,220,100,.95)', 'Core Temperature', '15.7 MK', '1.57 × 10⁷ kelvin · fusion zone');
-    const lblSurf = mkLabel(labelRoot, 'rgba(255,155,55,.95)', 'Surface Temperature', '5,778 K', 'photosphere · effective blackbody');
-    const lblLum  = mkLabel(labelRoot, 'rgba(255,245,185,.95)', 'Luminosity', '3.83×10²⁶ W', 'total radiated power output');
 
     /* ── Projection + Label Helpers ──────────────────────────────── */
     function proj3D(v3: THREE.Vector3) {
@@ -374,9 +359,7 @@ export default function PhysovaHero() {
       const bhA = 1 - ss(0.20, 0.30, s);
       bhSphereMat.opacity = bhA; bhGrp.visible = bhA > 0.001;
       if (bhGrp.visible) {
-        photonRM.opacity = bhA; photonR2M.opacity = bhA * 0.6;
         dkMat.opacity = bhA; hMat.opacity = bhA * 0.85;
-        glowM.opacity = bhA * 0.08; glow2M.opacity = bhA * 0.03;
         dkRot += dt * 0.38;
         const pa = dkGeom.attributes.position.array as Float32Array;
         for (let i = 0; i < DN; i++) {
@@ -411,22 +394,18 @@ export default function PhysovaHero() {
         eGrp.scale.setScalar(0.8 + (1 - ss(0.30, 0.48, s)) * 1.4);
       }
 
-      /* Tiny spacecraft */
-      const tinyA = ss(0.50, 0.54, s) * (1 - ss(0.58, 0.62, s));
-      tinyShipGrp.visible = tinyA > 0.001; tinyShipMat.opacity = tinyA;
+
 
       /* Spacecraft */
-      const planeA = ss(0.58, 0.66, s) * (1 - ss(0.79, 0.85, s));
+      const planeA = ss(0.72, 0.76, s) * (1 - ss(0.78, 0.81, s));
       planeGrp.visible = planeA > 0.001;
       if (planeGrp.visible) {
         planeMats.forEach(m => { (m as THREE.MeshPhongMaterial).opacity = planeA; });
         planeGrp.rotation.y = Math.sin(now * 0.00012) * 0.04;
-        // Lift during bento cards, settle back for labels
-        const bentoLift = ss(0.58, 0.62, s) * (1 - ss(0.70, 0.74, s));
-        planeGrp.position.y = Math.sin(now * 0.00018) * 0.04 + bentoLift * (mob ? 2.5 : 1.8);
+        planeGrp.position.y = Math.sin(now * 0.00018) * 0.04;
 
         // Exhaust
-        const fx = ss(0.64, 0.70, s) * (1 - ss(0.77, 0.83, s));
+        const fx = ss(0.73, 0.76, s) * (1 - ss(0.78, 0.81, s));
         hxM.opacity = fx * 0.72;
         if (fx > 0.002) {
           const ha = hxG.attributes.position.array as Float32Array;
@@ -439,7 +418,7 @@ export default function PhysovaHero() {
         }
 
         // Spacecraft labels — viewport-relative offsets
-        const labA = ss(0.67, 0.73, s) * (1 - ss(0.76, 0.82, s));
+        const labA = ss(0.74, 0.77, s) * (1 - ss(0.78, 0.81, s));
         if (labA > 0.04) {
           const wh = new THREE.Vector3(1.5,0,0), wf = new THREE.Vector3(-1.5,0,0), wa = new THREE.Vector3(-0.2,0,0.35);
           planeGrp.localToWorld(wh); planeGrp.localToWorld(wf); planeGrp.localToWorld(wa);
@@ -454,18 +433,18 @@ export default function PhysovaHero() {
       /* ── Camera Choreography ───────────────────────────────────── */
       const camX = 0;
       let camY = 0, camZ = 6.5;
-      const zoomInEarth = ss(0.52, 0.60, s);
+      const zoomInEarth = ss(0.52, 0.58, s);
       camZ = 6.5 - zoomInEarth * 1.5;
-      const shipCam = ss(0.62, 0.68, s) * (1 - ss(0.78, 0.84, s));
+      const shipCam = ss(0.74, 0.77, s) * (1 - ss(0.78, 0.81, s));
       if (shipCam > 0.01) { camZ = 5.0; camY = -shipCam * 0.08; }
-      const ultraZoomOut = ss(0.80, 0.90, s);
+      const ultraZoomOut = ss(0.81, 0.88, s);
       camZ = (shipCam > 0.01 ? 5.0 : camZ) + ultraZoomOut * 7.0;
       camY = (shipCam > 0.01 ? camY : 0) + ultraZoomOut * 0.2;
       camera.position.set(camX, camY, camZ);
       camera.lookAt(0, 0, 0);
 
-      /* Sun — persists at full scroll */
-      const sunA = ss(0.86, 0.94, s);
+      /* Sun — persists at full scroll, bright from start of community */
+      const sunA = ss(0.84, 0.89, s);
       sGrp.visible = sunA > 0.001;
       if (sGrp.visible) {
         sunMat.uniforms.uOpa.value = sunA; chromoMat.uniforms.uOpa.value = sunA;
@@ -481,15 +460,7 @@ export default function PhysovaHero() {
           p.mesh.position.set(Math.cos(angle)*p.radius, Math.sin(p.incl)*Math.sin(angle)*p.radius*0.15, Math.sin(angle)*p.radius*0.4);
         });
 
-        // Sun labels — viewport-relative, persist at full scroll
-        const sunLabA = ss(0.88, 0.94, s);
-        if (sunLabA > 0.04) {
-          const coreAnc = proj3D(new THREE.Vector3(0,0,0)), surfAnc = proj3D(new THREE.Vector3(2.1,0,0)), lumAnc = proj3D(new THREE.Vector3(-0.5,2.0,0));
-          setLabel(lblCore, lnCore, coreAnc.x, coreAnc.y, mob ? -W*0.15 : -W*0.22, mob ? H*0.14 : H*0.18, 'rgba(255,220,100,.7)', sunLabA);
-          setLabel(lblSurf, lnSurf, surfAnc.x, surfAnc.y, mob ? W*0.08 : W*0.14, mob ? -H*0.10 : -H*0.15, 'rgba(255,155,55,.7)', sunLabA);
-          setLabel(lblLum, lnLum, lumAnc.x, lumAnc.y, mob ? -W*0.12 : -W*0.18, mob ? -H*0.10 : -H*0.14, 'rgba(255,245,185,.7)', sunLabA);
-        } else { hideLabel(lblCore, lnCore); hideLabel(lblSurf, lnSurf); hideLabel(lblLum, lnLum); }
-      } else { hideLabel(lblCore, lnCore); hideLabel(lblSurf, lnSurf); hideLabel(lblLum, lnLum); }
+      }
 
       renderer.render(scene, camera);
     }

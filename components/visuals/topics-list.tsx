@@ -80,12 +80,12 @@ export function TopicsList({ topics }: TopicsListProps) {
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex flex-col items-center mb-16 text-center"
+        className="flex flex-col items-center mb-16 text-center py-12 border-b border-white/5"
       >
         <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-white/30 mb-6 block">
           {"// Repository"}
         </span>
-        <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 tracking-tighter text-white uppercase">
+        <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 tracking-wide text-white uppercase">
           Physics Topics
         </h1>
         <p className="text-white/40 text-lg md:text-xl max-w-2xl leading-relaxed">
@@ -103,7 +103,7 @@ export function TopicsList({ topics }: TopicsListProps) {
             className="flex items-center gap-4 mb-8"
           >
             <span className="w-8 h-px bg-white/20" />
-            <h2 className="text-lg md:text-xl font-serif font-bold uppercase tracking-tighter text-white/70">
+            <h2 className="text-lg md:text-xl font-sans font-bold uppercase tracking-tight text-white/70">
               {GRADE_LABELS[gradeKey] || `Grade ${gradeKey}`}
             </h2>
             <span className="text-[10px] font-mono text-white/20 uppercase tracking-wider">

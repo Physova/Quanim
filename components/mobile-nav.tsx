@@ -2,32 +2,37 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Menu, LogOut } from "lucide-react"
+import { Menu, LogOut, X } from "lucide-react"
 import { useSession, signOut } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { NAV_LINKS } from "@/config/navigation"
 import {
   Sheet,
   SheetContent,
-  SheetTrigger,
   SheetTitle,
+  SheetTrigger,
 } from "@/components/ui/sheet"
 
 export function MobileNav() {
   const { data: session } = useSession();
+  const [open, setOpen] = React.useState(false);
 
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="lg:hidden text-foreground">
-          <Menu className="h-6 w-6" />
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="lg:hidden text-foreground"
+        >
+          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </Button>
       </SheetTrigger>
       <SheetContent side="right" className="w-[300px] bg-black border-l border-white/10 p-0">
         <SheetTitle className="sr-only">Navigation</SheetTitle>
         <div className="flex flex-col h-full">
           <div className="p-6 border-b border-white/5">
-            <span className="text-base font-bold tracking-[0.2em] uppercase text-foreground">
+            <span className="text-base font-bold tracking-[0.08em] uppercase text-foreground">
               Physova
             </span>
           </div>
@@ -35,7 +40,8 @@ export function MobileNav() {
             {NAV_LINKS.map((link) => (
               <Link 
                 key={link.href} 
-                href={link.href} 
+                href={link.href}
+                onClick={() => setOpen(false)}
                 className="text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors"
               >
                 {link.label}
@@ -68,12 +74,13 @@ export function MobileNav() {
               <>
                 <Link
                   href="/auth/signin"
+                  onClick={() => setOpen(false)}
                   className="block text-center text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all uppercase tracking-[0.2em] py-2"
                 >
                   Sign In
                 </Link>
                 <Button asChild size="sm" className="w-full rounded-none text-[10px] font-bold uppercase tracking-[0.2em]">
-                  <Link href="/auth/signup">Join Us</Link>
+                  <Link href="/auth/signup" onClick={() => setOpen(false)}>Join Us</Link>
                 </Button>
               </>
             )}
@@ -83,4 +90,3 @@ export function MobileNav() {
     </Sheet>
   )
 }
-
